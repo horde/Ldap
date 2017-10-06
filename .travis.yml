@@ -16,7 +16,7 @@ matrix:
 before_script:
   - phpenv config-add .travis.ini
   - phpenv config-rm xdebug.ini || echo "XDebug not enabled"
-  - pear install channel://pear.horde.org/Horde_Role
+  - pear install channel://pear.horde.org/Horde_Test
   - pear install package.xml
 script:
   - php $(find test -name AllTests.php)
