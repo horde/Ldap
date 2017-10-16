@@ -17,7 +17,7 @@
   <email>jan@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2017-03-20</date>
+ <date>2017-10-17</date>
  <version>
   <release>2.4.1</release>
   <api>1.4.0</api>
@@ -32,13 +32,6 @@
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
-   <dir name="doc">
-    <dir name="Horde">
-     <dir name="Ldap">
-      <file name="COPYING" role="doc" />
-     </dir> <!-- /doc/Horde/Ldap -->
-    </dir> <!-- /doc/Horde -->
-   </dir> <!-- /doc -->
    <dir name="lib">
     <dir name="Horde">
      <dir name="Ldap">
@@ -82,6 +75,7 @@
      </dir> <!-- /test/Horde/Ldap -->
     </dir> <!-- /test/Horde -->
    </dir> <!-- /test -->
+   <file name="LICENSE" role="doc" />
   </dir> <!-- / -->
  </contents>
  <dependencies>
@@ -124,7 +118,6 @@
  </dependencies>
  <phprelease>
   <filelist>
-   <install as="COPYING" name="doc/Horde/Ldap/COPYING" />
    <install as="Horde/Ldap.php" name="lib/Horde/Ldap.php" />
    <install as="Horde/Ldap/Entry.php" name="lib/Horde/Ldap/Entry.php" />
    <install as="Horde/Ldap/Exception.php" name="lib/Horde/Ldap/Exception.php" />
@@ -134,17 +127,12 @@
    <install as="Horde/Ldap/Schema.php" name="lib/Horde/Ldap/Schema.php" />
    <install as="Horde/Ldap/Search.php" name="lib/Horde/Ldap/Search.php" />
    <install as="Horde/Ldap/Util.php" name="lib/Horde/Ldap/Util.php" />
+   <install as="LICENSE" name="LICENSE" />
    <install as="Horde/Ldap/AllTests.php" name="test/Horde/Ldap/AllTests.php" />
    <install as="Horde/Ldap/bootstrap.php" name="test/Horde/Ldap/bootstrap.php" />
    <install as="Horde/Ldap/conf.php.dist" name="test/Horde/Ldap/conf.php.dist" />
    <install as="Horde/Ldap/EntryTest.php" name="test/Horde/Ldap/EntryTest.php" />
    <install as="Horde/Ldap/FilterTest.php" name="test/Horde/Ldap/FilterTest.php" />
-   <install as="Horde/Ldap/LdapTest.php" name="test/Horde/Ldap/LdapTest.php" />
-   <install as="Horde/Ldap/LdifTest.php" name="test/Horde/Ldap/LdifTest.php" />
-   <install as="Horde/Ldap/phpunit.xml" name="test/Horde/Ldap/phpunit.xml" />
-   <install as="Horde/Ldap/SearchTest.php" name="test/Horde/Ldap/SearchTest.php" />
-   <install as="Horde/Ldap/TestBase.php" name="test/Horde/Ldap/TestBase.php" />
-   <install as="Horde/Ldap/UtilTest.php" name="test/Horde/Ldap/UtilTest.php" />
    <install as="Horde/Ldap/fixtures/changes.ldif" name="test/Horde/Ldap/fixtures/changes.ldif" />
    <install as="Horde/Ldap/fixtures/malformed_encoding.ldif" name="test/Horde/Ldap/fixtures/malformed_encoding.ldif" />
    <install as="Horde/Ldap/fixtures/malformed_syntax.ldif" name="test/Horde/Ldap/fixtures/malformed_syntax.ldif" />
@@ -154,6 +142,12 @@
    <install as="Horde/Ldap/fixtures/unsorted_w30.ldif" name="test/Horde/Ldap/fixtures/unsorted_w30.ldif" />
    <install as="Horde/Ldap/fixtures/unsorted_w50.ldif" name="test/Horde/Ldap/fixtures/unsorted_w50.ldif" />
    <install as="Horde/Ldap/fixtures/unsorted_w50_WIN.ldif" name="test/Horde/Ldap/fixtures/unsorted_w50_WIN.ldif" />
+   <install as="Horde/Ldap/LdapTest.php" name="test/Horde/Ldap/LdapTest.php" />
+   <install as="Horde/Ldap/LdifTest.php" name="test/Horde/Ldap/LdifTest.php" />
+   <install as="Horde/Ldap/phpunit.xml" name="test/Horde/Ldap/phpunit.xml" />
+   <install as="Horde/Ldap/SearchTest.php" name="test/Horde/Ldap/SearchTest.php" />
+   <install as="Horde/Ldap/TestBase.php" name="test/Horde/Ldap/TestBase.php" />
+   <install as="Horde/Ldap/UtilTest.php" name="test/Horde/Ldap/UtilTest.php" />
   </filelist>
  </phprelease>
  <changelog>
@@ -523,7 +517,7 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2017-03-20</date>
+   <date>2017-10-17</date>
    <license uri="http://opensource.org/licenses/lgpl-3.0.html">LGPL-3.0</license>
    <notes>
 * 
