@@ -134,7 +134,6 @@ class Horde_Ldap
             throw new Horde_Ldap_Exception('No PHP LDAP extension');
         }
         $this->setConfig($config);
-        $this->bind();
     }
 
     /**
@@ -499,6 +498,11 @@ class Horde_Ldap
      */
     public function startTLS()
     {
+        /* Connect and bind. */
+        if (!$this->_link) {
+            $this->bind();
+        }
+
         /* First try STARTTLS blindly, some servers don't even allow to receive
          * the rootDSE without TLS. */
         if (@ldap_start_tls($this->_link)) {
@@ -595,6 +599,11 @@ class Horde_Ldap
      */
     public function delete($dn, $recursive = false)
     {
+        /* Connect and bind. */
+        if (!$this->_link) {
+            $this->bind();
+        }
+
         if ($dn instanceof Horde_Ldap_Entry) {
              $dn = $dn->dn();
         }
@@ -693,6 +702,11 @@ class Horde_Ldap
      */
     public function modify($entry, $parms = array())
     {
+        /* Connect and bind. */
+        if (!$this->_link) {
+            $this->bind();
+        }
+
         if (is_string($entry)) {
             $entry = $this->getEntry($entry);
         }
@@ -781,6 +795,11 @@ class Horde_Ldap
      */
     public function search($base = null, $filter = null, $params = array())
     {
+        /* Connect and bind. */
+        if (!$this->_link) {
+            $this->bind();
+        }
+
         if (is_null($base)) {
             $base = $this->_config['basedn'];
         }
@@ -907,6 +926,11 @@ class Horde_Ldap
      */
     public function setOption($option, $value)
     {
+        /* Connect and bind. */
+        if (!$this->_link) {
+            $this->bind();
+        }
+
         if (!$this->_link) {
             throw new Horde_Ldap_Exception('Could not set LDAP option: No LDAP connection');
         }
@@ -933,6 +957,11 @@ class Horde_Ldap
      */
     public function getOption($option)
     {
+        /* Connect and bind. */
+        if (!$this->_link) {
+            $this->bind();
+        }
+
         if (!$this->_link) {
             throw new Horde_Ldap_Exception('No LDAP connection');
         }
@@ -1023,6 +1052,11 @@ class Horde_Ldap
      */
     public function exists($dn)
     {
+        /* Connect and bind. */
+        if (!$this->_link) {
+            $this->bind();
+        }
+
         if ($dn instanceof Horde_Ldap_Entry) {
              $dn = $dn->dn();
         }
