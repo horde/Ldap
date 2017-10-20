@@ -17,7 +17,7 @@
   <email>jan@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2017-10-17</date>
+ <date>2017-10-20</date>
  <version>
   <release>2.4.1</release>
   <api>1.4.0</api>
@@ -68,7 +68,6 @@
       <file name="FilterTest.php" role="test" />
       <file name="LdapTest.php" role="test" />
       <file name="LdifTest.php" role="test" />
-      <file name="phpunit.xml" role="test" />
       <file name="SearchTest.php" role="test" />
       <file name="TestBase.php" role="test" />
       <file name="UtilTest.php" role="test" />
@@ -144,7 +143,6 @@
    <install as="Horde/Ldap/fixtures/unsorted_w50_WIN.ldif" name="test/Horde/Ldap/fixtures/unsorted_w50_WIN.ldif" />
    <install as="Horde/Ldap/LdapTest.php" name="test/Horde/Ldap/LdapTest.php" />
    <install as="Horde/Ldap/LdifTest.php" name="test/Horde/Ldap/LdifTest.php" />
-   <install as="Horde/Ldap/phpunit.xml" name="test/Horde/Ldap/phpunit.xml" />
    <install as="Horde/Ldap/SearchTest.php" name="test/Horde/Ldap/SearchTest.php" />
    <install as="Horde/Ldap/TestBase.php" name="test/Horde/Ldap/TestBase.php" />
    <install as="Horde/Ldap/UtilTest.php" name="test/Horde/Ldap/UtilTest.php" />
@@ -517,7 +515,7 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2017-10-17</date>
+   <date>2017-10-20</date>
    <license uri="http://opensource.org/licenses/lgpl-3.0.html">LGPL-3.0</license>
    <notes>
 * 
