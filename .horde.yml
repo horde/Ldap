@@ -7,3 +7,37 @@ description: >
   objects.
 list: dev
 type: library
+homepage: https://www.horde.org/libraries/Horde_Ldap
+authors:
+  -
+    name: Ben Klang
+    user: bklang
+    email: ben@alkaloid.net
+    active: true
+    role: lead
+  -
+    name: Jan Schneider
+    user: jan
+    email: jan@horde.org
+    active: true
+    role: lead
+version:
+  release: 2.4.1
+  api: 1.4.0
+state:
+  release: stable
+  api: stable
+license:
+  identifier: LGPL-3.0
+  uri: http://opensource.org/licenses/lgpl-3.0.html
+dependencies:
+  required:
+    php: ^5.3 || ^7
+    pear:
+      pear.horde.org/Horde_Exception: ^2
+      pear.horde.org/Horde_Util: ^2
+    ext:
+      ldap: '*'
+  optional:
+    pear:
+      pear.horde.org/Horde_Test: ^2.1
