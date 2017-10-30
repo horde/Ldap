@@ -1,0 +1,201 @@
+----------
+v2.4.1-git
+----------
+
+
+------
+v2.4.0
+------
+
+[jan] Optionally cache rootDSE requests too.
+[jan] Fix checking for existing attributes in Horde_Ldap_RootDse.
+
+
+------
+v2.3.2
+------
+
+[jan] Mark PHP 7 as supported.
+
+
+------
+v2.3.1
+------
+
+[jan] Fix connection if using ldaps:// scheme (Bug #13858).
+
+
+------
+v2.3.0
+------
+
+[jan] Fix error when using custom separators in
+      Horde_Ldap_Utils::canonicalDN().
+[jan] Fix casefolding option not being passed to multivalued RDNs.
+[jan] Fix exists() with multivalued RDNs.
+[jan] Add 'timeout' parameter.
+
+
+------
+v2.2.0
+------
+
+[jan] Fix compatibility with PHP 5.3 (Bug #11888).
+[jan] Allow to specify base DN for searching user DNs.
+
+
+------
+v2.1.0
+------
+
+[jan] Support multi-value RDNs in Horde_Ldap::quoteDN() (Request #11888).
+
+
+------
+v2.0.6
+------
+
+[jan] SECURITY: Stricter parameter check in bind() to detect empty passwords.
+
+
+------
+v2.0.5
+------
+
+[jan] Fix creating filters with the less (<) operator (Bug #13154).
+
+
+------
+v2.0.4
+------
+
+[jan] Fix approximate search operator (Leandro Damascena
+      <leandro.damascena@gmail.com>, Bug #9094).
+
+
+------
+v2.0.3
+------
+
+[jan] Fix modifying entries with modify().
+[jan] Try starting TLS without querying the rootDSE (Bug #12157).
+
+
+------
+v2.0.2
+------
+
+[jan] Replace preg_replace() /e modifier.
+
+
+------
+v2.0.1
+------
+
+[mms] Use new Horde_Test layout.
+
+
+------
+v2.0.0
+------
+
+First stable release for Horde 5.
+
+
+-----------
+v2.0.0beta1
+-----------
+
+First beta release for Horde 5.
+
+
+------------
+v2.0.0alpha1
+------------
+
+First alpha release for Horde 5.
+
+
+------
+v1.1.5
+------
+
+[jan] Throw exception if LDAP extension is missing.
+
+
+------
+v1.1.4
+------
+
+[jan] Add missing test autoloader.
+
+
+------
+v1.1.3
+------
+
+[jan] Speed up Horde_Ldap_Search#shiftEntry() on large result sets.
+
+
+------
+v1.1.2
+------
+
+[jan] Always use negative lookbehind assertions to work around bug in PCRE 6.6
+      (Steve Teti, Bug #10294).
+
+
+------
+v1.1.1
+------
+
+[jan] Fix detecting superiour objectclass' must/may attributes (Bug #9826).
+
+
+------
+v1.1.0
+------
+
+[jan] Add parameter to Horde_Ldap_Schema#must() and #may() to return attributes
+      from superior objectclasses too (Bug #9826).
+[jan] Don't throw exceptions from Horde_Ldap_Schema#must() and #may() (Bug
+      #9826).
+
+
+------
+v1.0.0
+------
+
+First stable release for Horde 4.
+
+
+---------
+v1.0.0RC2
+---------
+
+Second release candidate for Horde 4.
+
+
+---------
+v1.0.0RC1
+---------
+
+First release candidate for Horde 4.
+
+
+-----------
+v1.0.0beta1
+-----------
+
+First beta release for Horde 4.
+
+
+------------
+v1.0.0alpha1
+------------
+
+First alpha release for Horde 4.
+Forked from PEAR-Net_LDAP2-2.0.7.
+Converted to PHP5 strict standards.
+Converted to use exceptions.
+Included functions from the previous Horde_LDAP for backwards compatibility.
