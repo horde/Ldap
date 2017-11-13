@@ -1,8 +1,8 @@
 {
     "name": "horde/ldap",
-    "description": "Horde LDAP libraries",
+    "description": "LDAP client library",
     "type": "library",
-    "homepage": "https://pear.horde.org",
+    "homepage": "https://www.horde.org/libraries/Horde_Ldap",
     "license": "LGPL-3.0",
     "authors": [
         {
@@ -17,7 +17,7 @@
         }
     ],
     "version": "2.4.1",
-    "time": "2017-10-20",
+    "time": "2017-11-11",
     "repositories": [
         {
             "type": "pear",
