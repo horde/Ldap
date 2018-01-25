@@ -8,7 +8,9 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes:
+  notes: |+
+    [jan] Avoid unnecessary binds.
+    
 2.4.0:
   api: 1.4.0
   state:
