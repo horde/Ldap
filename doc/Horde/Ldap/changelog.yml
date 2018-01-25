@@ -4,7 +4,7 @@
   state:
     release: stable
     api: stable
-  date: 2017-10-20
+  date: 2018-01-25
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
