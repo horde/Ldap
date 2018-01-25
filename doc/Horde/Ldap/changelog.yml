@@ -1,4 +1,15 @@
 ---
+2.4.2:
+  api: 1.4.0
+  state:
+    release: stable
+    api: stable
+  date: 2018-01-25
+  license:
+    identifier: LGPL-3.0
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: |+
+    
 2.4.1:
   api: 1.4.0
   state:
