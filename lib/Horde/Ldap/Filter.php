@@ -350,7 +350,7 @@ class Horde_Ldap_Filter
         // is outside any subcomponent.
         $level = 0;
         for ($curpos = 0, $len = strlen($filter); $curpos < $len; $curpos++) {
-            $cur_char = $filter{$curpos};
+            $cur_char = $filter[$curpos];
 
             // Rise/lower bracket level.
             if ($cur_char == '(' && $prev_char != '\\') {
