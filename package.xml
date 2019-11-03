@@ -28,7 +28,8 @@
  </stability>
  <license uri="http://opensource.org/licenses/lgpl-3.0.html">LGPL-3.0</license>
  <notes>
-* 
+* [mjr] PHP 7.4 compatibility fixes (Remi Collet &lt;remi@famillecollet.com&gt;, PR #1).
+* |+
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -585,7 +586,8 @@
    <date>2018-01-25</date>
    <license uri="http://opensource.org/licenses/lgpl-3.0.html">LGPL-3.0</license>
    <notes>
-* 
+* [mjr] PHP 7.4 compatibility fixes (Remi Collet &lt;remi@famillecollet.com&gt;, PR #1).
+* |+
    </notes>
   </release>
  </changelog>
