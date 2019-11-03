@@ -8,8 +8,9 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |+
-    
+  notes: |
+    [mjr] PHP 7.4 compatibility fixes (Remi Collet <remi@famillecollet.com>, PR #1).
+    |+
 2.4.1:
   api: 1.4.0
   state:
