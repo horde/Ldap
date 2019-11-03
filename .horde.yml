@@ -2,9 +2,7 @@
 id: Ldap
 name: Ldap
 full: LDAP client library
-description: >-
-  A library for connecting to LDAP servers and working with directory
-  objects.
+description: A library for connecting to LDAP servers and working with directory objects.
 list: dev
 type: library
 homepage: https://www.horde.org/libraries/Horde_Ldap

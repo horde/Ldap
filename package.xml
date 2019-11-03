@@ -4,7 +4,7 @@
  <channel>pear.horde.org</channel>
  <extends>Horde_LDAP</extends>
  <summary>LDAP client library</summary>
- <description>A set of classes for connecting to LDAP servers and working with directory objects.</description>
+ <description>A library for connecting to LDAP servers and working with directory objects.</description>
  <lead>
   <name>Ben Klang</name>
   <user>bklang</user>
@@ -17,7 +17,7 @@
   <email>jan@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2018-01-25</date>
+ <date>2019-11-03</date>
  <version>
   <release>2.4.2</release>
   <api>1.4.0</api>
@@ -583,7 +583,7 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2018-01-25</date>
+   <date>2019-11-03</date>
    <license uri="http://opensource.org/licenses/lgpl-3.0.html">LGPL-3.0</license>
    <notes>
 * [mjr] PHP 7.4 compatibility fixes (Remi Collet &lt;remi@famillecollet.com&gt;, PR #1).
