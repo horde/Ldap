@@ -37,9 +37,6 @@
     "autoload": {
         "psr-0": {
             "Horde_Ldap": "lib/"
-        },
-        "psr-4": {
-            "Horde\\Ldap\\": "src/"
         }
     }
 }
