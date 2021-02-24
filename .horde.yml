@@ -2,9 +2,7 @@
 id: Ldap
 name: Ldap
 full: LDAP client library
-description: >-
-  A library for connecting to LDAP servers and working with directory
-  objects.
+description: A library for connecting to LDAP servers and working with directory objects.
 list: dev
 type: library
 homepage: https://www.horde.org/libraries/Horde_Ldap
@@ -22,11 +20,11 @@ authors:
     active: true
     role: lead
 version:
-  release: 2.4.2
-  api: 1.4.0
+  release: 3.0.0alpha1
+  api: 3.0.0alpha1
 state:
-  release: stable
-  api: stable
+  release: alpha
+  api: alpha
 license:
   identifier: LGPL-3.0
   uri: http://opensource.org/licenses/lgpl-3.0.html
