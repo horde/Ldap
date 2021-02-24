@@ -1,7 +1,7 @@
 {
     "name": "horde/ldap",
     "description": "LDAP client library",
-    "type": "library",
+    "type": "horde-library",
     "homepage": "https://www.horde.org/libraries/Horde_Ldap",
     "license": "LGPL-3.0",
     "authors": [
@@ -16,11 +16,16 @@
             "role": "lead"
         }
     ],
-    "version": "2.4.1",
-    "time": "2018-01-25",
+    "version": "3.0.0alpha1",
+    "time": "2021-02-24",
     "repositories": [
+        {
+            "type": "composer",
+            "url": "https://horde-satis.maintaina.com/"
+        }
     ],
     "require": {
+        "horde/horde-installer-plugin": "*",
         "php": "^5.3 || ^7",
         "horde/exception": "^2",
         "horde/util": "^2",
@@ -29,11 +34,12 @@
     "suggest": {
         "horde/test": "^2.1"
     },
-    "replace": {
-    },
     "autoload": {
         "psr-0": {
             "Horde_Ldap": "lib/"
+        },
+        "psr-4": {
+            "Horde\\Ldap\\": "src/"
         }
     }
 }

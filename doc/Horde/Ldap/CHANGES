@@ -1,8 +1,10 @@
-------
-v2.4.2
-------
+------------
+v3.0.0alpha1
+------------
 
-
+[mjr] PHP 7.4 compatibility fixes (Remi Collet <remi@famillecollet.com>, PR
+      #1).
+|+
 
 
 ------
