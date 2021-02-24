@@ -28,7 +28,8 @@
  </stability>
  <license uri="http://opensource.org/licenses/lgpl-3.0.html">LGPL-3.0</license>
  <notes>
-* 
+* [mjr] PHP 7.4 compatibility fixes (Remi Collet &lt;remi@famillecollet.com&gt;, PR #1).
+* |+
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -87,40 +88,17 @@
  <dependencies>
   <required>
    <php>
-    <min>5.3.0</min>
+    <min>7.0.0</min>
     <max>8.0.0alpha1</max>
     <exclude>8.0.0alpha1</exclude>
    </php>
    <pearinstaller>
     <min>1.7.0</min>
    </pearinstaller>
-   <package>
-    <name>Horde_Exception</name>
-    <channel>pear.horde.org</channel>
-    <min>2.0.0</min>
-    <max>3.0.0alpha1</max>
-    <exclude>3.0.0alpha1</exclude>
-   </package>
-   <package>
-    <name>Horde_Util</name>
-    <channel>pear.horde.org</channel>
-    <min>2.0.0</min>
-    <max>3.0.0alpha1</max>
-    <exclude>3.0.0alpha1</exclude>
-   </package>
    <extension>
     <name>ldap</name>
    </extension>
   </required>
-  <optional>
-   <package>
-    <name>Horde_Test</name>
-    <channel>pear.horde.org</channel>
-    <min>2.1.0</min>
-    <max>3.0.0alpha1</max>
-    <exclude>3.0.0alpha1</exclude>
-   </package>
-  </optional>
  </dependencies>
  <phprelease>
   <filelist>
@@ -582,10 +560,11 @@
     <release>alpha</release>
     <api>alpha</api>
    </stability>
-   <date>2021-02-24</date>
+   <date>2018-01-25</date>
    <license uri="http://opensource.org/licenses/lgpl-3.0.html">LGPL-3.0</license>
    <notes>
-* 
+* [mjr] PHP 7.4 compatibility fixes (Remi Collet &lt;remi@famillecollet.com&gt;, PR #1).
+* |+
    </notes>
   </release>
  </changelog>
