@@ -1,4 +1,15 @@
 ---
+3.0.0alpha4:
+  api: 3.0.0alpha1
+  state:
+    release: alpha
+    api: alpha
+  date: 2021-03-13
+  license:
+    identifier: LGPL-3.0
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: |+
+    
 3.0.0alpha3:
   api: 3.0.0alpha1
   state:

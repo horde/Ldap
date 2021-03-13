@@ -1,4 +1,5 @@
 {
+    "minimum-stability": "dev",
     "name": "horde/ldap",
     "description": "LDAP client library",
     "type": "library",
@@ -25,12 +26,12 @@
     ],
     "require": {
         "php": "^7",
-        "horde/exception": "^3",
-        "horde/util": "^3",
+        "horde/exception": "^3 || dev-FRAMEWORK_6_0",
+        "horde/util": "^3 || dev-FRAMEWORK_6_0",
         "ext-ldap": "*"
     },
     "suggest": {
-        "horde/test": "^3"
+        "horde/test": "^3 || dev-FRAMEWORK_6_0"
     },
     "autoload": {
         "psr-0": {
