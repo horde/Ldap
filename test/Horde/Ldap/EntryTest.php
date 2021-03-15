@@ -7,8 +7,11 @@
  * @author     Jan Schneider <jan@horde.org>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.html LGPL-3.0
  */
+namespace Horde\Ldap;
+use PHPUnit\Framework\TestCase;
+use \Horde_Ldap_Entry;
 
-class Horde_Ldap_EntryTest extends PHPUnit_Framework_TestCase
+class EntryTest extends TestCase
 {
     public function testCreateFreshSuccess()
     {
