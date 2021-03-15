@@ -12,7 +12,7 @@ class Horde_Ldap_TestBase extends Horde_Test_Case
 {
     protected static $ldapcfg;
 
-    public function setUp()
+    public function setUp(): void
     {
         // Check extension.
         try {

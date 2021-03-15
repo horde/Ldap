@@ -7,38 +7,24 @@
  * @author     Jan Schneider <jan@horde.org>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.html LGPL-3.0
  */
+namespace Horde\Ldap;
+use PHPUnit\Framework\TestCase;
+use \Horde_Ldap_Filter;
 
-class Horde_Ldap_FilterTest extends PHPUnit_Framework_TestCase
+class FilterTest extends TestCase
 {
     /**
      * Test correct parsing of filter strings through parse().
      */
     public function testParse()
     {
-        try {
-            Horde_Ldap_Filter::parse('some_damaged_filter_str');
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        $this->expectException('Horde_Ldap_Exception');
 
-        try {
-            Horde_Ldap_Filter::parse('(invalid=filter)(because=~no-surrounding brackets)');
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
-
-        try {
-            Horde_Ldap_Filter::parse('((invalid=filter)(because=log_op is missing))');
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
-
-        try {
-            Horde_Ldap_Filter::parse('(invalid-because-becauseinvalidoperator)');
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
-
-        try {
-            Horde_Ldap_Filter::parse('(&(filterpart>=ok)(part2=~ok)(filterpart3_notok---becauseinvalidoperator))');
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        Horde_Ldap_Filter::parse('some_damaged_filter_str');
+        Horde_Ldap_Filter::parse('(invalid=filter)(because=~no-surrounding brackets)');
+        Horde_Ldap_Filter::parse('((invalid=filter)(because=log_op is missing))');
+        Horde_Ldap_Filter::parse('(invalid-because-becauseinvalidoperator)');
+        Horde_Ldap_Filter::parse('(&(filterpart>=ok)(part2=~ok)(filterpart3_notok---becauseinvalidoperator))');
 
         $parsed1 = Horde_Ldap_Filter::parse('(&(cn=foo)(ou=bar))');
         $this->assertInstanceOf('Horde_Ldap_Filter', $parsed1);
@@ -90,14 +76,12 @@ class Horde_Ldap_FilterTest extends PHPUnit_Framework_TestCase
             // Escaping is tested in util class.
             $filter = Horde_Ldap_Filter::create($testattr, $match, $testval, false);
             $this->assertInstanceOf('Horde_Ldap_Filter', $filter);
-            $this->assertRegExp($regex, (string)$filter, "Filter generation failed for MatchType: $match");
+            $this->assertMatchesRegularExpression($regex, (string)$filter, "Filter generation failed for MatchType: $match");
         }
 
         // Test creating failure.
-        try {
-            Horde_Ldap_Filter::create($testattr, 'test_undefined_matchingrule', $testval);
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        $this->expectException('Horde_Ldap_Exception');
+        Horde_Ldap_Filter::create($testattr, 'test_undefined_matchingrule', $testval);
     }
 
     /**
@@ -179,59 +163,17 @@ class Horde_Ldap_FilterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('(&(you=me)(!(foo=bar))(|(bar=foo)(you=me))(&(bar=foo)(perlinterface=used)))', (string)$filter_comp_deep);
 
         // Test failure in combination
-        try {
-            Horde_Ldap_Filter::create('foo', 'test_undefined_matchingrule', 'bar');
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
-
-        try {
-            Horde_Ldap_Filter::combine('not', 'damaged_filter_str');
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
-
-        try {
-            Horde_Ldap_Filter::combine('not', array($filter0, $filter1));
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
-
-        try {
-            Horde_Ldap_Filter::combine('not', null);
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
-
-        try {
-            Horde_Ldap_Filter::combine('and', $filter_not1);
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
-
-        try {
-            Horde_Ldap_Filter::combine('and', array($filter_not1));
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
-
-        try {
-            Horde_Ldap_Filter::combine('and', $filter_not1);
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
-
-        try {
-            Horde_Ldap_Filter::combine('or', array($filter_not1));
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
-
-        try {
-            Horde_Ldap_Filter::combine('some_unknown_method', array($filter_not1));
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
-
-        try {
-            Horde_Ldap_Filter::combine('and', array($filter_not1, 'some_invalid_filterstring'));
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
-
-        try {
-            Horde_Ldap_Filter::combine('and', array($filter_not1, null));
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        $this->expectException('Horde_Ldap_Exception');
+        Horde_Ldap_Filter::create('foo', 'test_undefined_matchingrule', 'bar');
+        Horde_Ldap_Filter::combine('not', 'damaged_filter_str');
+        Horde_Ldap_Filter::combine('not', array($filter0, $filter1));
+        Horde_Ldap_Filter::combine('not', null);
+        Horde_Ldap_Filter::combine('and', $filter_not1);
+        Horde_Ldap_Filter::combine('and', array($filter_not1));
+        Horde_Ldap_Filter::combine('and', $filter_not1);
+        Horde_Ldap_Filter::combine('or', array($filter_not1));
+        Horde_Ldap_Filter::combine('some_unknown_method', array($filter_not1));
+        Horde_Ldap_Filter::combine('and', array($filter_not1, 'some_invalid_filterstring'));
+        Horde_Ldap_Filter::combine('and', array($filter_not1, null));
     }
 }

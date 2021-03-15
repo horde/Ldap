@@ -7,7 +7,12 @@
  * @author     Jan Schneider <jan@horde.org>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.html LGPL-3.0
  */
-class Horde_Ldap_LdifTest extends PHPUnit_Framework_TestCase
+namespace Horde\Ldap;
+use PHPUnit\Framework\TestCase;
+use \Horde_Ldap_Entry;
+use \Horde_Ldap_Ldif;
+
+class LdifTest extends TestCase
 {
     /**
      * Default configuration for tests.
@@ -84,7 +89,7 @@ class Horde_Ldap_LdifTest extends PHPUnit_Framework_TestCase
     /**
      * Opens an outfile and ensures correct permissions.
      */
-    public function setUp()
+    public function setUp(): void
     {
         // Initialize test entries.
         $this->_testentries = array();
@@ -108,7 +113,7 @@ class Horde_Ldap_LdifTest extends PHPUnit_Framework_TestCase
     /**
      * Removes the outfile.
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         @unlink($this->_outfile);
     }
@@ -132,10 +137,8 @@ class Horde_Ldap_LdifTest extends PHPUnit_Framework_TestCase
         }
 
         // Test illegal option passing.
-        try {
-            $ldif = new Horde_Ldap_Ldif($this->_outfile, $mode, array('somebad' => 'option'));
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        $this->expectException('Horde_Ldap_Exception');
+        $ldif = new Horde_Ldap_Ldif($this->_outfile, $mode, array('somebad' => 'option'));
 
         // Test passing custom handle.
         $handle = fopen($this->_outfile, 'r');
@@ -143,16 +146,10 @@ class Horde_Ldap_LdifTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(is_resource($ldif->handle()));
 
         // Reading test with invalid file mode.
-        try {
-            $ldif = new Horde_Ldap_Ldif($this->_outfile, 'y', $this->_defaultConfig);
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        $ldif = new Horde_Ldap_Ldif($this->_outfile, 'y', $this->_defaultConfig);
 
         // Reading test with non-existent file.
-        try {
-            $ldif = new Horde_Ldap_Ldif('some/nonexistent/file_for_net_ldap_ldif', 'r', $this->_defaultConfig);
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        $ldif = new Horde_Ldap_Ldif('some/nonexistent/file_for_net_ldap_ldif', 'r', $this->_defaultConfig);
 
         // Writing to non-existent file.
         $ldif = new Horde_Ldap_Ldif('testfile_for_net_ldap_ldif', 'w', $this->_defaultConfig);
@@ -160,18 +157,12 @@ class Horde_Ldap_LdifTest extends PHPUnit_Framework_TestCase
         @unlink('testfile_for_net_ldap_ldif');
 
         // Writing to non-existent path.
-        try {
-            $ldif = new Horde_Ldap_Ldif('some/nonexistent/file_for_net_ldap_ldif', 'w', $this->_defaultConfig);
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        $ldif = new Horde_Ldap_Ldif('some/nonexistent/file_for_net_ldap_ldif', 'w', $this->_defaultConfig);
 
         // Writing to existing file but without permission. chmod() should
         // succeed since we test that in setUp().
         if (chmod($this->_outfile, 0444)) {
-            try {
-                $ldif = new Horde_Ldap_Ldif($this->_outfile, 'w', $this->_defaultConfig);
-                $this->fail('Horde_Ldap_Exception expected.');
-            } catch (Horde_Ldap_Exception $e) {}
+            $ldif = new Horde_Ldap_Ldif($this->_outfile, 'w', $this->_defaultConfig);
         } else {
             $this->markTestSkipped('Could not chmod ' . $this->_outfile . ', write test without permission skipped');
         }
@@ -304,10 +295,8 @@ class Horde_Ldap_LdifTest extends PHPUnit_Framework_TestCase
         /* Test writing with non entry as parameter. */
         $ldif = new Horde_Ldap_Ldif($this->_outfile, 'w');
         $this->assertTrue(is_resource($ldif->handle()));
-        try {
-            $ldif->writeEntry('malformed_parameter');
-            $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        $this->expectException('Horde_Ldap_Exception');
+        $ldif->writeEntry('malformed_parameter');
     }
 
     /**
@@ -433,8 +422,7 @@ class Horde_Ldap_LdifTest extends PHPUnit_Framework_TestCase
 
         // Test for line number reporting
         $ldif = new Horde_Ldap_Ldif(__DIR__ . '/fixtures/malformed_syntax.ldif', 'r', $this->_defaultConfig);
-        $this->setExpectedException('Horde_Ldap_Exception',
-                                    'Invalid syntax at input line 7');
+        $this->expectException('Horde_Ldap_Exception');
         do {
             $entry = $ldif->readEntry();
         } while (!$ldif->eof());
