@@ -1,8 +1,5 @@
 <?php
 namespace Horde\Ldap;
-use Horde_Ldap_TestBase as TestBase;
-
-require_once __DIR__ . '/TestBase.php';
 
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
