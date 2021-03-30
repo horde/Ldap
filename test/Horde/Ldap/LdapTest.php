@@ -1,6 +1,5 @@
 <?php
-
-require_once __DIR__ . '/TestBase.php';
+namespace Horde\Ldap;
 
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
@@ -10,9 +9,9 @@ require_once __DIR__ . '/TestBase.php';
  * @author     Jan Schneider <jan@horde.org>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.html LGPL-3.0
  */
-class Horde_Ldap_LdapTest extends Horde_Ldap_TestBase
+class LdapTest extends TestBase
 {
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         if (!self::$ldapcfg) {
             return;

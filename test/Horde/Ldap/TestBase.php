@@ -7,12 +7,15 @@
  * @author     Jan Schneider <jan@horde.org>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.html LGPL-3.0
  */
+namespace Horde\Ldap;
+use Horde_Test_Case as TestCase;
+use \Horde_Ldap;
 
-class Horde_Ldap_TestBase extends Horde_Test_Case
+class TestBase extends TestCase
 {
     protected static $ldapcfg;
 
-    public function setUp()
+    public function setUp(): void
     {
         // Check extension.
         try {
