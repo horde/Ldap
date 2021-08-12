@@ -874,7 +874,8 @@ class Horde_Ldap
                     $this->_config['auto_reconnect']) {
                     $this->_link = false;
                     $this->_reconnect();
-                } else {
+		} else {
+		    echo $err;
                     $msg = "\nParameters:\nBase: $base\nFilter: $filter\nScope: $scope";
                     throw new Horde_Ldap_Exception(ldap_err2str($errno) . $msg, $errno);
                 }
