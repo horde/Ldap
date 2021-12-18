@@ -4,7 +4,7 @@
     "description": "LDAP client library",
     "type": "library",
     "homepage": "https://www.horde.org/libraries/Horde_Ldap",
-    "license": "LGPL-3.0",
+    "license": "LGPL-3.0-only",
     "authors": [
         {
             "name": "Ben Klang",
@@ -25,7 +25,7 @@
         }
     ],
     "require": {
-        "php": "^7",
+        "php": "^7.4 || ^8",
         "horde/exception": "^3 || dev-FRAMEWORK_6_0",
         "horde/util": "^3 || dev-FRAMEWORK_6_0",
         "ext-ldap": "*"
