@@ -26,11 +26,11 @@ state:
   release: alpha
   api: alpha
 license:
-  identifier: LGPL-3.0
+  identifier: LGPL-3.0-only
   uri: http://opensource.org/licenses/lgpl-3.0.html
 dependencies:
   required:
-    php: ^7
+    php: ^7.4 || ^8
     composer:
       horde/exception: ^3
       horde/util: ^3
