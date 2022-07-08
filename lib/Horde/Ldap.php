@@ -488,7 +488,9 @@ class Horde_Ldap
      */
     public function disconnect()
     {
-        @ldap_close($this->_link);
+        if ($this->_link) {
+            @ldap_close($this->_link);
+        }
     }
 
     /**
