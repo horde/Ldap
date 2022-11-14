@@ -19,7 +19,7 @@
  </lead>
  <date>2022-11-14</date>
  <version>
-  <release>3.0.0alpha4</release>
+  <release>3.0.0alpha5</release>
   <api>3.0.0alpha1</api>
  </version>
  <stability>
@@ -28,7 +28,7 @@
  </stability>
  <license uri="http://opensource.org/licenses/lgpl-3.0.html">LGPL-3.0-only</license>
  <notes>
-* |+
+* 
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -146,6 +146,37 @@
   </filelist>
  </phprelease>
  <changelog>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
   <release>
    <version>
     <release>1.0.0alpha1</release>
@@ -617,10 +648,25 @@
     <release>alpha</release>
     <api>alpha</api>
    </stability>
-   <date>2021-03-13</date>
-   <license uri="http://opensource.org/licenses/lgpl-3.0.html">LGPL-3.0-only</license>
+   <date>2022-11-14</date>
+   <license uri="http://opensource.org/licenses/lgpl-3.0.html">LGPL-3.0</license>
    <notes>
 * |+
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>3.0.0alpha5</release>
+    <api>3.0.0alpha1</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2022-11-14</date>
+   <license uri="http://opensource.org/licenses/lgpl-3.0.html">LGPL-3.0</license>
+   <notes>
+* 
    </notes>
   </release>
  </changelog>
