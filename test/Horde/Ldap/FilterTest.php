@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
-class Horde_Ldap_FilterTest extends PHPUnit_Framework_TestCase
+class Horde_Ldap_FilterTest extends Horde_Test_Case
 {
     /**
      * Test correct parsing of filter strings through parse().

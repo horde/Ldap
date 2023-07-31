@@ -7,7 +7,7 @@
  * @author     Jan Schneider <jan@horde.org>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.html LGPL-3.0
  */
-class Horde_Ldap_LdifTest extends PHPUnit_Framework_TestCase
+class Horde_Ldap_LdifTest extends Horde_Test_Case
 {
     /**
      * Default configuration for tests.
@@ -84,7 +84,7 @@ class Horde_Ldap_LdifTest extends PHPUnit_Framework_TestCase
     /**
      * Opens an outfile and ensures correct permissions.
      */
-    public function setUp()
+    public function setUp(): void
     {
         // Initialize test entries.
         $this->_testentries = array();
@@ -108,7 +108,7 @@ class Horde_Ldap_LdifTest extends PHPUnit_Framework_TestCase
     /**
      * Removes the outfile.
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         @unlink($this->_outfile);
     }
@@ -433,14 +433,14 @@ class Horde_Ldap_LdifTest extends PHPUnit_Framework_TestCase
 
         // Test for line number reporting
         $ldif = new Horde_Ldap_Ldif(__DIR__ . '/fixtures/malformed_syntax.ldif', 'r', $this->_defaultConfig);
-        $this->setExpectedException('Horde_Ldap_Exception',
+        $this->expectException('Horde_Ldap_Exception',
                                     'Invalid syntax at input line 7');
         do {
             $entry = $ldif->readEntry();
         } while (!$ldif->eof());
 
         // Error giving error msg and line number:
-        $this->setExpectedException('Horde_Ldap_Exception');
+        $this->expectException('Horde_Ldap_Exception');
         $ldif = new Horde_Ldap_Ldif(__DIR__ . '/some_not_existing/path/for/net_ldap_ldif', 'r', $this->_defaultConfig);
     }
 

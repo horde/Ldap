@@ -12,7 +12,7 @@ require_once __DIR__ . '/TestBase.php';
  */
 class Horde_Ldap_SearchTest extends Horde_Ldap_TestBase
 {
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         if (!self::$ldapcfg) {
             return;

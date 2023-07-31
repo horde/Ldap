@@ -12,7 +12,7 @@ require_once __DIR__ . '/TestBase.php';
  */
 class Horde_Ldap_LdapTest extends Horde_Ldap_TestBase
 {
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         if (!self::$ldapcfg) {
             return;
@@ -46,6 +46,8 @@ class Horde_Ldap_LdapTest extends Horde_Ldap_TestBase
      */
     public function testConnectAndPrivilegedBind()
     {
+        $this->expectNotToPerformAssertions();
+
         // This connect is supposed to fail.
         $lcfg = array(
             'hostspec' => 'nonexistant.ldap.horde.org',
@@ -91,6 +93,8 @@ class Horde_Ldap_LdapTest extends Horde_Ldap_TestBase
      */
     public function testConnectAndAnonymousBind()
     {
+        $this->expectNotToPerformAssertions();
+
         if (!self::$ldapcfg['capability']['anonymous']) {
             $this->markTestSkipped('Server does not support anonymous bind');
         }
@@ -104,11 +108,11 @@ class Horde_Ldap_LdapTest extends Horde_Ldap_TestBase
     /**
      * Tests if the server can connect and bind, but not rebind with empty
      * password.
-     *
-     * @expectedException Horde_Ldap_Exception
      */
     public function testConnectAndEmptyRebind()
     {
+        $this->expectException('Horde_Ldap_Exception');
+
         // Simple working connect and privileged bind.
         $ldap = new Horde_Ldap(self::$ldapcfg['server']);
         $ldap->bind(self::$ldapcfg['server']['binddn'], '');
@@ -119,6 +123,8 @@ class Horde_Ldap_LdapTest extends Horde_Ldap_TestBase
      */
     public function testStartTLS()
     {
+        $this->expectNotToPerformAssertions();
+
         if (!self::$ldapcfg['capability']['tls']) {
             $this->markTestSkipped('Server does not support TLS');
         }
