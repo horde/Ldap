@@ -1,5 +1,16 @@
 ---
-3.0.0alpha5:
+3.0.0-alpha6:
+  api: 3.0.0-alpha1
+  state:
+    release: true
+    api: true
+  date: 2025-05-07
+  license:
+    identifier: LGPL-3.0-only
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: |
+    feat: Support PHP 8.1 LDAP extension.
+3.0.0-alpha5:
   api: 3.0.0alpha1
   state:
     release: alpha
@@ -8,9 +19,10 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |+
-    
-3.0.0alpha4:
+  notes: |-
+    Original version string was 3.0.0alpha5
+    |+
+3.0.0-alpha4:
   api: 3.0.0alpha1
   state:
     release: alpha
@@ -19,8 +31,10 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |+
-3.0.0alpha3:
+  notes: |-
+    Original version string was 3.0.0alpha4
+    |+
+3.0.0-alpha3:
   api: 3.0.0alpha1
   state:
     release: alpha
@@ -29,8 +43,10 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |+
-3.0.0alpha2:
+  notes: |-
+    Original version string was 3.0.0alpha3
+    |+
+3.0.0-alpha2:
   api: 3.0.0alpha1
   state:
     release: alpha
@@ -39,8 +55,10 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |+
-3.0.0alpha1:
+  notes: |-
+    Original version string was 3.0.0alpha2
+    |+
+3.0.0-alpha1:
   api: 3.0.0alpha1
   state:
     release: stable
@@ -50,6 +68,7 @@
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
   notes: |
+    Original version string was 3.0.0alpha1
     [mjr] PHP 7.4 compatibility fixes (Remi Collet <remi@famillecollet.com>, PR #1).
     |+
 2.4.1:
@@ -202,6 +221,30 @@
     uri: http://opensource.org/licenses/lgpl-3.0.html
   notes: |
     [mms] Use new Horde_Test layout.
+2.0.0-beta1:
+  api: 1.1.0
+  state:
+    release: beta
+    api: stable
+  date: 2012-07-19
+  license:
+    identifier: LGPL-3.0
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: |
+    Original version string was 2.0.0beta1
+    First beta release for Horde 5.
+2.0.0-alpha1:
+  api: 1.1.0
+  state:
+    release: alpha
+    api: stable
+  date: 2012-07-05
+  license:
+    identifier: LGPL-3.0
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: |
+    Original version string was 2.0.0alpha1
+    First alpha release for Horde 5.
 2.0.0:
   api: 1.1.0
   state:
@@ -213,28 +256,6 @@
     uri: http://opensource.org/licenses/lgpl-3.0.html
   notes: |
     First stable release for Horde 5.
-2.0.0beta1:
-  api: 1.1.0
-  state:
-    release: beta
-    api: stable
-  date: 2012-07-19
-  license:
-    identifier: LGPL-3.0
-    uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    First beta release for Horde 5.
-2.0.0alpha1:
-  api: 1.1.0
-  state:
-    release: alpha
-    api: stable
-  date: 2012-07-05
-  license:
-    identifier: LGPL-3.0
-    uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    First alpha release for Horde 5.
 1.1.5:
   api: 1.1.0
   state:
@@ -302,6 +323,58 @@
   notes: |
     [jan] Add parameter to Horde_Ldap_Schema#must() and #may() to return attributes from superior objectclasses too (Bug #9826).
     [jan] Don't throw exceptions from Horde_Ldap_Schema#must() and #may() (Bug #9826).
+1.0.0-beta1:
+  api: 1.0.0
+  state:
+    release: beta
+    api: beta
+  date: 2011-03-16
+  license:
+    identifier: LGPL-3.0
+    uri: http://www.gnu.org/licenses/lgpl-3.0.html
+  notes: |
+    Original version string was 1.0.0beta1
+    First beta release for Horde 4.
+1.0.0-alpha1:
+  api: 1.0.0
+  state:
+    release: alpha
+    api: alpha
+  date: 2011-03-08
+  license:
+    identifier: LGPLv3
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: |
+    Original version string was 1.0.0alpha1
+    First alpha release for Horde 4.
+    Forked from PEAR-Net_LDAP2-2.0.7.
+    Converted to PHP5 strict standards.
+    Converted to use exceptions.
+    Included functions from the previous Horde_LDAP for backwards compatibility.
+1.0.0-RC2:
+  api: 1.0.0
+  state:
+    release: beta
+    api: beta
+  date: 2011-03-29
+  license:
+    identifier: LGPL-3.0
+    uri: http://www.gnu.org/licenses/lgpl-3.0.html
+  notes: |
+    Original version string was 1.0.0RC2
+    Second release candidate for Horde 4.
+1.0.0-RC1:
+  api: 1.0.0
+  state:
+    release: beta
+    api: beta
+  date: 2011-03-22
+  license:
+    identifier: LGPL-3.0
+    uri: http://www.gnu.org/licenses/lgpl-3.0.html
+  notes: |
+    Original version string was 1.0.0RC1
+    First release candidate for Horde 4.
 1.0.0:
   api: 1.0.0
   state:
@@ -313,51 +386,3 @@
     uri: http://www.gnu.org/licenses/lgpl-3.0.html
   notes: |
     First stable release for Horde 4.
-1.0.0RC2:
-  api: 1.0.0
-  state:
-    release: beta
-    api: beta
-  date: 2011-03-29
-  license:
-    identifier: LGPL-3.0
-    uri: http://www.gnu.org/licenses/lgpl-3.0.html
-  notes: |
-    Second release candidate for Horde 4.
-1.0.0RC1:
-  api: 1.0.0
-  state:
-    release: beta
-    api: beta
-  date: 2011-03-22
-  license:
-    identifier: LGPL-3.0
-    uri: http://www.gnu.org/licenses/lgpl-3.0.html
-  notes: |
-    First release candidate for Horde 4.
-1.0.0beta1:
-  api: 1.0.0
-  state:
-    release: beta
-    api: beta
-  date: 2011-03-16
-  license:
-    identifier: LGPL-3.0
-    uri: http://www.gnu.org/licenses/lgpl-3.0.html
-  notes: |
-    First beta release for Horde 4.
-1.0.0alpha1:
-  api: 1.0.0
-  state:
-    release: alpha
-    api: alpha
-  date: 2011-03-08
-  license:
-    identifier: LGPLv3
-    uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    First alpha release for Horde 4.
-    Forked from PEAR-Net_LDAP2-2.0.7.
-    Converted to PHP5 strict standards.
-    Converted to use exceptions.
-    Included functions from the previous Horde_LDAP for backwards compatibility.
