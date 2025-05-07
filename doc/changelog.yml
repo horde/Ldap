@@ -1,4 +1,15 @@
 ---
+3.0.0-alpha7:
+  api: 3.0.0-alpha1
+  state:
+    release: true
+    api: true
+  date: 2025-05-07
+  license:
+    identifier: LGPL-3.0-only
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: |
+    fix: Multiple iterator signature issues solved.
 3.0.0-alpha6:
   api: 3.0.0-alpha1
   state:
