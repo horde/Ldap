@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Result set of an LDAP search
  *
@@ -12,19 +13,22 @@
  * @author    Jan Schneider <jan@horde.org>
  * @license   http://www.gnu.org/licenses/lgpl-3.0.html LGPL-3.0
  */
+use LDAP\ResultEntry as LDAPResultEntry;
+use LDAP\Result as LDAPResult;
+
 class Horde_Ldap_Search implements Iterator
 {
     /**
      * Search result identifier.
      *
-     * @var resource
+     * @var resource|LDAPResult
      */
     protected $_search;
 
     /**
      * LDAP resource link.
      *
-     * @var resource
+     * @var resource|LDAPConnection
      */
     protected $_link;
 
@@ -40,7 +44,7 @@ class Horde_Ldap_Search implements Iterator
     /**
      * Result entry identifier.
      *
-     * @var resource
+     * @var resource|LDAPResultEntry
      */
     protected $_entry;
 
@@ -87,8 +91,8 @@ class Horde_Ldap_Search implements Iterator
     /**
      * Constructor.
      *
-     * @param resource            $search     Search result identifier.
-     * @param Horde_Ldap|resource $ldap       Horde_Ldap object or a LDAP link
+     * @param resource|LDAPResult            $search     Search result identifier.
+     * @param Horde_Ldap|resource|LDAPConnection $ldap       Horde_Ldap object or a LDAP link
      *                                        resource
      * @param array               $attributes The searched attribute names,
      *                                        see {@link $_searchedAttrs}.
@@ -250,7 +254,7 @@ class Horde_Ldap_Search implements Iterator
         $columns = array();
         foreach ($attrs as $attr_name) {
             foreach ($to_sort as $key => $row) {
-                $columns[$attr_name][$key] =& $to_sort[$key][$attr_name][0];
+                $columns[$attr_name][$key] = & $to_sort[$key][$attr_name][0];
             }
         }
 
@@ -352,7 +356,7 @@ class Horde_Ldap_Search implements Iterator
     /**
      * Sets the search objects resource link
      *
-     * @param resource $search Search result identifier.
+     * @param resource|LDAPResult $search Search result identifier.
      */
     public function setSearch($search)
     {
@@ -362,7 +366,7 @@ class Horde_Ldap_Search implements Iterator
     /**
      * Sets the LDAP resource link.
      *
-     * @param resource $link LDAP link identifier.
+     * @param resource|LDAPConnection $link LDAP link identifier.
      */
     public function setLink($link)
     {
@@ -458,7 +462,7 @@ class Horde_Ldap_Search implements Iterator
     public function key()
     {
         $entry = $this->current();
-        return $entry instanceof Horde_Ldap_Entry ? $entry->dn() :false;
+        return $entry instanceof Horde_Ldap_Entry ? $entry->dn() : false;
     }
 
     /**

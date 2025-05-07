@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Exception handler for the Horde_Ldap library.
  *

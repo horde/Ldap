@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Utility Class for Horde_Ldap
  *
@@ -95,10 +96,10 @@ class Horde_Ldap_Util
         // Not clear, if this is neccessary here:
         //$dn_array = self::_correctDNSplitting($dn_array, ',');
 
-        $callback_upper = function($value) {
+        $callback_upper = function ($value) {
             return Horde_String::upper($value[1]);
         };
-        $callback_lower = function($value) {
+        $callback_lower = function ($value) {
             return Horde_String::lower($value[1]);
         };
 
@@ -113,14 +114,18 @@ class Horde_Ldap_Util
                 foreach ($rdns as $subrdn_k => $subrdn_v) {
                     // Casefolding.
                     if ($options['casefold'] == 'upper') {
-                        $subrdn_v = preg_replace_callback('/^(\w+=)/',
-                                                          $callback_upper,
-                                                          $subrdn_v);
+                        $subrdn_v = preg_replace_callback(
+                            '/^(\w+=)/',
+                            $callback_upper,
+                            $subrdn_v
+                        );
                     }
                     if ($options['casefold'] == 'lower') {
-                        $subrdn_v = preg_replace_callback('/^(\w+=)/',
-                                                          $callback_lower,
-                                                          $subrdn_v);
+                        $subrdn_v = preg_replace_callback(
+                            '/^(\w+=)/',
+                            $callback_lower,
+                            $subrdn_v
+                        );
                     }
 
                     if ($options['onlyvalues']) {
@@ -139,14 +144,18 @@ class Horde_Ldap_Util
                 // Singlevalued RDN.
                 // Casefolding.
                 if ($options['casefold'] == 'upper') {
-                    $value = preg_replace_callback('/^(\w+=)/',
-                                                   $callback_upper,
-                                                   $value);
+                    $value = preg_replace_callback(
+                        '/^(\w+=)/',
+                        $callback_upper,
+                        $value
+                    );
                 }
                 if ($options['casefold'] == 'lower') {
-                    $value = preg_replace_callback('/^(\w+=)/',
-                                                   $callback_lower,
-                                                   $value);
+                    $value = preg_replace_callback(
+                        '/^(\w+=)/',
+                        $callback_lower,
+                        $value
+                    );
                 }
 
                 if ($options['onlyvalues']) {
@@ -236,7 +245,8 @@ class Horde_Ldap_Util
             $val = str_replace(
                 array('\\\\', '\,', '\+', '\"', '\<', '\>', '\;', '\#', '\='),
                 array('\\', ',', '+', '"', '<', '>', ';', '#', '='),
-                $val);
+                $val
+            );
 
             // Translate hex code into ascii.
             $values[$key] = self::hex2asc($val);
@@ -332,7 +342,7 @@ class Horde_Ldap_Util
                         $newdn[] = $dn_key . '=' . $dn_part;
                     }
                 }
-                $dn =& $newdn;
+                $dn = & $newdn;
             }
         }
 
@@ -440,9 +450,11 @@ class Horde_Ldap_Util
 
         foreach ($values as $key => $val) {
             // Escaping of filter meta characters.
-            $val = str_replace(array('\\', '*', '(', ')'),
-                               array('\5c', '\2a', '\28', '\29'),
-                               $val);
+            $val = str_replace(
+                array('\\', '*', '(', ')'),
+                array('\5c', '\2a', '\28', '\29'),
+                $val
+            );
 
             // ASCII < 32 escaping.
             $val = self::asc2hex32($val);
@@ -521,10 +533,11 @@ class Horde_Ldap_Util
     {
         return preg_replace_callback(
             '/\\\([0-9A-Fa-f]{2})/',
-            function($hex) {
+            function ($hex) {
                 return chr(hexdec($hex[1]));
             },
-            $string);
+            $string
+        );
     }
 
     /**
@@ -588,9 +601,10 @@ class Horde_Ldap_Util
      *
      * @return array Corrected array.
      */
-    protected static function _correctDNSplitting($dn = array(),
-                                                  $separator = ',')
-    {
+    protected static function _correctDNSplitting(
+        $dn = array(),
+        $separator = ','
+    ) {
         foreach ($dn as $key => $dn_value) {
             // Refresh value (foreach caches!)
             $dn_value = $dn[$key];

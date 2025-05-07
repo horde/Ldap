@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LDIF capabilities for Horde_Ldap.
  *
@@ -185,27 +186,27 @@ class Horde_Ldap_Ldif
         }
 
         switch ($mode) {
-        case 'r':
-            if (!file_exists($file)) {
-                throw new Horde_Ldap_Exception('Unable to open ' . $file . ' for reading: file not found');
-            }
-            if (!is_readable($file)) {
-                throw new Horde_Ldap_Exception('Unable to open ' . $file . ' for reading: permission denied');
-            }
-            break;
+            case 'r':
+                if (!file_exists($file)) {
+                    throw new Horde_Ldap_Exception('Unable to open ' . $file . ' for reading: file not found');
+                }
+                if (!is_readable($file)) {
+                    throw new Horde_Ldap_Exception('Unable to open ' . $file . ' for reading: permission denied');
+                }
+                break;
 
-        case 'w':
-        case 'a':
-            if (file_exists($file)) {
-                if (!is_writable($file)) {
-                    throw new Horde_Ldap_Exception('Unable to open ' . $file . ' for writing: permission denied');
+            case 'w':
+            case 'a':
+                if (file_exists($file)) {
+                    if (!is_writable($file)) {
+                        throw new Horde_Ldap_Exception('Unable to open ' . $file . ' for writing: permission denied');
+                    }
+                } else {
+                    if (!@touch($file)) {
+                        throw new Horde_Ldap_Exception('Unable to create ' . $file . ' for writing: permission denied');
+                    }
                 }
-            } else {
-                if (!@touch($file)) {
-                    throw new Horde_Ldap_Exception('Unable to create ' . $file . ' for writing: permission denied');
-                }
-            }
-            break;
+                break;
         }
 
         $this->_fh = @fopen($file, $this->_mode);
@@ -498,20 +499,20 @@ class Horde_Ldap_Ldif
             $data  = $matches[3];
 
             switch ($delim) {
-            case ':':
-                // Normal data.
-                $attributes[$attr][] = $data;
-                break;
-            case '::':
-                // Base64 data.
-                $attributes[$attr][] = base64_decode($data);
-                break;
-            case ':<':
-                // File inclusion
-                // TODO: Is this the job of the LDAP-client or the server?
-                throw new Horde_Ldap_Exception('File inclusions are currently not supported');
-            default:
-                throw new Horde_Ldap_Exception('Parsing error: invalid syntax at parsing entry line: ' . $line);
+                case ':':
+                    // Normal data.
+                    $attributes[$attr][] = $data;
+                    break;
+                case '::':
+                    // Base64 data.
+                    $attributes[$attr][] = base64_decode($data);
+                    break;
+                case ':<':
+                    // File inclusion
+                    // TODO: Is this the job of the LDAP-client or the server?
+                    throw new Horde_Ldap_Exception('File inclusions are currently not supported');
+                default:
+                    throw new Horde_Ldap_Exception('Parsing error: invalid syntax at parsing entry line: ' . $line);
             }
 
             if (Horde_String::lower($attr) == 'dn') {

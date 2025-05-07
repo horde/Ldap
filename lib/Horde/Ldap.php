@@ -1,4 +1,7 @@
 <?php
+
+use LDAP\Connection as LDAPConnection;
+
 /**
  * The main Horde_Ldap class.
  *
@@ -86,7 +89,7 @@ class Horde_Ldap
     /**
      * LDAP resource link.
      *
-     * @var resource
+     * @var resource|LDAPConnection
      */
     protected $_link;
 
@@ -238,8 +241,10 @@ class Horde_Ldap
             $msg = @ldap_bind($this->_link, $dn, $password);
         }
         if (!$msg) {
-            throw new Horde_Ldap_Exception('Bind failed: ' . @ldap_error($this->_link),
-                                           @ldap_errno($this->_link));
+            throw new Horde_Ldap_Exception(
+                'Bind failed: ' . @ldap_error($this->_link),
+                @ldap_errno($this->_link)
+            );
         }
     }
 
@@ -607,7 +612,7 @@ class Horde_Ldap
         }
 
         if ($dn instanceof Horde_Ldap_Entry) {
-             $dn = $dn->dn();
+            $dn = $dn->dn();
         }
         if (!is_string($dn)) {
             throw new Horde_Ldap_Exception('Parameter is not a string nor an entry object!');
@@ -618,8 +623,8 @@ class Horde_Ldap
             $result = @ldap_list($this->_link, $dn, '(objectClass=*)', array(null), 0, 0);
             if ($result && @ldap_count_entries($this->_link, $result)) {
                 for ($subentry = @ldap_first_entry($this->_link, $result);
-                     $subentry;
-                     $subentry = @ldap_next_entry($this->_link, $subentry)) {
+                    $subentry;
+                    $subentry = @ldap_next_entry($this->_link, $subentry)) {
                     $this->delete(@ldap_get_dn($this->_link, $subentry), true);
                 }
             }
@@ -839,28 +844,30 @@ class Horde_Ldap
             : $this->_config['scope'];
 
         switch ($scope) {
-        case 'one':
-            $search_function = 'ldap_list';
-            break;
-        case 'base':
-            $search_function = 'ldap_read';
-            break;
-        default:
-            $search_function = 'ldap_search';
+            case 'one':
+                $search_function = 'ldap_list';
+                break;
+            case 'base':
+                $search_function = 'ldap_read';
+                break;
+            default:
+                $search_function = 'ldap_search';
         }
 
         /* Continue attempting the search operation until we get a success or a
          * definitive failure. */
         while (true) {
             $link = $this->getLink();
-            $search = @call_user_func($search_function,
-                                      $link,
-                                      $base,
-                                      $filter,
-                                      $attributes,
-                                      $attrsonly,
-                                      $sizelimit,
-                                      $timelimit);
+            $search = @call_user_func(
+                $search_function,
+                $link,
+                $base,
+                $filter,
+                $attributes,
+                $attrsonly,
+                $sizelimit,
+                $timelimit
+            );
 
             if ($errno = @ldap_errno($link)) {
                 $err = $this->errorName($errno);
@@ -876,8 +883,8 @@ class Horde_Ldap
                     $this->_config['auto_reconnect']) {
                     $this->_link = false;
                     $this->_reconnect();
-		} else {
-		    echo $err;
+                } else {
+                    echo $err;
                     $msg = "\nParameters:\nBase: $base\nFilter: $filter\nScope: $scope";
                     throw new Horde_Ldap_Exception(ldap_err2str($errno) . $msg, $errno);
                 }
@@ -905,13 +912,15 @@ class Horde_Ldap
         $filter = Horde_Ldap_Filter::combine(
             'and',
             array(Horde_Ldap_Filter::build($this->_config['user']),
-                  Horde_Ldap_Filter::create($this->_config['user']['uid'], 'equals', $user)));
+                  Horde_Ldap_Filter::create($this->_config['user']['uid'], 'equals', $user))
+        );
         $search = $this->search(
             isset($this->_config['user']['basedn'])
                 ? $this->_config['user']['basedn']
                 : null,
             $filter,
-            array('attributes' => array($this->_config['user']['uid'])));
+            array('attributes' => array($this->_config['user']['uid']))
+        );
         if (!$search->count()) {
             throw new Horde_Exception_NotFound('DN for user ' . $user . ' not found');
         }
@@ -1061,7 +1070,7 @@ class Horde_Ldap
         }
 
         if ($dn instanceof Horde_Ldap_Entry) {
-             $dn = $dn->dn();
+            $dn = $dn->dn();
         }
         if (!is_string($dn)) {
             throw new Horde_Ldap_Exception('Parameter $dn is not a string nor an entry object!');
@@ -1111,8 +1120,11 @@ class Horde_Ldap
         if (!is_array($attributes)) {
             $attributes = array($attributes);
         }
-        $result = $this->search($dn, '(objectClass=*)',
-                                array('scope' => 'base', 'attributes' => $attributes));
+        $result = $this->search(
+            $dn,
+            '(objectClass=*)',
+            array('scope' => 'base', 'attributes' => $attributes)
+        );
         if (!$result->count()) {
             throw new Horde_Exception_NotFound(sprintf('Could not fetch entry %s: no entry found', $dn));
         }
@@ -1301,9 +1313,9 @@ class Horde_Ldap
             0x61 => 'LDAP_REFERRAL_LIMIT_EXCEEDED',
             1000 => 'Unknown Error');
 
-         return isset($errorMessages[$errorcode]) ?
-            $errorMessages[$errorcode] :
-            'Unknown Error (' . $errorcode . ')';
+        return isset($errorMessages[$errorcode]) ?
+           $errorMessages[$errorcode] :
+           'Unknown Error (' . $errorcode . ')';
     }
 
     /**
@@ -1329,7 +1341,8 @@ class Horde_Ldap
             $this->_config['cache'] &&
             $this->_config['cache_root_dse']) {
             $entry = $this->_config['cache']->get(
-                $key, $this->_config['cachettl']
+                $key,
+                $this->_config['cachettl']
             );
             if ($entry) {
                 $this->_rootDSE[$key] = @unserialize($entry);
@@ -1525,7 +1538,7 @@ class Horde_Ldap
      * connection attempt fails and auto_reconnect has been turned on
      * (see the _config array documentation).
      *
-     * @return resource LDAP link.
+     * @return resource|LDAPConnection LDAP link.
      */
     public function getLink()
     {
@@ -1555,20 +1568,20 @@ class Horde_Ldap
     public static function buildClause($lhs, $op, $rhs, $params = array())
     {
         switch ($op) {
-        case 'LIKE':
-            if (empty($rhs)) {
-                return '(' . $lhs . '=*)';
-            }
-            if (!empty($params['begin'])) {
-                return sprintf('(|(%s=%s*)(%s=* %s*))', $lhs, self::quote($rhs), $lhs, self::quote($rhs));
-            }
-            if (!empty($params['approximate'])) {
-                return sprintf('(%s~=%s)', $lhs, self::quote($rhs));
-            }
-            return sprintf('(%s=*%s*)', $lhs, self::quote($rhs));
+            case 'LIKE':
+                if (empty($rhs)) {
+                    return '(' . $lhs . '=*)';
+                }
+                if (!empty($params['begin'])) {
+                    return sprintf('(|(%s=%s*)(%s=* %s*))', $lhs, self::quote($rhs), $lhs, self::quote($rhs));
+                }
+                if (!empty($params['approximate'])) {
+                    return sprintf('(%s~=%s)', $lhs, self::quote($rhs));
+                }
+                return sprintf('(%s=*%s*)', $lhs, self::quote($rhs));
 
-        default:
-            return sprintf('(%s%s%s)', $lhs, $op, self::quote($rhs));
+            default:
+                return sprintf('(%s%s%s)', $lhs, $op, self::quote($rhs));
         }
     }
 
@@ -1582,9 +1595,11 @@ class Horde_Ldap
      */
     public static function quote($clause)
     {
-        return str_replace(array('\\',   '(',  ')',  '*',  "\0"),
-                           array('\\5c', '\(', '\)', '\*', "\\00"),
-                           $clause);
+        return str_replace(
+            array('\\',   '(',  ')',  '*',  "\0"),
+            array('\\5c', '\(', '\)', '\*', "\\00"),
+            $clause
+        );
     }
 
     /**
