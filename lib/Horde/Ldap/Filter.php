@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Object representation of a part of a LDAP filter.
  *
@@ -131,54 +132,57 @@ class Horde_Ldap_Filter
      * @return Horde_Ldap_Filter
      * @throws Horde_Ldap_Exception
      */
-    public static function create($attribute, $match, $value = '',
-                                  $escape = true)
-    {
+    public static function create(
+        $attribute,
+        $match,
+        $value = '',
+        $escape = true
+    ) {
         if ($escape) {
             $array = Horde_Ldap_Util::escapeFilterValue(array($value));
             $value = $array[0];
         }
 
         switch (Horde_String::lower($match)) {
-        case 'equals':
-        case '=':
-            $filter = '(' . $attribute . '=' . $value . ')';
-            break;
-        case 'begins':
-            $filter = '(' . $attribute . '=' . $value . '*)';
-            break;
-        case 'ends':
-            $filter = '(' . $attribute . '=*' . $value . ')';
-            break;
-        case 'contains':
-            $filter = '(' . $attribute . '=*' . $value . '*)';
-            break;
-        case 'greater':
-        case '>':
-            $filter = '(' . $attribute . '>' . $value . ')';
-            break;
-        case 'less':
-        case '<':
-            $filter = '(' . $attribute . '<' . $value . ')';
-            break;
-        case 'greaterorequal':
-        case '>=':
-            $filter = '(' . $attribute . '>=' . $value . ')';
-            break;
-        case 'lessorequal':
-        case '<=':
-            $filter = '(' . $attribute . '<=' . $value . ')';
-            break;
-        case 'approx':
-        case '~=':
-            $filter = '(' . $attribute . '~=' . $value . ')';
-            break;
-        case 'any':
-        case 'present':
-            $filter = '(' . $attribute . '=*)';
-            break;
-        default:
-            throw new Horde_Ldap_Exception('Matching rule "' . $match . '" unknown');
+            case 'equals':
+            case '=':
+                $filter = '(' . $attribute . '=' . $value . ')';
+                break;
+            case 'begins':
+                $filter = '(' . $attribute . '=' . $value . '*)';
+                break;
+            case 'ends':
+                $filter = '(' . $attribute . '=*' . $value . ')';
+                break;
+            case 'contains':
+                $filter = '(' . $attribute . '=*' . $value . '*)';
+                break;
+            case 'greater':
+            case '>':
+                $filter = '(' . $attribute . '>' . $value . ')';
+                break;
+            case 'less':
+            case '<':
+                $filter = '(' . $attribute . '<' . $value . ')';
+                break;
+            case 'greaterorequal':
+            case '>=':
+                $filter = '(' . $attribute . '>=' . $value . ')';
+                break;
+            case 'lessorequal':
+            case '<=':
+                $filter = '(' . $attribute . '<=' . $value . ')';
+                break;
+            case 'approx':
+            case '~=':
+                $filter = '(' . $attribute . '~=' . $value . ')';
+                break;
+            case 'any':
+            case 'present':
+                $filter = '(' . $attribute . '=*)';
+                break;
+            default:
+                throw new Horde_Ldap_Exception('Matching rule "' . $match . '" unknown');
         }
 
         return new Horde_Ldap_Filter(array('filter' => $filter));
@@ -210,42 +214,42 @@ class Horde_Ldap_Filter
     {
         // Substitute named operators with logical operators.
         switch ($operator) {
-        case 'and':
-            $operator = '&';
-            break;
-        case 'or':
-            $operator = '|';
-            break;
-        case 'not':
-            $operator = '!';
-            break;
+            case 'and':
+                $operator = '&';
+                break;
+            case 'or':
+                $operator = '|';
+                break;
+            case 'not':
+                $operator = '!';
+                break;
         }
 
         // Tests for sane operation.
         switch ($operator) {
-        case '!':
-            // Not-combination, here we only accept one filter object or filter
-            // string.
-            if ($filters instanceof Horde_Ldap_Filter) {
-                $filters = array($filters); // force array
-            } elseif (is_string($filters)) {
-                $filters = array(self::parse($filters));
-            } elseif (is_array($filters)) {
-                throw new Horde_Ldap_Exception('Operator is "not" but $filter is an array');
-            } else {
-                throw new Horde_Ldap_Exception('Operator is "not" but $filter is not a valid Horde_Ldap_Filter nor a filter string');
-            }
-            break;
+            case '!':
+                // Not-combination, here we only accept one filter object or filter
+                // string.
+                if ($filters instanceof Horde_Ldap_Filter) {
+                    $filters = array($filters); // force array
+                } elseif (is_string($filters)) {
+                    $filters = array(self::parse($filters));
+                } elseif (is_array($filters)) {
+                    throw new Horde_Ldap_Exception('Operator is "not" but $filter is an array');
+                } else {
+                    throw new Horde_Ldap_Exception('Operator is "not" but $filter is not a valid Horde_Ldap_Filter nor a filter string');
+                }
+                break;
 
-        case '&':
-        case '|':
-            if (!is_array($filters) || count($filters) < 2) {
-                throw new Horde_Ldap_Exception('Parameter $filters is not an array or contains less than two Horde_Ldap_Filter objects');
-            }
-            break;
+            case '&':
+            case '|':
+                if (!is_array($filters) || count($filters) < 2) {
+                    throw new Horde_Ldap_Exception('Parameter $filters is not an array or contains less than two Horde_Ldap_Filter objects');
+                }
+                break;
 
-        default:
-            throw new Horde_Ldap_Exception('Logical operator is unknown');
+            default:
+                throw new Horde_Ldap_Exception('Logical operator is unknown');
         }
 
         foreach ($filters as $key => $testfilter) {

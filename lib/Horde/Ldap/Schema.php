@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Load an LDAP Schema and provide information
  *
@@ -25,14 +26,14 @@ class Horde_Ldap_Schema
      * Please don't forget to add binary attributes to isBinary() below to
      * support proper value fetching from Horde_Ldap_Entry.
      */
-    const SYNTAX_BOOLEAN =            '1.3.6.1.4.1.1466.115.121.1.7';
-    const SYNTAX_DIRECTORY_STRING =   '1.3.6.1.4.1.1466.115.121.1.15';
-    const SYNTAX_DISTINGUISHED_NAME = '1.3.6.1.4.1.1466.115.121.1.12';
-    const SYNTAX_INTEGER =            '1.3.6.1.4.1.1466.115.121.1.27';
-    const SYNTAX_JPEG =               '1.3.6.1.4.1.1466.115.121.1.28';
-    const SYNTAX_NUMERIC_STRING =     '1.3.6.1.4.1.1466.115.121.1.36';
-    const SYNTAX_OID =                '1.3.6.1.4.1.1466.115.121.1.38';
-    const SYNTAX_OCTET_STRING =       '1.3.6.1.4.1.1466.115.121.1.40';
+    public const SYNTAX_BOOLEAN =            '1.3.6.1.4.1.1466.115.121.1.7';
+    public const SYNTAX_DIRECTORY_STRING =   '1.3.6.1.4.1.1466.115.121.1.15';
+    public const SYNTAX_DISTINGUISHED_NAME = '1.3.6.1.4.1.1466.115.121.1.12';
+    public const SYNTAX_INTEGER =            '1.3.6.1.4.1.1466.115.121.1.27';
+    public const SYNTAX_JPEG =               '1.3.6.1.4.1.1466.115.121.1.28';
+    public const SYNTAX_NUMERIC_STRING =     '1.3.6.1.4.1.1466.115.121.1.36';
+    public const SYNTAX_OID =                '1.3.6.1.4.1.1466.115.121.1.38';
+    public const SYNTAX_OCTET_STRING =       '1.3.6.1.4.1.1466.115.121.1.40';
 
     /**
      * Map of entry types to LDAP attributes of subschema entry.
@@ -116,9 +117,12 @@ class Horde_Ldap_Schema
         }
 
         // Fetch the subschema entry.
-        $result = $ldap->search($dn, '(objectClass=*)',
-                                array('attributes' => array_values($this->types),
-                                      'scope' => 'base'));
+        $result = $ldap->search(
+            $dn,
+            '(objectClass=*)',
+            array('attributes' => array_values($this->types),
+                                      'scope' => 'base')
+        );
         $entry = $result->shiftEntry();
         if (!($entry instanceof Horde_Ldap_Entry)) {
             throw new Horde_Ldap_Exception('Could not fetch Subschema entry');

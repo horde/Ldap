@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Getting the rootDSE entry of a LDAP server.
  *
@@ -47,9 +48,12 @@ class Horde_Ldap_RootDse implements Serializable
         $referral = $ldap->getOption('LDAP_OPT_REFERRALS');
         $ldap->setOption('LDAP_OPT_REFERRALS', false);
         try {
-            $result = $ldap->search('', '(objectClass=*)',
-                                    array('attributes' => $attributes,
-                                          'scope' => 'base'));
+            $result = $ldap->search(
+                '',
+                '(objectClass=*)',
+                array('attributes' => $attributes,
+                                          'scope' => 'base')
+            );
         } catch (Horde_Ldap_Exception $e) {
             $ldap->setOption('LDAP_OPT_REFERRALS', $referral);
             throw $e;

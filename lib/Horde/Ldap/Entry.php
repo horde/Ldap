@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Horde_Ldap_Entry represents an LDAP entry.
  *
@@ -13,19 +14,22 @@
  * @author    Jan Schneider <jan@horde.org>
  * @license   http://www.gnu.org/licenses/lgpl-3.0.html LGPL-3.0
  */
+use LDAP\ResultEntry as LDAPResultEntry;
+use LDAP\Connection as LDAPConnection;
+
 class Horde_Ldap_Entry
 {
     /**
      * Entry resource identifier.
      *
-     * @var resource
+     * @var resource|LDAPResultEntry
      */
     protected $_entry;
 
     /**
      * LDAP resource identifier.
      *
-     * @var resource
+     * @var resource|LDAPConnection
      */
     protected $_link;
 
@@ -104,16 +108,18 @@ class Horde_Ldap_Entry
      * Use {@link Horde_Ldap_Entry::createFresh()} or {@link
      * Horde_Ldap_Entry::createConnected()} to create Horde_Ldap_Entry objects.
      *
-     * @param Horde_Ldap|resource|array $ldap Horde_Ldap object, LDAP
+     * @param Horde_Ldap|LDAPConnection|resource|array $ldap Horde_Ldap object, LDAP
      *                                        connection resource or
      *                                        array of attributes.
-     * @param string|resource          $entry Either a DN or a LDAP entry
+     * @param string|resource|LDAPResultEntry $entry Either a DN or a LDAP entry
      *                                        resource.
      */
     protected function __construct($ldap, $entry = null)
     {
         /* Set up entry resource or DN. */
-        if (is_resource($entry)) {
+        if ($entry instanceof LDAPResultEntry) {
+            $this->_entry = $entry;
+        } elseif (is_resource($entry)) {
             $this->_entry = $entry;
         } else {
             $this->_dn = $entry;
@@ -123,7 +129,7 @@ class Horde_Ldap_Entry
         if ($ldap instanceof Horde_Ldap) {
             $this->_ldap = $ldap;
             $this->_link = $ldap->getLink();
-        } elseif (is_resource($ldap)) {
+        } elseif ($ldap instanceof LDAPConnection || is_resource($ldap)) {
             $this->_link = $ldap;
         } elseif (is_array($ldap)) {
             /* Special case: here $ldap is an array of attributes, this means,
@@ -135,7 +141,8 @@ class Horde_Ldap_Entry
 
         /* If this is an entry existing in the directory, then set up as old
          * and fetch attributes. */
-        if (is_resource($this->_entry) && is_resource($this->_link)) {
+        if ((is_resource($this->_entry) && is_resource($this->_link))
+            || ($this->_link instanceof LDAPConnection && $this->_entry instanceof LDAPResultEntry)) {
             $this->_new = false;
             $this->_dn  = @ldap_get_dn($this->_link, $this->_entry);
             /* Fetch attributes from server. */
@@ -169,20 +176,22 @@ class Horde_Ldap_Entry
     }
 
     /**
-     * Creates an entry object out of an LDAP entry resource.
+     * Creates an entry object out of an LDAP entry resource (before PHP8.1) or a LDAP\ResultEntry.
      *
      * Use this method, if you want to initialize an entry object that is
      * already present in some directory and that you have read manually.
      *
      * @param Horde_Ldap $ldap Horde_Ldap object.
-     * @param resource  $entry PHP LDAP entry resource.
+     * @param resource|LDAPResultEntry  $entry PHP LDAP entry resource.
      *
      * @return Horde_Ldap_Entry
      * @throws Horde_Ldap_Exception
      */
     public static function createConnected(Horde_Ldap $ldap, $entry)
     {
-        if (!is_resource($entry)) {
+        if ($entry instanceof LDAPResultEntry) {
+
+        } elseif (!is_resource($entry)) {
             throw new Horde_Ldap_Exception('Unable to create connected entry: Parameter $entry needs to be a ldap entry resource!');
         }
 
@@ -274,8 +283,8 @@ class Horde_Ldap_Entry
     {
         /* Fetch attributes from the server. */
         if (is_null($attributes) &&
-            is_resource($this->_entry) &&
-            is_resource($this->_link)) {
+            ($this->_entry instanceof LDAPResultEntry || is_resource($this->_entry)) &&
+            ($this->_link instanceof LDAPConnection || is_resource($this->_link))) {
             /* Fetch schema. */
             if ($this->_ldap instanceof Horde_Ldap) {
                 try {
@@ -288,8 +297,8 @@ class Horde_Ldap_Entry
             /* Fetch attributes. */
             $attributes = array();
             for ($attr = @ldap_first_attribute($this->_link, $this->_entry);
-                 $attr;
-                 $attr = @ldap_next_attribute($this->_link, $this->_entry)) {
+                $attr;
+                $attr = @ldap_next_attribute($this->_link, $this->_entry)) {
                 /* Standard function to fetch value. */
                 $func = 'ldap_get_values';
 
@@ -633,7 +642,7 @@ class Horde_Ldap_Entry
 
         /* Get and check link. */
         $link = $ldap->getLink();
-        if (!is_resource($link)) {
+        if (!$link instanceof LDAPConnection && !is_resource($link)) {
             throw new Horde_Ldap_Exception('Could not update entry: internal LDAP link is invalid');
         }
 
