@@ -1,5 +1,4 @@
 {
-    "minimum-stability": "dev",
     "name": "horde/ldap",
     "description": "LDAP client library",
     "type": "library",
@@ -17,22 +16,17 @@
             "role": "lead"
         }
     ],
-    "time": "2022-11-14",
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://horde-satis.maintaina.com"
-        }
-    ],
+    "time": "2025-05-07",
+    "repositories": [],
     "require": {
         "php": "^7.4 || ^8",
-        "horde/exception": "^3 || dev-FRAMEWORK_6_0",
-        "horde/util": "^3 || dev-FRAMEWORK_6_0",
+        "horde/exception": "^3",
+        "horde/util": "^3",
         "ext-ldap": "*"
     },
     "require-dev": {},
     "suggest": {
-        "horde/test": "^3 || dev-FRAMEWORK_6_0"
+        "horde/test": "^3"
     },
     "autoload": {
         "psr-0": {
@@ -45,8 +39,6 @@
         }
     },
     "config": {
-        "allow-plugins": {
-            "horde/horde-installer-plugin": true
-        }
+        "allow-plugins": {}
     }
 }
