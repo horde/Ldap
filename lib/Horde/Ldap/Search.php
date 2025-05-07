@@ -378,7 +378,7 @@ class Horde_Ldap_Search implements Iterator
      *
      * @return integer Number of found entries.
      */
-    public function count()
+    public function count(): int
     {
         // This catches the situation where OL returned errno 32 = no such
         // object!
@@ -415,7 +415,7 @@ class Horde_Ldap_Search implements Iterator
      *
      * @return boolean  True if the size limit was exceeded.
      */
-    public function sizeLimitExceeded()
+    public function sizeLimitExceeded(): bool
     {
         return $this->getErrorCode() == 4;
     }
@@ -441,7 +441,7 @@ class Horde_Ldap_Search implements Iterator
      * @return Horde_Ldap_Entry|false
      * @throws Horde_Ldap_Exception
      */
-    public function current()
+    public function current(): Horde_Ldap_Entry|false
     {
         if (count($this->_iteratorCache) == 0) {
             $this->next();
@@ -459,7 +459,7 @@ class Horde_Ldap_Search implements Iterator
      * @return string|false DN of the current entry; false in case no entry is
      *                      returned by current().
      */
-    public function key()
+    public function key(): string|false
     {
         $entry = $this->current();
         return $entry instanceof Horde_Ldap_Entry ? $entry->dn() : false;
@@ -474,7 +474,7 @@ class Horde_Ldap_Search implements Iterator
      * @see current()
      * @throws Horde_Ldap_Exception
      */
-    public function next()
+    public function next(): void
     {
         // Fetch next entry. If we have no entries anymore, we add false (which
         // is returned by shiftEntry()) so current() will complain.
@@ -496,7 +496,7 @@ class Horde_Ldap_Search implements Iterator
      * @see current()
      * @return boolean False if there's nothing more to iterate over.
      */
-    public function valid()
+    public function valid(): bool
     {
         return $this->current() instanceof Horde_Ldap_Entry;
     }
@@ -509,7 +509,7 @@ class Horde_Ldap_Search implements Iterator
      *
      * @see current()
      */
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->_iteratorCache);
     }
