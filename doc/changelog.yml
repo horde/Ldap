@@ -1,4 +1,19 @@
 ---
+3.0.0-alpha8:
+  api: 3.0.0-alpha1
+  state:
+    release: true
+    api: true
+  date: 2025-05-09
+  license:
+    identifier: LGPL-3.0-only
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: |
+    docs: Remove obsolete Horde_Ldap_Error from return type documentation
+    fix: Convert to modern __serialize() / __unserialize() formats but keep old implementation
+    fix: Implicitly nullable parameter on Entry::_loadAttributes
+    fix: LDAPSearch client side sortedAsArray ignored order parameter
+    fix: getValue() in Entry and RootDse wants a string for options parameter, not an array. Default to "single" rather than "null" and fix phpdoc
 3.0.0-alpha7:
   api: 3.0.0-alpha1
   state:
