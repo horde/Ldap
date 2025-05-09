@@ -1471,7 +1471,7 @@ class Horde_Ldap
      * Encodes or decodes attribute values if needed
      *
      * @param array $attributes Array of attributes
-     * @param array $function   Function to apply to attribute values
+     * @param string $function   Function to apply to attribute values
      *
      * @access protected
      * @return array Array of attributes with function applied to values.
