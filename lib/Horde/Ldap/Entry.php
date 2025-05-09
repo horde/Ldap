@@ -279,7 +279,7 @@ class Horde_Ldap_Entry
      *
      * @param array $attributes Attributes to set for this entry.
      */
-    protected function _loadAttributes(array $attributes = null)
+    protected function _loadAttributes(?array $attributes = null)
     {
         /* Fetch attributes from the server. */
         if (is_null($attributes) &&
