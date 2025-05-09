@@ -1,0 +1,43 @@
+name: Pull Request Chores
+on:
+  pull_request:
+    branches:
+      - FRAMEWORK_6_0
+  workflow_dispatch:
+
+jobs:
+  CI:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: bcmath, ctype, curl, dom, gd, gettext, iconv, imagick, json, ldap, mbstring, mysql, opcache, openssl, pcntl, pdo, posix, redis, soap, sockets, sqlite, tokenizer, xmlwriter, xdebug
+          ini-values: post_max_size=512M, max_execution_time=360
+          coverage: xdebug
+          tools: php-cs-fixer, phpunit:${{ matrix.phpunit-versions }}, composer:v2
+      - name: Setup Github Token as composer credential
+        run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+      - name: Install dependencies and local tools
+        run: |
+          COMPOSER_ROOT_VERSION=dev-FRAMEWORK_6_0 composer config minimum-stability dev
+          COMPOSER_ROOT_VERSION=dev-FRAMEWORK_6_0 composer config prefer-stable true
+          COMPOSER_ROOT_VERSION=dev-FRAMEWORK_6_0 composer install --no-interaction --no-progress
+
+      - name: Run PHPUnit
+        run:  vendor/bin/phpunit --testdox
+
+      - name: Run php-cs-fixer
+        run: vendor/bin/php-cs-fixer check -vvv
+
+      - name: Run phpstan (mandatory level)
+        run: vendor/bin/phpstan --no-progress
+
+      - name: Run phpstan (level 9, allowed to fail)
+        run: vendor/bin/phpstan --no-progress --level=9
+        continue-on-error: true
+

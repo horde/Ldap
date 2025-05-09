@@ -39,3 +39,8 @@ dependencies:
   optional:
     composer:
       horde/test: ^3
+  dev:
+    composer:
+      phpunit/phpunit: ^12
+      friendsofphp/php-cs-fixer: ^3
+      phpstan/phpstan: ^2
