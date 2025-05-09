@@ -622,7 +622,10 @@ class Horde_Ldap_Ldif
                 // Build lines.
                 if (preg_match('/^version:\s(.+)$/', $data, $match)) {
                     // Version statement, set version.
-                    $this->version($match[1]);
+                    if ($match[1]) {
+                        // Expects int or null.
+                        $this->version((int) $match[1]);
+                    }
                 } elseif (preg_match('/^\w+::?\s.+$/', $data)) {
                     // Normal attribute: add line.
                     $commentmode        = false;
