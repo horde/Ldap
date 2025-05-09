@@ -16,21 +16,28 @@
             "role": "lead"
         }
     ],
-    "time": "2025-05-07",
+    "time": "2025-05-09",
     "repositories": [],
     "require": {
         "php": "^7.4 || ^8",
-        "horde/exception": "^3",
-        "horde/util": "^3",
+        "horde/exception": "^3 || dev-FRAMEWORK_6_0",
+        "horde/util": "^3 || dev-FRAMEWORK_6_0",
         "ext-ldap": "*"
     },
-    "require-dev": {},
+    "require-dev": {
+        "phpunit/phpunit": "^12",
+        "friendsofphp/php-cs-fixer": "^3",
+        "phpstan/phpstan": "^2"
+    },
     "suggest": {
-        "horde/test": "^3"
+        "horde/test": "^3 || dev-FRAMEWORK_6_0"
     },
     "autoload": {
         "psr-0": {
             "Horde_Ldap": "lib/"
+        },
+        "psr-4": {
+            "Horde\\Ldap\\": "src/"
         }
     },
     "autoload-dev": {
@@ -40,5 +47,7 @@
     },
     "config": {
         "allow-plugins": {}
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
