@@ -12,6 +12,4 @@
  * @package  Ldap
  * @author   Ben Klang <ben@alkaloid.net>
  */
-class Horde_Ldap_Exception extends Horde_Exception_Wrapped
-{
-}
+class Horde_Ldap_Exception extends Horde_Exception_Wrapped {}

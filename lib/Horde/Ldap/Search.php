@@ -15,6 +15,7 @@
  */
 use LDAP\ResultEntry as LDAPResultEntry;
 use LDAP\Result as LDAPResult;
+use LDAP\Connection as LDAPConnection;
 
 class Horde_Ldap_Search implements Iterator
 {
@@ -67,7 +68,7 @@ class Horde_Ldap_Search implements Iterator
      *
      * @var array
      */
-    protected $_iteratorCache = array();
+    protected $_iteratorCache = [];
 
     /**
      * Attributes we searched for.
@@ -77,7 +78,7 @@ class Horde_Ldap_Search implements Iterator
      *
      * @var array
      */
-    protected $_searchedAttrs = array();
+    protected $_searchedAttrs = [];
 
     /**
      * Cache variable for storing entries fetched internally.
@@ -97,7 +98,7 @@ class Horde_Ldap_Search implements Iterator
      * @param array               $attributes The searched attribute names,
      *                                        see {@link $_searchedAttrs}.
      */
-    public function __construct($search, $ldap, $attributes = array())
+    public function __construct($search, $ldap, $attributes = [])
     {
         $this->setSearch($search);
 
@@ -131,7 +132,7 @@ class Horde_Ldap_Search implements Iterator
      */
     public function entries()
     {
-        $entries = array();
+        $entries = [];
         while ($entry = $this->shiftEntry()) {
             $entries[] = $entry;
         }
@@ -213,7 +214,7 @@ class Horde_Ldap_Search implements Iterator
      * @return array Sorted entries.
      * @throws Horde_Ldap_Exception
      */
-    public function sortedAsArray(array $attrs = array('cn'), $order = SORT_ASC)
+    public function sortedAsArray(array $attrs = ['cn'], $order = SORT_ASC)
     {
         /* New code: complete "client side" sorting */
         // First some parameterchecks.
@@ -241,9 +242,9 @@ class Horde_Ldap_Search implements Iterator
         // Reformat entries array for later use with
         // array_multisort(). $to_sort will be a numeric array similar to
         // ldap_get_entries().
-        $to_sort = array();
+        $to_sort = [];
         foreach ($entries as $dn => $entry_attr) {
-            $row = array('dn' => $dn);
+            $row = ['dn' => $dn];
             foreach ($entry_attr as $attr_name => $attr_values) {
                 $row[$attr_name] = $attr_values;
             }
@@ -252,7 +253,7 @@ class Horde_Ldap_Search implements Iterator
 
         // Build columns for array_multisort(). Each requested attribute is one
         // row.
-        $columns = array();
+        $columns = [];
         foreach ($attrs as $attr_name) {
             foreach ($to_sort as $key => $row) {
                 $columns[$attr_name][$key] = & $to_sort[$key][$attr_name][0];
@@ -300,9 +301,9 @@ class Horde_Ldap_Search implements Iterator
      * @return array Sorted entries.
      * @throws Horde_Ldap_Exception
      */
-    public function sorted($attrs = array('cn'), $order = SORT_ASC)
+    public function sorted($attrs = ['cn'], $order = SORT_ASC)
     {
-        $return = array();
+        $return = [];
         $sorted = $this->sortedAsArray($attrs, $order);
         foreach ($sorted as $row) {
             $entry = $this->_ldap->getEntry($row['dn'], $this->searchedAttributes());
@@ -337,15 +338,15 @@ class Horde_Ldap_Search implements Iterator
      */
     public function asArray()
     {
-        $return  = array();
+        $return  = [];
         $entries = $this->entries();
         foreach ($entries as $entry) {
-            $attrs            = array();
+            $attrs            = [];
             $entry_attributes = $entry->attributes();
             foreach ($entry_attributes as $attr_name) {
                 $attr_values = $entry->getValue($attr_name, 'all');
                 if (!is_array($attr_values)) {
-                    $attr_values = array($attr_values);
+                    $attr_values = [$attr_values];
                 }
                 $attrs[$attr_name] = $attr_values;
             }

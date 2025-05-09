@@ -54,21 +54,21 @@ class Horde_Ldap_Entry
      *
      * @var array
      */
-    protected $_attributes = array();
+    protected $_attributes = [];
 
     /**
      * Original attributes before any modification.
      *
      * @var array
      */
-    protected $_original = array();
+    protected $_original = [];
 
     /**
      * Map of attribute names.
      *
      * @var array
      */
-    protected $_map = array();
+    protected $_map = [];
 
     /**
      * Is this a new entry?
@@ -96,9 +96,9 @@ class Horde_Ldap_Entry
      *
      * @var array
      */
-    protected $_changes = array('add'     => array(),
-                                'delete'  => array(),
-                                'replace' => array());
+    protected $_changes = ['add'     => [],
+        'delete'  => [],
+        'replace' => []];
 
     /**
      * Constructor.
@@ -170,7 +170,7 @@ class Horde_Ldap_Entry
      * @return Horde_Ldap_Entry
      * @throws Horde_Ldap_Exception
      */
-    public static function createFresh($dn, array $attrs = array())
+    public static function createFresh($dn, array $attrs = [])
     {
         return new Horde_Ldap_Entry($attrs, $dn);
     }
@@ -223,7 +223,7 @@ class Horde_Ldap_Entry
      * @return Horde_Ldap_Entry
      * @throws Horde_Ldap_Exception
      */
-    public static function createExisting($dn, array $attrs = array())
+    public static function createExisting($dn, array $attrs = [])
     {
         $entry = self::createFresh($dn, $attrs);
         $entry->markAsNew(false);
@@ -264,7 +264,7 @@ class Horde_Ldap_Entry
             }
             return $dn;
         }
-        return isset($this->_newdn) ? $this->_newdn : $this->currentDN();
+        return $this->_newdn ?? $this->currentDN();
     }
 
     /**
@@ -295,7 +295,7 @@ class Horde_Ldap_Entry
             }
 
             /* Fetch attributes. */
-            $attributes = array();
+            $attributes = [];
             for ($attr = @ldap_first_attribute($this->_link, $this->_entry);
                 $attr;
                 $attr = @ldap_next_attribute($this->_link, $this->_entry)) {
@@ -330,7 +330,7 @@ class Horde_Ldap_Entry
 
                 /* Attribute values should be in an array. */
                 if (false == is_array($v)) {
-                    $v = array($v);
+                    $v = [$v];
                 }
 
                 /* Remove the value count (comes from LDAP server). */
@@ -359,7 +359,7 @@ class Horde_Ldap_Entry
      */
     public function getValues()
     {
-        $attrs = array();
+        $attrs = [];
         foreach (array_keys($this->_attributes) as $attr) {
             $attrs[$attr] = $this->getValue($attr);
         }
@@ -444,7 +444,7 @@ class Horde_Ldap_Entry
      *
      * @param array $attr Attributes to add.
      */
-    public function add(array $attr = array())
+    public function add(array $attr = [])
     {
         foreach ($attr as $k => $v) {
             $k = $this->_getAttrName($k);
@@ -453,7 +453,7 @@ class Horde_Ldap_Entry
                 if ($v == null) {
                     continue;
                 } else {
-                    $v = array($v);
+                    $v = [$v];
                 }
             }
 
@@ -467,7 +467,7 @@ class Horde_Ldap_Entry
 
             /* Save changes for update(). */
             if (empty($this->_changes['add'][$k])) {
-                $this->_changes['add'][$k] = array();
+                $this->_changes['add'][$k] = [];
             }
             $this->_changes['add'][$k] = array_unique(array_merge($this->_changes['add'][$k], $v));
         }
@@ -505,7 +505,7 @@ class Horde_Ldap_Entry
         }
 
         if (is_string($attr)) {
-            $attr = array($attr);
+            $attr = [$attr];
         }
 
         /* Make the assumption that attribute names cannot be numeric,
@@ -517,7 +517,7 @@ class Horde_Ldap_Entry
                 if (is_array($name)) {
                     /* Mixed modes (list mode but specific values given!). */
                     $del_attr_name = array_search($name, $attr);
-                    $this->delete(array($del_attr_name => $name));
+                    $this->delete([$del_attr_name => $name]);
                 } else {
                     /* Mark for update() if this attribute was not marked
                      before. */
@@ -541,11 +541,11 @@ class Horde_Ldap_Entry
                     $name = $this->_getAttrName($name);
                     if ($this->exists($name)) {
                         if (!is_array($values)) {
-                            $values = array($values);
+                            $values = [$values];
                         }
                         /* Save values to be deleted. */
                         if (empty($this->_changes['delete'][$name])) {
-                            $this->_changes['delete'][$name] = array();
+                            $this->_changes['delete'][$name] = [];
                         }
                         $this->_changes['delete'][$name] =
                             array_unique(array_merge($this->_changes['delete'][$name], $values));
@@ -592,7 +592,7 @@ class Horde_Ldap_Entry
      * @param boolean $force Force replacing mode in case we can't read the
      *                       attribute value but are allowed to replace it.
      */
-    public function replace(array $attr = array(), $force = false)
+    public function replace(array $attr = [], $force = false)
     {
         foreach ($attr as $k => $v) {
             $k = $this->_getAttrName($k);
@@ -600,13 +600,13 @@ class Horde_Ldap_Entry
                 /* Delete attributes with empty values; treat integers as
                  * string. */
                 if (is_int($v)) {
-                    $v = (string)$v;
+                    $v = (string) $v;
                 }
                 if ($v == null) {
                     $this->delete($k);
                     continue;
                 } else {
-                    $v = array($v);
+                    $v = [$v];
                 }
             }
             /* Existing attributes will get replaced. */
@@ -615,7 +615,7 @@ class Horde_Ldap_Entry
                 $this->_attributes[$k]         = $v;
             } else {
                 /* New ones just get added. */
-                $this->add(array($k => $v));
+                $this->add([$k => $v]);
             }
         }
     }
@@ -655,9 +655,9 @@ class Horde_Ldap_Entry
         if ($this->_new) {
             $ldap->add($this);
             $this->_new                = false;
-            $this->_changes['add']     = array();
-            $this->_changes['delete']  = array();
-            $this->_changes['replace'] = array();
+            $this->_changes['add']     = [];
+            $this->_changes['delete']  = [];
+            $this->_changes['replace'] = [];
             $this->_original           = $this->_attributes;
             return;
         }
@@ -668,7 +668,7 @@ class Horde_Ldap_Entry
                 throw new Horde_Ldap_Exception('Renaming/Moving an entry is only supported in LDAPv3');
             }
             /* Make DN relative to parent (needed for LDAP rename). */
-            $parent = Horde_Ldap_Util::explodeDN($this->_newdn, array('casefolding' => 'none', 'reverse' => false, 'onlyvalues' => false));
+            $parent = Horde_Ldap_Util::explodeDN($this->_newdn, ['casefolding' => 'none', 'reverse' => false, 'onlyvalues' => false]);
             $child = array_shift($parent);
 
             /* Maybe the DN consist of a multivalued RDN, we must build the DN
@@ -692,12 +692,12 @@ class Horde_Ldap_Entry
         foreach ($this->_changes['add'] as $attr => $value) {
             /* If attribute exists, add new values. */
             if ($this->exists($attr)) {
-                if (!@ldap_mod_add($link, $this->dn(), array($attr => $value))) {
+                if (!@ldap_mod_add($link, $this->dn(), [$attr => $value])) {
                     throw new Horde_Ldap_Exception('Could not add new values to attribute ' . $attr . ': ' . @ldap_error($link), @ldap_errno($link));
                 }
             } else {
                 /* New attribute. */
-                if (!@ldap_modify($link, $this->dn(), array($attr => $value))) {
+                if (!@ldap_modify($link, $this->dn(), [$attr => $value])) {
                     throw new Horde_Ldap_Exception('Could not add new attribute ' . $attr . ': ' . @ldap_error($link), @ldap_errno($link));
                 }
             }
@@ -709,14 +709,14 @@ class Horde_Ldap_Entry
             if (is_null($value) && $ldap->getVersion() == 3) {
                 $value = $this->_original[$attr];
             }
-            if (!@ldap_mod_del($link, $this->dn(), array($attr => $value))) {
+            if (!@ldap_mod_del($link, $this->dn(), [$attr => $value])) {
                 throw new Horde_Ldap_Exception('Could not delete attribute ' . $attr . ': ' . @ldap_error($link), @ldap_errno($link));
             }
             unset($this->_changes['delete'][$attr]);
         }
 
         foreach ($this->_changes['replace'] as $attr => $value) {
-            if (!@ldap_modify($link, $this->dn(), array($attr => $value))) {
+            if (!@ldap_modify($link, $this->dn(), [$attr => $value])) {
                 throw new Horde_Ldap_Exception('Could not replace attribute ' . $attr . ' values: ' . @ldap_error($link), @ldap_errno($link));
             }
             unset($this->_changes['replace'][$attr]);
@@ -737,7 +737,7 @@ class Horde_Ldap_Entry
     protected function _getAttrName($attr)
     {
         $name = Horde_String::lower($attr);
-        return isset($this->_map[$name]) ? $this->_map[$name] : $attr;
+        return $this->_map[$name] ?? $attr;
     }
 
     /**
@@ -785,7 +785,7 @@ class Horde_Ldap_Entry
      */
     public function markAsNew($mark = true)
     {
-        $this->_new = (bool)$mark;
+        $this->_new = (bool) $mark;
     }
 
     /**
@@ -824,7 +824,7 @@ class Horde_Ldap_Entry
      * @return boolean  True if we had a match in one of the values.
      * @throws Horde_Ldap_Exception
      */
-    public function pregMatch($regex, $attr_name, &$matches = array())
+    public function pregMatch($regex, $attr_name, &$matches = [])
     {
         /* Fetch attribute values. */
         $attr = $this->getValue($attr_name, 'all');
