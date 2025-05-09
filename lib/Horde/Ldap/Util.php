@@ -75,19 +75,19 @@ class Horde_Ldap_Util
      *
      * @return array   Parts of the exploded DN.
      */
-    public static function explodeDN($dn, array $options = array())
+    public static function explodeDN($dn, array $options = [])
     {
         $options = array_merge(
-            array(
+            [
                 'casefold' => 'upper',
                 'onlyvalues' => false,
                 'reverse' => false,
-            ),
+            ],
             $options
         );
 
         // Escaping of DN and stripping of "OID.".
-        $dn = self::canonicalDN($dn, array('casefold' => $options['casefold']));
+        $dn = self::canonicalDN($dn, ['casefold' => $options['casefold']]);
 
         // Splitting the DN.
         $dn_array = preg_split('/(?<!\\\\),/', $dn);
@@ -195,7 +195,7 @@ class Horde_Ldap_Util
     {
         // Parameter validation.
         if (!is_array($values)) {
-            $values = array($values);
+            $values = [$values];
         }
 
         foreach ($values as $key => $val) {
@@ -237,14 +237,14 @@ class Horde_Ldap_Util
     {
         // Parameter validation.
         if (!is_array($values)) {
-            $values = array($values);
+            $values = [$values];
         }
 
         foreach ($values as $key => $val) {
             // Strip slashes from special chars.
             $val = str_replace(
-                array('\\\\', '\,', '\+', '\"', '\<', '\>', '\;', '\#', '\='),
-                array('\\', ',', '+', '"', '<', '>', ';', '#', '='),
+                ['\\\\', '\,', '\+', '\"', '\<', '\>', '\;', '\#', '\='],
+                ['\\', ',', '+', '"', '<', '>', ';', '#', '='],
                 $val
             );
 
@@ -293,7 +293,7 @@ class Horde_Ldap_Util
      *
      * @return boolean|string The canonical DN or false if the DN is not valid.
      */
-    public static function canonicalDN($dn, array $options = array())
+    public static function canonicalDN($dn, array $options = [])
     {
         if ($dn === '') {
             // Empty DN is valid.
@@ -302,11 +302,11 @@ class Horde_Ldap_Util
 
         // Options check.
         $options = array_merge(
-            array(
+            [
                 'casefold' => 'upper',
                 'reverse' => false,
                 'separator' => ',',
-            ),
+            ],
             $options
         );
 
@@ -330,7 +330,7 @@ class Horde_Ldap_Util
 
             // Convert to indexed, if associative array detected.
             if ($assoc) {
-                $newdn = array();
+                $newdn = [];
                 foreach ($dn as $dn_key => $dn_part) {
                     if (is_array($dn_part)) {
                         // We assume here that the RDN parts are also
@@ -406,14 +406,14 @@ class Horde_Ldap_Util
                         if ($options['casefold'] == 'lower') {
                             $ocl = Horde_String::lower($ocl);
                         }
-                        $ocl = self::escapeDNValue(array($ocl));
+                        $ocl = self::escapeDNValue([$ocl]);
                         $ocl = $ocl[0];
                     }
 
                     // Escaping of DN value.
                     // TODO: if the value is already correctly escaped, we get
                     //       double escaping.
-                    $val = self::escapeDNValue(array($val));
+                    $val = self::escapeDNValue([$val]);
                     $val = str_replace('/', '\/', $val[0]);
 
                     $dn[$pos] = $ocl . '=' . $val;
@@ -445,14 +445,14 @@ class Horde_Ldap_Util
     {
         // Parameter validation.
         if (!is_array($values)) {
-            $values = array($values);
+            $values = [$values];
         }
 
         foreach ($values as $key => $val) {
             // Escaping of filter meta characters.
             $val = str_replace(
-                array('\\', '*', '(', ')'),
-                array('\5c', '\2a', '\28', '\29'),
+                ['\\', '*', '(', ')'],
+                ['\5c', '\2a', '\28', '\29'],
                 $val
             );
 
@@ -482,11 +482,11 @@ class Horde_Ldap_Util
      *
      * @return array Unescaped values.
      */
-    public static function unescapeFilterValue($values = array())
+    public static function unescapeFilterValue($values = [])
     {
         // Parameter validation.
         if (!is_array($values)) {
-            $values = array($values);
+            $values = [$values];
         }
 
         foreach ($values as $key => $value) {
@@ -602,7 +602,7 @@ class Horde_Ldap_Util
      * @return array Corrected array.
      */
     protected static function _correctDNSplitting(
-        $dn = array(),
+        $dn = [],
         $separator = ','
     ) {
         foreach ($dn as $key => $dn_value) {

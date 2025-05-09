@@ -45,13 +45,13 @@ class Horde_Ldap_Ldif
      *
      * @var array
      */
-    protected $_options = array('encode'    => 'base64',
-                                'change'    => false,
-                                'lowercase' => false,
-                                'sort'      => false,
-                                'version'   => null,
-                                'wrap'      => 78,
-                                'raw'       => '');
+    protected $_options = ['encode'    => 'base64',
+        'change'    => false,
+        'lowercase' => false,
+        'sort'      => false,
+        'version'   => null,
+        'wrap'      => 78,
+        'raw'       => ''];
 
     /**
      * File handle for read/write.
@@ -102,14 +102,14 @@ class Horde_Ldap_Ldif
      *
      * @var array
      */
-    protected $_linesCur = array();
+    protected $_linesCur = [];
 
     /**
      * Cache for lines that will build the next entry.
      *
      * @var array
      */
-    protected $_linesNext = array();
+    protected $_linesNext = [];
 
     /**
      * Constructor.
@@ -159,7 +159,7 @@ class Horde_Ldap_Ldif
      *
      * @throws Horde_Ldap_Exception
      */
-    public function __construct($file, $mode = 'r', $options = array())
+    public function __construct($file, $mode = 'r', $options = [])
     {
         // Parse options.
         foreach ($options as $option => $value) {
@@ -260,7 +260,7 @@ class Horde_Ldap_Ldif
     public function writeEntry($entries)
     {
         if (!is_array($entries)) {
-            $entries = array($entries);
+            $entries = [$entries];
         }
 
         foreach ($entries as $entry) {
@@ -308,10 +308,10 @@ class Horde_Ldap_Ldif
             $this->_writeLine('changetype: delete');
         } elseif ($entry->willBeMoved()) {
             $this->_writeLine('changetype: modrdn');
-            $olddn     = Horde_Ldap_Util::explodeDN($entry->currentDN(), array('casefold' => 'none'));
+            $olddn     = Horde_Ldap_Util::explodeDN($entry->currentDN(), ['casefold' => 'none']);
             array_shift($olddn);
             $oldparent = implode(',', $olddn);
-            $newdn     = Horde_Ldap_Util::explodeDN($entry->dn(), array('casefold' => 'none'));
+            $newdn     = Horde_Ldap_Util::explodeDN($entry->dn(), ['casefold' => 'none']);
             $rdn       = array_shift($newdn);
             $parent    = implode(',', $newdn);
             $this->_writeLine('newrdn: ' . $rdn);
@@ -360,7 +360,7 @@ class Horde_Ldap_Ldif
             if (isset($entry_attrs['objectclass'])) {
                 $oc = $entry_attrs['objectclass'];
                 unset($entry_attrs['objectclass']);
-                $entry_attrs = array_merge(array('objectclass' => $oc), $entry_attrs);
+                $entry_attrs = array_merge(['objectclass' => $oc], $entry_attrs);
             }
         }
 
@@ -481,7 +481,7 @@ class Horde_Ldap_Ldif
     public function parseLines($lines)
     {
         // Parse lines into an array of attributes and build the entry.
-        $attributes = array();
+        $attributes = [];
         $dn = false;
         foreach ($lines as $line) {
             if (!preg_match('/^(\w+)(:|::|:<)\s(.+)$/', $line, $matches)) {
@@ -563,7 +563,7 @@ class Horde_Ldap_Ldif
         // If we already have those lines, just return them, otherwise read.
         if (count($this->_linesNext) == 0 || $force) {
             // Empty in case something was left (if used $force).
-            $this->_linesNext = array();
+            $this->_linesNext = [];
             $entry_done       = false;
             $fh               = $this->handle();
             // Are we in an comment? For wrapping purposes.
@@ -670,7 +670,7 @@ class Horde_Ldap_Ldif
     {
         // Handle empty attribute or process.
         if (!strlen($attr_value)) {
-            return $attr_name.':  ';
+            return $attr_name . ':  ';
         }
 
         // If converting is needed, do it.
@@ -729,8 +729,8 @@ class Horde_Ldap_Ldif
 
         // ASCII-chars that are NOT safe for the start and for being inside the
         // value. These are the integer values of those chars.
-        $unsafe_init = array(0, 10, 13, 32, 58, 60);
-        $unsafe      = array(0, 10, 13);
+        $unsafe_init = [0, 10, 13, 32, 58, 60];
+        $unsafe      = [0, 10, 13];
 
         // Test for illegal init char.
         $init_ord = ord(substr($value, 0, 1));
@@ -767,7 +767,7 @@ class Horde_Ldap_Ldif
     {
         // Write out attribute content.
         if (!is_array($attr_values)) {
-            $attr_values = array($attr_values);
+            $attr_values = [$attr_values];
         }
         foreach ($attr_values as $attr_val) {
             $line = $this->_convertAttribute($attr_name, $attr_val);
@@ -788,7 +788,7 @@ class Horde_Ldap_Ldif
         if ($this->_options['encode'] == 'base64') {
             $dn = $this->_convertDN($dn);
         } elseif ($this->_options['encode'] == 'canonical') {
-            $dn = Horde_Ldap_Util::canonicalDN($dn, array('casefold' => 'none'));
+            $dn = Horde_Ldap_Util::canonicalDN($dn, ['casefold' => 'none']);
         }
         $this->_writeLine($dn, 'Unable to write DN of entry ' . $this->_entrynum);
     }

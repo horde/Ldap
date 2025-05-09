@@ -40,7 +40,7 @@ class Horde_Ldap_Schema
      *
      * @var array
      */
-    public $types = array(
+    public $types = [
         'attribute'        => 'attributeTypes',
         'ditcontentrule'   => 'dITContentRules',
         'ditstructurerule' => 'dITStructureRules',
@@ -48,21 +48,21 @@ class Horde_Ldap_Schema
         'matchingruleuse'  => 'matchingRuleUse',
         'nameform'         => 'nameForms',
         'objectclass'      => 'objectClasses',
-        'syntax'           => 'ldapSyntaxes' );
+        'syntax'           => 'ldapSyntaxes' ];
 
     /**
      * Array of entries belonging to this type
      *
      * @var array
      */
-    protected $_attributeTypes    = array();
-    protected $_matchingRules     = array();
-    protected $_matchingRuleUse   = array();
-    protected $_ldapSyntaxes      = array();
-    protected $_objectClasses     = array();
-    protected $_dITContentRules   = array();
-    protected $_dITStructureRules = array();
-    protected $_nameForms         = array();
+    protected $_attributeTypes    = [];
+    protected $_matchingRules     = [];
+    protected $_matchingRuleUse   = [];
+    protected $_ldapSyntaxes      = [];
+    protected $_objectClasses     = [];
+    protected $_dITContentRules   = [];
+    protected $_dITStructureRules = [];
+    protected $_nameForms         = [];
 
 
     /**
@@ -70,7 +70,7 @@ class Horde_Ldap_Schema
      *
      * @var array
      */
-    protected $_oids = array();
+    protected $_oids = [];
 
     /**
      * Whether the schema is initialized.
@@ -94,7 +94,7 @@ class Horde_Ldap_Schema
     {
         if (is_null($dn)) {
             // Get the subschema entry via rootDSE.
-            $dse = $ldap->rootDSE(array('subschemaSubentry'));
+            $dse = $ldap->rootDSE(['subschemaSubentry']);
             $base = $dse->getValue('subschemaSubentry', 'single');
             $dn = $base;
         }
@@ -104,7 +104,7 @@ class Horde_Ldap_Schema
         // subschemaSubentry. Note the correct case/spelling as per RFC 2251.
         if (is_null($dn)) {
             // Get the subschema entry via rootDSE.
-            $dse = $ldap->rootDSE(array('subSchemaSubentry'));
+            $dse = $ldap->rootDSE(['subSchemaSubentry']);
             $base = $dse->getValue('subSchemaSubentry', 'single');
             $dn = $base;
         }
@@ -120,8 +120,8 @@ class Horde_Ldap_Schema
         $result = $ldap->search(
             $dn,
             '(objectClass=*)',
-            array('attributes' => array_values($this->types),
-                                      'scope' => 'base')
+            ['attributes' => array_values($this->types),
+                'scope' => 'base']
         );
         $entry = $result->shiftEntry();
         if (!($entry instanceof Horde_Ldap_Entry)) {
@@ -144,14 +144,14 @@ class Horde_Ldap_Schema
      */
     public function getAll($type)
     {
-        $map = array('objectclasses'     => $this->_objectClasses,
-                     'attributes'        => $this->_attributeTypes,
-                     'ditcontentrules'   => $this->_dITContentRules,
-                     'ditstructurerules' => $this->_dITStructureRules,
-                     'matchingrules'     => $this->_matchingRules,
-                     'matchingruleuses'  => $this->_matchingRuleUse,
-                     'nameforms'         => $this->_nameForms,
-                     'syntaxes'          => $this->_ldapSyntaxes);
+        $map = ['objectclasses'     => $this->_objectClasses,
+            'attributes'        => $this->_attributeTypes,
+            'ditcontentrules'   => $this->_dITContentRules,
+            'ditstructurerules' => $this->_dITStructureRules,
+            'matchingrules'     => $this->_matchingRules,
+            'matchingruleuses'  => $this->_matchingRuleUse,
+            'nameforms'         => $this->_nameForms,
+            'syntaxes'          => $this->_ldapSyntaxes];
 
         $key = Horde_String::lower($type);
         if (!isset($map[$key])) {
@@ -208,7 +208,7 @@ class Horde_Ldap_Schema
         try {
             $attributes = $this->_getAttr($oc, 'may');
         } catch (Horde_Ldap_Exception $e) {
-            $attributes = array();
+            $attributes = [];
         }
         if ($checksup) {
             try {
@@ -235,7 +235,7 @@ class Horde_Ldap_Schema
         try {
             $attributes = $this->_getAttr($oc, 'must');
         } catch (Horde_Ldap_Exception $e) {
-            $attributes = array();
+            $attributes = [];
         }
         if ($checksup) {
             try {
@@ -284,7 +284,7 @@ class Horde_Ldap_Schema
     public function superclass($oc)
     {
         $o = $this->get('objectclass', $oc);
-        return isset($o['sup']) ? $o['sup'] : array();
+        return $o['sup'] ?? [];
     }
 
     /**
@@ -297,7 +297,7 @@ class Horde_Ldap_Schema
         foreach ($this->types as $type => $attr) {
             // Initialize map type to entry.
             $type_var          = '_' . $attr;
-            $this->{$type_var} = array();
+            $this->{$type_var} = [];
 
             if (!$entry->exists($attr)) {
                 continue;
@@ -336,16 +336,16 @@ class Horde_Ldap_Schema
     protected function _parse_entry($value)
     {
         // Tokens that have no value associated.
-        $noValue = array('single-value',
-                         'obsolete',
-                         'collective',
-                         'no-user-modification',
-                         'abstract',
-                         'structural',
-                         'auxiliary');
+        $noValue = ['single-value',
+            'obsolete',
+            'collective',
+            'no-user-modification',
+            'abstract',
+            'structural',
+            'auxiliary'];
 
         // Tokens that can have multiple values.
-        $multiValue = array('must', 'may', 'sup');
+        $multiValue = ['must', 'may', 'sup'];
 
         // Get an array of tokens.
         $tokens = $this->_tokenize($value);
@@ -359,8 +359,8 @@ class Horde_Ldap_Schema
         }
 
         // First token is the oid.
-        $schema_entry = array('aliases' => array(),
-                              'oid' => array_shift($tokens));
+        $schema_entry = ['aliases' => [],
+            'oid' => array_shift($tokens)];
 
         // Cycle over the tokens until none are left.
         while (count($tokens) > 0) {
@@ -373,7 +373,7 @@ class Horde_Ldap_Schema
                 if (($schema_entry[$token] = array_shift($tokens)) == '(') {
                     // Create the list of values and cycles through the tokens
                     // until the end of the list is reached ')'.
-                    $schema_entry[$token] = array();
+                    $schema_entry[$token] = [];
                     while ($tmp = array_shift($tokens)) {
                         if ($tmp == ')') {
                             break;
@@ -387,7 +387,7 @@ class Horde_Ldap_Schema
                 // not.
                 if (in_array($token, $multiValue) &&
                     !is_array($schema_entry[$token])) {
-                    $schema_entry[$token] = array($schema_entry[$token]);
+                    $schema_entry[$token] = [$schema_entry[$token]];
                 }
             }
         }
@@ -429,7 +429,7 @@ class Horde_Ldap_Schema
          * be round brackets, a string, or a string enclosed by ''. */
         preg_match_all("/\s* (?:([()]) | ([^'\s()]+) | '((?:[^']+|'[^\s)])*)') \s*/x", $value, $matches);
 
-        $tokens  = array();
+        $tokens  = [];
         // Number of tokens (full pattern match).
         for ($i = 0, $c = count($matches[0]); $i < $c; $i++) {
             // Each subpattern.
@@ -459,7 +459,7 @@ class Horde_Ldap_Schema
     public function isBinary($attribute)
     {
         // All syntax that should be treaten as containing binary values.
-        $syntax_binary = array(self::SYNTAX_OCTET_STRING, self::SYNTAX_JPEG);
+        $syntax_binary = [self::SYNTAX_OCTET_STRING, self::SYNTAX_JPEG];
 
         // Check Syntax.
         try {

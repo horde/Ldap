@@ -51,7 +51,7 @@ class Horde_Ldap
      *
      * @var array
      */
-    protected $_config = array(
+    protected $_config = [
         'hostspec'        => 'localhost',
         'port'            => 389,
         'version'         => 3,
@@ -59,10 +59,10 @@ class Horde_Ldap
         'binddn'          => '',
         'bindpw'          => '',
         'basedn'          => '',
-        'options'         => array(),
+        'options'         => [],
         'filter'          => '(objectClass=*)',
         'scope'           => 'sub',
-        'user'            => array(),
+        'user'            => [],
         'timeout'         => 5,
         'auto_reconnect'  => false,
         'min_backoff'     => 1,
@@ -70,21 +70,21 @@ class Horde_Ldap
         'max_backoff'     => 32,
         'cache'           => false,
         'cache_root_dse'  => false,
-        'cachettl'        => 3600);
+        'cachettl'        => 3600];
 
     /**
      * List of hosts we try to establish a connection to.
      *
      * @var array
      */
-    protected $_hostList = array();
+    protected $_hostList = [];
 
     /**
      * List of hosts that are known to be down.
      *
      * @var array
      */
-    protected $_downHostList = array();
+    protected $_downHostList = [];
 
     /**
      * LDAP resource link.
@@ -107,7 +107,7 @@ class Horde_Ldap
      * @var array Hash with attribute names as key and boolean value
      *            to determine whether they should be utf8 encoded or not.
      */
-    protected $_schemaAttrs = array();
+    protected $_schemaAttrs = [];
 
     /**
      * Cache for rootDSE objects.
@@ -122,7 +122,7 @@ class Horde_Ldap
      *
      * @var array
      */
-    protected $_rootDSE = array();
+    protected $_rootDSE = [];
 
     /**
      * Constructor.
@@ -131,7 +131,7 @@ class Horde_Ldap
      *
      * @param array $config Configuration array.
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (!Horde_Util::loadExtension('ldap')) {
             throw new Horde_Ldap_Exception('No PHP LDAP extension');
@@ -171,9 +171,9 @@ class Horde_Ldap
             $this->_hostList = $this->_config['hostspec'];
         } else {
             if (strlen($this->_config['hostspec'])) {
-                $this->_hostList = array($this->_config['hostspec']);
+                $this->_hostList = [$this->_config['hostspec']];
             } else {
-                $this->_hostList = array();
+                $this->_hostList = [];
                 /* This will cause an error in _connect(), so
                  * the user is notified about the failure. */
             }
@@ -181,7 +181,7 @@ class Horde_Ldap
 
         /* Reset the down host list, which seems like a sensible thing
          * to do if the config is being reset for some reason. */
-        $this->_downHostList = array();
+        $this->_downHostList = [];
     }
 
     /**
@@ -322,7 +322,7 @@ class Horde_Ldap
                 $this->_link = @ldap_connect($host, $this->_config['port']);
             }
             if (!$this->_link) {
-                $current_error = new Horde_Ldap_Exception('Could not connect to ' .  $host . ':' . $this->_config['port']);
+                $current_error = new Horde_Ldap_Exception('Could not connect to ' . $host . ':' . $this->_config['port']);
                 $this->_downHostList[] = $host;
                 continue;
             }
@@ -373,7 +373,7 @@ class Horde_Ldap
                     !$version_set) {
                     /* Provide a finer grained error message if protocol error
                      * arises because of invalid version. */
-                    $e = new Horde_Ldap_Exception($e->getMessage() . ' (could not set LDAP protocol version to ' . $this->_config['version'].')', $e->getCode());
+                    $e = new Horde_Ldap_Exception($e->getMessage() . ' (could not set LDAP protocol version to ' . $this->_config['version'] . ')', $e->getCode());
                 }
                 $this->_link             = false;
                 $current_error           = $e;
@@ -454,7 +454,7 @@ class Horde_Ldap
         sleep($this->_config['current_backoff']);
 
         /* Retry all available connections. */
-        $this->_downHostList = array();
+        $this->_downHostList = [];
 
         try {
             $this->_connect();
@@ -620,7 +620,7 @@ class Horde_Ldap
 
         /* Recursive delete searches for children and calls delete for them. */
         if ($recursive) {
-            $result = @ldap_list($this->_link, $dn, '(objectClass=*)', array(null), 0, 0);
+            $result = @ldap_list($this->_link, $dn, '(objectClass=*)', [null], 0, 0);
             if ($result && @ldap_count_entries($this->_link, $result)) {
                 for ($subentry = @ldap_first_entry($this->_link, $result);
                     $subentry;
@@ -707,7 +707,7 @@ class Horde_Ldap
      *
      * @throws Horde_Ldap_Exception
      */
-    public function modify($entry, $parms = array())
+    public function modify($entry, $parms = [])
     {
         /* Connect and bind. */
         if (!$this->_link) {
@@ -721,12 +721,12 @@ class Horde_Ldap
             throw new Horde_Ldap_Exception('Parameter is not a string nor an entry object!');
         }
 
-        if ($unknown = array_diff(array_keys($parms), array('add', 'delete', 'replace', 'changes'))) {
+        if ($unknown = array_diff(array_keys($parms), ['add', 'delete', 'replace', 'changes'])) {
             throw new Horde_Ldap_Exception('Unknown modify action(s): ' . implode(', ', $unknown));
         }
 
         /* Perform changes mentioned separately. */
-        foreach (array('add', 'delete', 'replace') as $action) {
+        foreach (['add', 'delete', 'replace'] as $action) {
             if (!isset($parms[$action])) {
                 continue;
             }
@@ -764,7 +764,7 @@ class Horde_Ldap
 
         /* Perform combined changes in 'changes' array. */
         foreach ($parms['changes'] as $action => $value) {
-            $this->modify($entry, array($action => $value));
+            $this->modify($entry, [$action => $value]);
         }
     }
 
@@ -800,7 +800,7 @@ class Horde_Ldap
      * @return Horde_Ldap_Search  The search result.
      * @throws Horde_Ldap_Exception
      */
-    public function search($base = null, $filter = null, $params = array())
+    public function search($base = null, $filter = null, $params = [])
     {
         /* Connect and bind. */
         if (!$this->_link) {
@@ -819,19 +819,19 @@ class Horde_Ldap
         }
         if ($filter instanceof Horde_Ldap_Filter) {
             /* Convert Horde_Ldap_Filter to string representation. */
-            $filter = (string)$filter;
+            $filter = (string) $filter;
         }
 
         /* Setting search parameters.  */
-        $sizelimit  = isset($params['sizelimit']) ? $params['sizelimit'] : 0;
-        $timelimit  = isset($params['timelimit']) ? $params['timelimit'] : 0;
-        $attrsonly  = isset($params['attrsonly']) ? $params['attrsonly'] : 0;
-        $attributes = isset($params['attributes']) ? $params['attributes'] : array();
+        $sizelimit  = $params['sizelimit'] ?? 0;
+        $timelimit  = $params['timelimit'] ?? 0;
+        $attrsonly  = $params['attrsonly'] ?? 0;
+        $attributes = $params['attributes'] ?? [];
 
         /* Ensure $attributes to be an array in case only one attribute name
          * was given as string. */
         if (!is_array($attributes)) {
-            $attributes = array($attributes);
+            $attributes = [$attributes];
         }
 
         /* Reorganize the $attributes array index keys sometimes there are
@@ -839,9 +839,8 @@ class Horde_Ldap
         $attributes = array_values($attributes);
 
         /* Scoping makes searches faster! */
-        $scope = isset($params['scope'])
-            ? $params['scope']
-            : $this->_config['scope'];
+        $scope = $params['scope']
+            ?? $this->_config['scope'];
 
         switch ($scope) {
             case 'one':
@@ -911,15 +910,14 @@ class Horde_Ldap
     {
         $filter = Horde_Ldap_Filter::combine(
             'and',
-            array(Horde_Ldap_Filter::build($this->_config['user']),
-                  Horde_Ldap_Filter::create($this->_config['user']['uid'], 'equals', $user))
+            [Horde_Ldap_Filter::build($this->_config['user']),
+                Horde_Ldap_Filter::create($this->_config['user']['uid'], 'equals', $user)]
         );
         $search = $this->search(
-            isset($this->_config['user']['basedn'])
-                ? $this->_config['user']['basedn']
-                : null,
+            $this->_config['user']['basedn']
+                ?? null,
             $filter,
-            array('attributes' => array($this->_config['user']['uid']))
+            ['attributes' => [$this->_config['user']['uid']]]
         );
         if (!$search->count()) {
             throw new Horde_Exception_NotFound('DN for user ' . $user . ' not found');
@@ -1037,7 +1035,7 @@ class Horde_Ldap
                 $rootDSE = $this->rootDSE();
                 $supported_versions = $rootDSE->getValue('supportedLDAPVersion');
                 if (is_string($supported_versions)) {
-                    $supported_versions = array($supported_versions);
+                    $supported_versions = [$supported_versions];
                 }
                 $check_ok = in_array($version, $supported_versions);
             } catch (Horde_Ldap_Exception $e) {
@@ -1077,17 +1075,17 @@ class Horde_Ldap
         }
 
         /* Make dn relative to parent. */
-        $options = array('casefold' => 'none');
+        $options = ['casefold' => 'none'];
         $base = Horde_Ldap_Util::explodeDN($dn, $options);
         $entry_rdn = '(&('
             . Horde_Ldap_Util::canonicalDN(
                 array_shift($base),
-                array_merge($options, array('separator' => ')('))
+                array_merge($options, ['separator' => ')('])
             )
             . '))';
         $base = Horde_Ldap_Util::canonicalDN($base, $options);
 
-        $result = @ldap_list($this->_link, $base, $entry_rdn, array('dn'), 1, 1);
+        $result = @ldap_list($this->_link, $base, $entry_rdn, ['dn'], 1, 1);
         if ($result && @ldap_count_entries($this->_link, $result)) {
             return true;
         }
@@ -1115,15 +1113,15 @@ class Horde_Ldap
      * @throws Horde_Ldap_Exception
      * @throws Horde_Exception_NotFound
      */
-    public function getEntry($dn, $attributes = array())
+    public function getEntry($dn, $attributes = [])
     {
         if (!is_array($attributes)) {
-            $attributes = array($attributes);
+            $attributes = [$attributes];
         }
         $result = $this->search(
             $dn,
             '(objectClass=*)',
-            array('scope' => 'base', 'attributes' => $attributes)
+            ['scope' => 'base', 'attributes' => $attributes]
         );
         if (!$result->count()) {
             throw new Horde_Exception_NotFound(sprintf('Could not fetch entry %s: no entry found', $dn));
@@ -1249,7 +1247,7 @@ class Horde_Ldap
      */
     public static function errorName($errorcode)
     {
-        $errorMessages = array(
+        $errorMessages = [
             0x00 => 'LDAP_SUCCESS',
             0x01 => 'LDAP_OPERATIONS_ERROR',
             0x02 => 'LDAP_PROTOCOL_ERROR',
@@ -1311,10 +1309,9 @@ class Horde_Ldap
             0x5f => 'LDAP_MORE_RESULTS_TO_RETURN',
             0x60 => 'LDAP_CLIENT_LOOP',
             0x61 => 'LDAP_REFERRAL_LIMIT_EXCEEDED',
-            1000 => 'Unknown Error');
+            1000 => 'Unknown Error'];
 
-        return isset($errorMessages[$errorcode]) ?
-           $errorMessages[$errorcode] :
+        return $errorMessages[$errorcode] ??
            'Unknown Error (' . $errorcode . ')';
     }
 
@@ -1329,14 +1326,14 @@ class Horde_Ldap
      * @return Horde_Ldap_RootDse Horde_Ldap_RootDse object
      * @throws Horde_Ldap_Exception
      */
-    public function rootDSE(array $attrs = array())
+    public function rootDSE(array $attrs = [])
     {
         /* If a cache object is registered, we use that to fetch a rootDSE
          * object. */
         $key = 'Horde_Ldap_RootDse_'
-            . md5(serialize(array(
-                $this->_config['hostspec'], $this->_config['port'], $attrs
-            )));
+            . md5(serialize([
+                $this->_config['hostspec'], $this->_config['port'], $attrs,
+            ]));
         if (empty($this->_rootDSE[$key]) &&
             $this->_config['cache'] &&
             $this->_config['cache_root_dse']) {
@@ -1379,7 +1376,7 @@ class Horde_Ldap
     {
         /* If a schema caching object is registered, we use that to fetch a
          * schema object. */
-        $key = 'Horde_Ldap_Schema_' . md5(serialize(array($this->_config['hostspec'], $this->_config['port'], $dn)));
+        $key = 'Horde_Ldap_Schema_' . md5(serialize([$this->_config['hostspec'], $this->_config['port'], $dn]));
         if (!$this->_schema && $this->_config['cache']) {
             $schema = $this->_config['cache']->get($key, $this->_config['cachettl']);
             if ($schema) {
@@ -1565,7 +1562,7 @@ class Horde_Ldap
      *
      * @return string  The LDAP search fragment.
      */
-    public static function buildClause($lhs, $op, $rhs, $params = array())
+    public static function buildClause($lhs, $op, $rhs, $params = [])
     {
         switch ($op) {
             case 'LIKE':
@@ -1596,8 +1593,8 @@ class Horde_Ldap
     public static function quote($clause)
     {
         return str_replace(
-            array('\\',   '(',  ')',  '*',  "\0"),
-            array('\\5c', '\(', '\)', '\*', "\\00"),
+            ['\\',   '(',  ')',  '*',  "\0"],
+            ['\\5c', '\(', '\)', '\*', "\\00"],
             $clause
         );
     }

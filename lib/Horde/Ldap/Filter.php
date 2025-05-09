@@ -51,7 +51,7 @@ class Horde_Ldap_Filter
      *
      * @var array
      */
-    protected $_filters = array();
+    protected $_filters = [];
 
     /**
      * Operator for sub-filters.
@@ -82,7 +82,7 @@ class Horde_Ldap_Filter
     protected function __construct(array $params)
     {
         foreach ($params as $param => $value) {
-            if (in_array($param, array('filter', 'filters', 'operator'))) {
+            if (in_array($param, ['filter', 'filters', 'operator'])) {
                 $this->{'_' . $param} = $value;
             }
         }
@@ -139,7 +139,7 @@ class Horde_Ldap_Filter
         $escape = true
     ) {
         if ($escape) {
-            $array = Horde_Ldap_Util::escapeFilterValue(array($value));
+            $array = Horde_Ldap_Util::escapeFilterValue([$value]);
             $value = $array[0];
         }
 
@@ -185,7 +185,7 @@ class Horde_Ldap_Filter
                 throw new Horde_Ldap_Exception('Matching rule "' . $match . '" unknown');
         }
 
-        return new Horde_Ldap_Filter(array('filter' => $filter));
+        return new Horde_Ldap_Filter(['filter' => $filter]);
 
     }
 
@@ -231,9 +231,9 @@ class Horde_Ldap_Filter
                 // Not-combination, here we only accept one filter object or filter
                 // string.
                 if ($filters instanceof Horde_Ldap_Filter) {
-                    $filters = array($filters); // force array
+                    $filters = [$filters]; // force array
                 } elseif (is_string($filters)) {
-                    $filters = array(self::parse($filters));
+                    $filters = [self::parse($filters)];
                 } elseif (is_array($filters)) {
                     throw new Horde_Ldap_Exception('Operator is "not" but $filter is an array');
                 } else {
@@ -262,8 +262,8 @@ class Horde_Ldap_Filter
             }
         }
 
-        return new Horde_Ldap_Filter(array('filters' => $filters,
-                                           'operator' => $operator));
+        return new Horde_Ldap_Filter(['filters' => $filters,
+            'operator' => $operator]);
     }
 
     /**
@@ -290,7 +290,7 @@ class Horde_Ldap_Filter
         if (!is_array($params['objectclass'])) {
             return self::create('objectclass', 'equals', $params['objectclass']);
         }
-        $filters = array();
+        $filters = [];
         foreach ($params['objectclass'] as $objectclass) {
             $filters[] = self::create('objectclass', 'equals', $objectclass);
         }
@@ -317,7 +317,7 @@ class Horde_Ldap_Filter
             throw new Horde_Ldap_Exception('Invalid filter syntax, filter components must be enclosed in round brackets');
         }
 
-        if (in_array(substr($matches[1], 0, 1), array('!', '|', '&'))) {
+        if (in_array(substr($matches[1], 0, 1), ['!', '|', '&'])) {
             return self::_parseCombination($matches[1]);
         } else {
             return self::_parseLeaf($matches[1]);
@@ -347,7 +347,7 @@ class Horde_Ldap_Filter
         // subfilter. Thus, we look trough the filter string and just recognize
         // ending filters at the first level. We record the index number of the
         // char and use that information later to split the string.
-        $sub_index_pos = array();
+        $sub_index_pos = [];
         // Previous character looked at.
         $prev_char = '';
         // Denotes the current bracket level we are, >1 is too deep, 1 is ok, 0
@@ -373,7 +373,7 @@ class Horde_Ldap_Filter
         // Now perform the splits. To get the last part too, we need to add the
         // "END" index to the split array.
         $sub_index_pos[] = strlen($filter);
-        $subfilters = array();
+        $subfilters = [];
         $oldpos = 0;
         foreach ($sub_index_pos as $s_pos) {
             $str_part = substr($filter, $oldpos, $s_pos - $oldpos);
@@ -393,7 +393,7 @@ class Horde_Ldap_Filter
 
         // Now parse the subfilters into objects and combine them using the
         // operator.
-        $subfilters_o = array();
+        $subfilters_o = [];
         foreach ($subfilters as $s_s) {
             $subfilters_o[] = self::parse($s_s);
         }
@@ -432,7 +432,7 @@ class Horde_Ldap_Filter
         // $value_arr = Horde_Ldap_Util::escapeFilterValue(array($filter_parts[2]));
         // $value     = $value_arr[0];
 
-        return new Horde_Ldap_Filter(array('filter' => '(' . $filter_parts[0] . $filter_parts[1] . $filter_parts[2] . ')'));
+        return new Horde_Ldap_Filter(['filter' => '(' . $filter_parts[0] . $filter_parts[1] . $filter_parts[2] . ')']);
     }
 
     /**
@@ -451,7 +451,7 @@ class Horde_Ldap_Filter
 
         $return = '';
         foreach ($this->_filters as $filter) {
-            $return .= (string)$filter;
+            $return .= (string) $filter;
         }
 
         return '(' . $this->_operator . $return . ')';

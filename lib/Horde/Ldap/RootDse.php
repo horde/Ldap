@@ -35,15 +35,15 @@ class Horde_Ldap_RootDse implements Serializable
         if (is_array($attrs) && count($attrs)) {
             $attributes = $attrs;
         } else {
-            $attributes = array('vendorName',
-                                'vendorVersion',
-                                'namingContexts',
-                                'altServer',
-                                'supportedExtension',
-                                'supportedControl',
-                                'supportedSASLMechanisms',
-                                'supportedLDAPVersion',
-                                'subschemaSubentry');
+            $attributes = ['vendorName',
+                'vendorVersion',
+                'namingContexts',
+                'altServer',
+                'supportedExtension',
+                'supportedControl',
+                'supportedSASLMechanisms',
+                'supportedLDAPVersion',
+                'subschemaSubentry'];
         }
         $referral = $ldap->getOption('LDAP_OPT_REFERRALS');
         $ldap->setOption('LDAP_OPT_REFERRALS', false);
@@ -51,8 +51,8 @@ class Horde_Ldap_RootDse implements Serializable
             $result = $ldap->search(
                 '',
                 '(objectClass=*)',
-                array('attributes' => $attributes,
-                                          'scope' => 'base')
+                ['attributes' => $attributes,
+                    'scope' => 'base']
             );
         } catch (Horde_Ldap_Exception $e) {
             $ldap->setOption('LDAP_OPT_REFERRALS', $referral);
@@ -141,7 +141,7 @@ class Horde_Ldap_RootDse implements Serializable
     protected function _checkAttr($values, $attr)
     {
         if (!is_array($values)) {
-            $values = array($values);
+            $values = [$values];
         }
 
         foreach ($values as $value) {
@@ -160,9 +160,11 @@ class Horde_Ldap_RootDse implements Serializable
      */
     public function serialize()
     {
-        return serialize(array(
-            $this->_entry->currentDN(), $this->_entry->getValues()
-        ));
+        return serialize($this->__serialize());
+    }
+    public function __serialize()
+    {
+        return [$this->_entry->currentDN(), $this->_entry->getValues()];
     }
 
     /**
@@ -171,6 +173,10 @@ class Horde_Ldap_RootDse implements Serializable
     public function unserialize($serialized)
     {
         $data = unserialize($serialized);
-        $this->_entry = Horde_Ldap_Entry::createFresh($data[0], $data[1]);
+        $this->__unserialize($serialized);
+    }
+    public function __unserialize($serialized)
+    {
+        $this->_entry = Horde_Ldap_Entry::createFresh($serialized[0], $serialized[1]);
     }
 }
