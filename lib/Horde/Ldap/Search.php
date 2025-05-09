@@ -230,9 +230,10 @@ class Horde_Ldap_Search implements Iterator
         // selected ordering for that specific attribute.
         foreach ($entries as $dn => $entry) {
             foreach ($entry as $attr_name => $attr_values) {
-                sort($entries[$dn][$attr_name]);
                 if ($order == SORT_DESC) {
-                    array_reverse($entries[$dn][$attr_name]);
+                    rsort($entries[$dn][$attr_name]);
+                } else {
+                    sort($entries[$dn][$attr_name]);
                 }
             }
         }
