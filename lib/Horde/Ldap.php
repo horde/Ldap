@@ -89,7 +89,7 @@ class Horde_Ldap
     /**
      * LDAP resource link.
      *
-     * @var resource|LDAPConnection
+     * @var resource|LDAPConnection|false
      */
     protected $_link;
 

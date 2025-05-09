@@ -383,7 +383,7 @@ class Horde_Ldap_Entry
      * @return string|array Attribute value(s).
      * @throws Horde_Ldap_Exception
      */
-    public function getValue($attr, $option = null)
+    public function getValue($attr, $option = 'single')
     {
         $attr = $this->_getAttrName($attr);
 

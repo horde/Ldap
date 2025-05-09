@@ -72,7 +72,7 @@ class Horde_Ldap_RootDse implements Serializable
      * @see Horde_Ldap_Entry::getValue()
      *
      * @param string $attr    Attribute name.
-     * @param array  $options Array of options.
+     * @param string  $options Return a single value or all values. ('single' or 'all')
      *
      * @return string|array Attribute value(s).
      * @throws Horde_Ldap_Exception
