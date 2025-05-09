@@ -47,7 +47,5 @@
     },
     "config": {
         "allow-plugins": {}
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
