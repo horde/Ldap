@@ -962,7 +962,7 @@ class Horde_Ldap
      *
      * @param string $option Option to get.
      *
-     * @return Horde_Ldap_Error|string Horde_Ldap_Error or option value
+     * @return string Option value
      * @throws Horde_Ldap_Exception
      */
     public function getOption($option)
@@ -1438,7 +1438,7 @@ class Horde_Ldap
      *
      * @param array $attributes An array of attributes.
      *
-     * @return array|Horde_Ldap_Error An array of UTF8 encoded attributes or an error.
+     * @return array An array of UTF8 encoded attributes or an error.
      */
     public function utf8Encode($attributes)
     {
@@ -1458,7 +1458,7 @@ class Horde_Ldap
      *
      * @access public
      * @see utf8Encode()
-     * @return array|Horde_Ldap_Error Array with decoded attribute values or Error
+     * @return array Array with decoded attribute values or Error
      */
     public function utf8Decode($attributes)
     {
