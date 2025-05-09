@@ -152,7 +152,7 @@ class Horde_Ldap_Ldif
      *                   writing entries.  Example: 'raw' =>
      *                   '/(?i:^jpegPhoto|;binary)/i'
      *
-     * @param string|ressource $file    Filename or file handle.
+     * @param string|resource $file    Filename or file handle.
      * @param string           $mode    Mode to open the file, either 'r', 'w'
      *                                  or 'a'.
      * @param array            $options Options like described above.
