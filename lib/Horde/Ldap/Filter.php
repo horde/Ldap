@@ -288,11 +288,12 @@ class Horde_Ldap_Filter
             return self::parse($params['filter']);
         }
         if (!is_array($params['objectclass'])) {
-            return self::create('objectclass', 'equals', $params['objectclass']);
+            // Do not escape values from admin configuration (e.g., '*')
+            return self::create('objectclass', 'equals', $params['objectclass'], false);
         }
         $filters = [];
         foreach ($params['objectclass'] as $objectclass) {
-            $filters[] = self::create('objectclass', 'equals', $objectclass);
+            $filters[] = self::create('objectclass', 'equals', $objectclass, false);
         }
         if (count($filters) == 1) {
             return $filters[0];
