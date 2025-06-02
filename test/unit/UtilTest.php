@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -7,11 +8,15 @@
  * @author     Jan Schneider <jan@horde.org>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.html LGPL-3.0
  */
-namespace Horde\Ldap;
-use Horde_Test_Case;
-use \Horde_Ldap_Util;
 
-class UtilTest extends Horde_Test_Case
+namespace Horde\Ldap\Test\Unit;
+
+use Horde_Ldap_Util;
+use PHPUnit\Framework\TestCase;
+/**
+ * @coversNothing
+ */
+class UtilTest extends TestCase
 {
     /**
      * Test escapeDNValue()
@@ -23,18 +28,21 @@ class UtilTest extends Horde_Test_Case
 
         // String call.
         $this->assertEquals(
-            array($expected),
-            Horde_Ldap_Util::escapeDNValue($dnval));
+            [$expected],
+            Horde_Ldap_Util::escapeDNValue($dnval)
+        );
 
         // Array call.
         $this->assertEquals(
-            array($expected),
-            Horde_Ldap_Util::escapeDNValue(array($dnval)));
+            [$expected],
+            Horde_Ldap_Util::escapeDNValue([$dnval])
+        );
 
         // Multiple arrays.
         $this->assertEquals(
-            array($expected, $expected, $expected),
-            Horde_Ldap_Util::escapeDNValue(array($dnval, $dnval, $dnval)));
+            [$expected, $expected, $expected],
+            Horde_Ldap_Util::escapeDNValue([$dnval, $dnval, $dnval])
+        );
     }
 
     /**
@@ -47,18 +55,21 @@ class UtilTest extends Horde_Test_Case
 
         // String call.
         $this->assertEquals(
-            array($expected),
-            Horde_Ldap_Util::unescapeDNValue($dnval));
+            [$expected],
+            Horde_Ldap_Util::unescapeDNValue($dnval)
+        );
 
         // Array call.
         $this->assertEquals(
-            array($expected),
-            Horde_Ldap_Util::unescapeDNValue(array($dnval)));
+            [$expected],
+            Horde_Ldap_Util::unescapeDNValue([$dnval])
+        );
 
         // Multiple arrays.
         $this->assertEquals(
-            array($expected, $expected, $expected),
-            Horde_Ldap_Util::unescapeDNValue(array($dnval, $dnval, $dnval)));
+            [$expected, $expected, $expected],
+            Horde_Ldap_Util::unescapeDNValue([$dnval, $dnval, $dnval])
+        );
     }
 
     /**
@@ -71,18 +82,21 @@ class UtilTest extends Horde_Test_Case
 
         // String call
         $this->assertEquals(
-            array($expected),
-            Horde_Ldap_Util::escapeFilterValue($filterval));
+            [$expected],
+            Horde_Ldap_Util::escapeFilterValue($filterval)
+        );
 
         // Array call.
         $this->assertEquals(
-            array($expected),
-            Horde_Ldap_Util::escapeFilterValue(array($filterval)));
+            [$expected],
+            Horde_Ldap_Util::escapeFilterValue([$filterval])
+        );
 
         // Multiple arrays.
         $this->assertEquals(
-            array($expected, $expected, $expected),
-            Horde_Ldap_Util::escapeFilterValue(array($filterval, $filterval, $filterval)));
+            [$expected, $expected, $expected],
+            Horde_Ldap_Util::escapeFilterValue([$filterval, $filterval, $filterval])
+        );
     }
 
     /**
@@ -95,18 +109,21 @@ class UtilTest extends Horde_Test_Case
 
         // String call
         $this->assertEquals(
-            array($expected),
-            Horde_Ldap_Util::unescapeFilterValue($filterval));
+            [$expected],
+            Horde_Ldap_Util::unescapeFilterValue($filterval)
+        );
 
         // Array call.
         $this->assertEquals(
-            array($expected),
-            Horde_Ldap_Util::unescapeFilterValue(array($filterval)));
+            [$expected],
+            Horde_Ldap_Util::unescapeFilterValue([$filterval])
+        );
 
         // Multiple arrays.
         $this->assertEquals(
-            array($expected, $expected, $expected),
-            Horde_Ldap_Util::unescapeFilterValue(array($filterval, $filterval, $filterval)));
+            [$expected, $expected, $expected],
+            Horde_Ldap_Util::unescapeFilterValue([$filterval, $filterval, $filterval])
+        );
     }
 
     /**
@@ -117,7 +134,7 @@ class UtilTest extends Horde_Test_Case
         $expected = '\00\01\02\03\04\05\06\07\08\09\0a\0b\0c\0d\0e\0f\10\11\12\13\14\15\16\17\18\19\1a\1b\1c\1d\1e\1f !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
         $str = '';
         for ($i = 0; $i < 127; $i++) {
-             $str .= chr($i);
+            $str .= chr($i);
         }
         $this->assertEquals($expected, Horde_Ldap_Util::asc2hex32($str));
     }
@@ -129,7 +146,7 @@ class UtilTest extends Horde_Test_Case
     {
         $expected = '';
         for ($i = 0; $i < 127; $i++) {
-             $expected .= chr($i);
+            $expected .= chr($i);
         }
         $str = '\00\01\02\03\04\05\06\07\08\09\0a\0b\0c\0d\0e\0f\10\11\12\13\14\15\16\17\18\19\1a\1b\1c\1d\1e\1f !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
         $this->assertEquals($expected, Horde_Ldap_Util::hex2asc($str));
@@ -145,37 +162,37 @@ class UtilTest extends Horde_Test_Case
     {
         // One value.
         $rdn = 'CN=J. Smith';
-        $expected = array('CN=J. Smith');
+        $expected = ['CN=J. Smith'];
         $split = Horde_Ldap_Util::splitRDNMultivalue($rdn);
         $this->assertEquals($expected, $split);
 
         // Two values.
         $rdn = 'OU=Sales+CN=J. Smith';
-        $expected = array('OU=Sales', 'CN=J. Smith');
+        $expected = ['OU=Sales', 'CN=J. Smith'];
         $split = Horde_Ldap_Util::splitRDNMultivalue($rdn);
         $this->assertEquals($expected, $split);
 
         // Several multivals.
         $rdn = 'OU=Sales+CN=J. Smith+L=London+C=England';
-        $expected = array('OU=Sales', 'CN=J. Smith', 'L=London', 'C=England');
+        $expected = ['OU=Sales', 'CN=J. Smith', 'L=London', 'C=England'];
         $split = Horde_Ldap_Util::splitRDNMultivalue($rdn);
         $this->assertEquals($expected, $split);
 
         // Unescaped "+" in value.
         $rdn = 'OU=Sa+les+CN=J. Smith';
-        $expected = array('OU=Sa+les', 'CN=J. Smith');
+        $expected = ['OU=Sa+les', 'CN=J. Smith'];
         $split = Horde_Ldap_Util::splitRDNMultivalue($rdn);
         $this->assertEquals($expected, $split);
 
         // Unescaped "+" in attr name.
         $rdn = 'O+U=Sales+CN=J. Smith';
-        $expected = array('O+U=Sales', 'CN=J. Smith');
+        $expected = ['O+U=Sales', 'CN=J. Smith'];
         $split = Horde_Ldap_Util::splitRDNMultivalue($rdn);
         $this->assertEquals($expected, $split);
 
         // Unescaped "+" in attr name + value.
         $rdn = 'O+U=Sales+CN=J. Sm+ith';
-        $expected = array('O+U=Sales', 'CN=J. Sm+ith');
+        $expected = ['O+U=Sales', 'CN=J. Sm+ith'];
         $split = Horde_Ldap_Util::splitRDNMultivalue($rdn);
         $this->assertEquals($expected, $split);
 
@@ -186,13 +203,13 @@ class UtilTest extends Horde_Test_Case
         // is located in _correct_dn_splitting().
         $rdn = 'OU=Sales+C+N=J. Smith';
         // The "C+" is treaten as value of "OU".
-        $expected = array('OU=Sales+C', 'N=J. Smith');
+        $expected = ['OU=Sales+C', 'N=J. Smith'];
         $split = Horde_Ldap_Util::splitRDNMultivalue($rdn);
         $this->assertEquals($expected, $split);
 
         // Escaped "+" in attribute name and value.
         $rdn = 'O\+U=Sales+CN=J. Sm\+ith';
-        $expected = array('O\+U=Sales', 'CN=J. Sm\+ith');
+        $expected = ['O\+U=Sales', 'CN=J. Sm\+ith'];
         $split = Horde_Ldap_Util::splitRDNMultivalue($rdn);
         $this->assertEquals($expected, $split);
     }
@@ -205,19 +222,19 @@ class UtilTest extends Horde_Test_Case
         $attr_str = 'foo=bar';
 
         // Properly.
-        $expected = array('foo', 'bar');
+        $expected = ['foo', 'bar'];
         $split = Horde_Ldap_Util::splitAttributeString($attr_str);
         $this->assertEquals($expected, $split);
 
         // Escaped "=".
         $attr_str = "fo\=o=b\=ar";
-        $expected = array('fo\=o', 'b\=ar');
+        $expected = ['fo\=o', 'b\=ar'];
         $split = Horde_Ldap_Util::splitAttributeString($attr_str);
         $this->assertEquals($expected, $split);
 
         // Escaped "=" and unescaped = later on.
         $attr_str = "fo\=o=b=ar";
-        $expected = array('fo\=o', 'b=ar');
+        $expected = ['fo\=o', 'b=ar'];
         $split = Horde_Ldap_Util::splitAttributeString($attr_str);
         $this->assertEquals($expected, $split);
     }
@@ -228,47 +245,48 @@ class UtilTest extends Horde_Test_Case
     public function testExplodeDN()
     {
         $dn = 'ou=Sales+CN=J. Smith,dc=example,dc=net';
-        $expected_casefold_none = array(
-            array('CN=J. Smith', 'ou=Sales'),
+        $expected_casefold_none = [
+            ['CN=J. Smith', 'ou=Sales'],
             'dc=example',
-            'dc=net'
-        );
-        $expected_casefold_upper = array(
-            array('CN=J. Smith', 'OU=Sales'),
+            'dc=net',
+        ];
+        $expected_casefold_upper = [
+            ['CN=J. Smith', 'OU=Sales'],
             'DC=example',
-            'DC=net'
-        );
-        $expected_casefold_lower = array(
-            array('cn=J. Smith', 'ou=Sales'),
+            'DC=net',
+        ];
+        $expected_casefold_lower = [
+            ['cn=J. Smith', 'ou=Sales'],
             'dc=example',
-            'dc=net'
-        );
-        $expected_onlyvalues = array(
-            array('J. Smith', 'Sales'),
+            'dc=net',
+        ];
+        $expected_onlyvalues = [
+            ['J. Smith', 'Sales'],
             'example',
-            'net'
-        );
+            'net',
+        ];
         $expected_reverse = array_reverse($expected_casefold_upper);
 
 
-        $dn_exploded_cnone = Horde_Ldap_Util::explodeDN($dn, array('casefold' => 'none'));
+        $dn_exploded_cnone = Horde_Ldap_Util::explodeDN($dn, ['casefold' => 'none']);
         $this->assertEquals($expected_casefold_none, $dn_exploded_cnone, 'Option casefold none failed');
 
-        $dn_exploded_cupper = Horde_Ldap_Util::explodeDN($dn, array('casefold' => 'upper'));
+        $dn_exploded_cupper = Horde_Ldap_Util::explodeDN($dn, ['casefold' => 'upper']);
         $this->assertEquals($expected_casefold_upper, $dn_exploded_cupper, 'Option casefold upper failed');
 
-        $dn_exploded_clower = Horde_Ldap_Util::explodeDN($dn, array('casefold' => 'lower'));
+        $dn_exploded_clower = Horde_Ldap_Util::explodeDN($dn, ['casefold' => 'lower']);
         $this->assertEquals($expected_casefold_lower, $dn_exploded_clower, 'Option casefold lower failed');
 
-        $dn_exploded_onlyval = Horde_Ldap_Util::explodeDN($dn, array('onlyvalues' => true));
+        $dn_exploded_onlyval = Horde_Ldap_Util::explodeDN($dn, ['onlyvalues' => true]);
         $this->assertEquals($expected_onlyvalues, $dn_exploded_onlyval, 'Option onlyval failed');
 
-        $dn_exploded_reverse = Horde_Ldap_Util::explodeDN($dn, array('reverse' => true));
+        $dn_exploded_reverse = Horde_Ldap_Util::explodeDN($dn, ['reverse' => true]);
         $this->assertEquals($expected_reverse, $dn_exploded_reverse, 'Option reverse failed');
 
         $this->assertEquals(
-            array('CN=J\\, Smith', 'DC=example', 'DC=net'),
-            Horde_Ldap_Util::explodeDN('cn=J\\, Smith,dc=example,dc=net'));
+            ['CN=J\\, Smith', 'DC=example', 'DC=net'],
+            Horde_Ldap_Util::explodeDN('cn=J\\, Smith,dc=example,dc=net')
+        );
     }
 
     /**
@@ -290,25 +308,25 @@ class UtilTest extends Horde_Test_Case
         $expected_up = 'CN=beni,DC=php,C=net';
         $expected_lo = 'cn=beni,dc=php,c=net';
         $expected_no = 'cn=beni,DC=php,c=net';
-        $this->assertEquals($expected_up, Horde_Ldap_Util::canonicalDN($testdn, array('casefold' => 'upper')));
-        $this->assertEquals($expected_lo, Horde_Ldap_Util::canonicalDN($testdn, array('casefold' => 'lower')));
-        $this->assertEquals($expected_no, Horde_Ldap_Util::canonicalDN($testdn, array('casefold' => 'none')));
+        $this->assertEquals($expected_up, Horde_Ldap_Util::canonicalDN($testdn, ['casefold' => 'upper']));
+        $this->assertEquals($expected_lo, Horde_Ldap_Util::canonicalDN($testdn, ['casefold' => 'lower']));
+        $this->assertEquals($expected_no, Horde_Ldap_Util::canonicalDN($testdn, ['casefold' => 'none']));
 
         // Reverse.
         $expected_rev = 'C=net,DC=php,CN=beni';
-        $this->assertEquals($expected_rev, Horde_Ldap_Util::canonicalDN($testdn, array('reverse' => true)), 'Option reverse failed');
+        $this->assertEquals($expected_rev, Horde_Ldap_Util::canonicalDN($testdn, ['reverse' => true]), 'Option reverse failed');
 
         // DN as arrays.
-        $dn_index = array('cn=beni', 'dc=php', 'c=net');
-        $dn_assoc = array('cn' => 'beni', 'dc' => 'php', 'c' => 'net');
+        $dn_index = ['cn=beni', 'dc=php', 'c=net'];
+        $dn_assoc = ['cn' => 'beni', 'dc' => 'php', 'c' => 'net'];
         $expected = 'CN=beni,DC=php,C=net';
         $this->assertEquals($expected, Horde_Ldap_Util::canonicalDN($dn_index));
         $this->assertEquals($expected, Horde_Ldap_Util::canonicalDN($dn_assoc));
 
         // DN with multiple RDN value.
         $testdn       = 'ou=dev+cn=beni,DC=php,c=net';
-        $testdn_index = array(array('ou=dev', 'cn=beni'), 'DC=php', 'c=net');
-        $testdn_assoc = array(array('ou' => 'dev', 'cn' => 'beni'), 'DC' => 'php', 'c' => 'net');
+        $testdn_index = [['ou=dev', 'cn=beni'], 'DC=php', 'c=net'];
+        $testdn_assoc = [['ou' => 'dev', 'cn' => 'beni'], 'DC' => 'php', 'c' => 'net'];
         $expected     = 'CN=beni+OU=dev,DC=php,C=net';
         $this->assertEquals($expected, Horde_Ldap_Util::canonicalDN($testdn));
         $this->assertEquals($expected, Horde_Ldap_Util::canonicalDN($testdn_assoc));
@@ -332,7 +350,7 @@ class UtilTest extends Horde_Test_Case
         // $this->assertEquals($expected, Horde_Ldap_Util::canonicalDN($testdn));
 
         // Test with to-be escaped characters in attribute value.
-        $specialchars = array(
+        $specialchars = [
             ',' => '\,',
             '+' => '\+',
             '"' => '\"',
@@ -343,17 +361,17 @@ class UtilTest extends Horde_Test_Case
             '#' => '\#',
             '=' => '\=',
             chr(18) => '\12',
-            '/' => '\/'
-        );
+            '/' => '\/',
+        ];
         foreach ($specialchars as $char => $escape) {
             $test_string = 'CN=be' . $char . 'ni,DC=ph' . $char . 'p,C=net';
-            $test_index  = array('CN=be' . $char . 'ni', 'DC=ph' . $char . 'p', 'C=net');
-            $test_assoc  = array('CN' => 'be' . $char . 'ni', 'DC' => 'ph' . $char . 'p', 'C' => 'net');
+            $test_index  = ['CN=be' . $char . 'ni', 'DC=ph' . $char . 'p', 'C=net'];
+            $test_assoc  = ['CN' => 'be' . $char . 'ni', 'DC' => 'ph' . $char . 'p', 'C' => 'net'];
             $expected    = 'CN=be' . $escape . 'ni,DC=ph' . $escape . 'p,C=net';
 
             $this->assertEquals($expected, Horde_Ldap_Util::canonicalDN($test_string), 'String escaping test (' . $char . ') failed');
-            $this->assertEquals($expected, Horde_Ldap_Util::canonicalDN($test_index),  'Indexed array escaping test (' . $char . ') failed');
-            $this->assertEquals($expected, Horde_Ldap_Util::canonicalDN($test_assoc),  'Associative array encoding test (' . $char . ') failed');
+            $this->assertEquals($expected, Horde_Ldap_Util::canonicalDN($test_index), 'Indexed array escaping test (' . $char . ') failed');
+            $this->assertEquals($expected, Horde_Ldap_Util::canonicalDN($test_assoc), 'Associative array encoding test (' . $char . ') failed');
         }
     }
 }

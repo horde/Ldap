@@ -1,6 +1,12 @@
 <?php
-namespace Horde\Ldap;
 
+namespace Horde\Ldap\Test\Unit;
+use Horde_Ldap;
+use Horde_Ldap_Entry;
+use Horde_Ldap_Filter;
+use Horde_Ldap_Exception;
+use Horde_Exception_NotFound;
+use Exception;
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -8,26 +14,28 @@ namespace Horde\Ldap;
  * @subpackage UnitTests
  * @author     Jan Schneider <jan@horde.org>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.html LGPL-3.0
+ * @coversNothing
  */
 class LdapTest extends TestBase
 {
     public static function tearDownAfterClass(): void
     {
+        self::$ldapcfg = self::getConfig();
         if (!self::$ldapcfg) {
             return;
         }
 
-        $clean = array('cn=Horde_Ldap_TestEntry,',
-                       'ou=Horde_Ldap_Test_subdelete,',
-                       'ou=Horde_Ldap_Test_modify,',
-                       'ou=Horde_Ldap_Test_search1,',
-                       'ou=Horde_Ldap_Test_search2,',
-                       'ou=Horde_Ldap_Test_exists,',
-                       'ou=Horde_Ldap_Test_exists_2+l=somewhere,',
-                       'ou=Horde_Ldap_Test_getEntry,',
-                       'ou=Horde_Ldap_Test_move,',
-                       'ou=Horde_Ldap_Test_pool,',
-                       'ou=Horde_Ldap_Test_tgt,');
+        $clean = ['cn=Horde_Ldap_TestEntry,',
+            'ou=Horde_Ldap_Test_subdelete,',
+            'ou=Horde_Ldap_Test_modify,',
+            'ou=Horde_Ldap_Test_search1,',
+            'ou=Horde_Ldap_Test_search2,',
+            'ou=Horde_Ldap_Test_exists,',
+            'ou=Horde_Ldap_Test_exists_2+l=somewhere,',
+            'ou=Horde_Ldap_Test_getEntry,',
+            'ou=Horde_Ldap_Test_move,',
+            'ou=Horde_Ldap_Test_pool,',
+            'ou=Horde_Ldap_Test_tgt,'];
         try {
             $ldap = new Horde_Ldap(self::$ldapcfg['server']);
             foreach ($clean as $dn) {
@@ -46,42 +54,44 @@ class LdapTest extends TestBase
     public function testConnectAndPrivilegedBind()
     {
         // This connect is supposed to fail.
-        $lcfg = array(
+        $lcfg = [
             'hostspec' => 'nonexistant.ldap.horde.org',
             'timeout' => 1,
-        );
+        ];
         try {
             $ldap = new Horde_Ldap($lcfg);
             $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        } catch (Horde_Ldap_Exception $e) {
+        }
 
         // Failing with multiple hosts.
-        $lcfg = array(
-            'hostspec' => array(
+        $lcfg = [
+            'hostspec' => [
                 'nonexistant1.ldap.horde.org',
-                'nonexistant2.ldap.horde.org'
-            ),
+                'nonexistant2.ldap.horde.org',
+            ],
             'timeout' => 1,
-        );
+        ];
         try {
             $ldap = new Horde_Ldap($lcfg);
             $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        } catch (Horde_Ldap_Exception $e) {
+        }
 
         // Simple working connect and privileged bind.
         $ldap = new Horde_Ldap(self::$ldapcfg['server']);
 
         // Working connect and privileged bind with first host down.
-        $lcfg = array(
-            'hostspec' => array(
+        $lcfg = [
+            'hostspec' => [
                 'nonexistant.ldap.horde.org',
-                self::$ldapcfg['server']['hostspec']
-            ),
+                self::$ldapcfg['server']['hostspec'],
+            ],
             'port'    => self::$ldapcfg['server']['port'],
             'binddn'  => self::$ldapcfg['server']['binddn'],
             'bindpw'  => self::$ldapcfg['server']['bindpw'],
             'timeout' => 1,
-        );
+        ];
         $ldap = new Horde_Ldap($lcfg);
     }
 
@@ -95,8 +105,8 @@ class LdapTest extends TestBase
         }
 
         // Simple working connect and anonymous bind.
-        $lcfg = array('hostspec' => self::$ldapcfg['server']['hostspec'],
-                      'port'     => self::$ldapcfg['server']['port']);
+        $lcfg = ['hostspec' => self::$ldapcfg['server']['hostspec'],
+            'port'     => self::$ldapcfg['server']['port']];
         $ldap = new Horde_Ldap($lcfg);
     }
 
@@ -123,7 +133,7 @@ class LdapTest extends TestBase
         }
 
         // Simple working connect and privileged bind.
-        $lcfg = array('starttls' => true) + self::$ldapcfg['server'];
+        $lcfg = ['starttls' => true] + self::$ldapcfg['server'];
         $ldap = new Horde_Ldap($lcfg);
     }
 
@@ -139,9 +149,10 @@ class LdapTest extends TestBase
         $dn = 'cn=' . $cn . ',' . self::$ldapcfg['server']['basedn'];
         $fresh_entry = Horde_Ldap_Entry::createFresh(
             $dn,
-            array('objectClass' => array('top', 'person'),
-                  'cn'          => $cn,
-                  'sn'          => 'TestEntry'));
+            ['objectClass' => ['top', 'person'],
+                'cn'          => $cn,
+                'sn'          => 'TestEntry']
+        );
         $this->assertInstanceOf('Horde_Ldap_Entry', $fresh_entry);
         $ldap->add($fresh_entry);
 
@@ -161,11 +172,13 @@ class LdapTest extends TestBase
         try {
             $ldap->delete(1234);
             $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        } catch (Horde_Ldap_Exception $e) {
+        }
         try {
             $ldap->delete($ldap);
             $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        } catch (Horde_Ldap_Exception $e) {
+        }
 
         // In order to test subtree deletion, we need some little tree
         // which we need to establish first.
@@ -174,24 +187,29 @@ class LdapTest extends TestBase
 
         $ou = Horde_Ldap_Entry::createFresh(
             $testdn,
-            array('objectClass' => array('top', 'organizationalUnit'),
-                  'ou' => 'Horde_Ldap_Test_subdelete'));
+            ['objectClass' => ['top', 'organizationalUnit'],
+                'ou' => 'Horde_Ldap_Test_subdelete']
+        );
         $ou_1 = Horde_Ldap_Entry::createFresh(
             'ou=test1,' . $testdn,
-            array('objectClass' => array('top', 'organizationalUnit'),
-                  'ou' => 'test1'));
+            ['objectClass' => ['top', 'organizationalUnit'],
+                'ou' => 'test1']
+        );
         $ou_1_l1 = Horde_Ldap_Entry::createFresh(
             'l=subtest,ou=test1,' . $testdn,
-            array('objectClass' => array('top', 'locality'),
-                  'l' => 'test1'));
+            ['objectClass' => ['top', 'locality'],
+                'l' => 'test1']
+        );
         $ou_2 = Horde_Ldap_Entry::createFresh(
             'ou=test2,' . $testdn,
-            array('objectClass' => array('top', 'organizationalUnit'),
-                  'ou' => 'test2'));
+            ['objectClass' => ['top', 'organizationalUnit'],
+                'ou' => 'test2']
+        );
         $ou_3 = Horde_Ldap_Entry::createFresh(
             'ou=test3,' . $testdn,
-            array('objectClass' => array('top', 'organizationalUnit'),
-                  'ou' => 'test3'));
+            ['objectClass' => ['top', 'organizationalUnit'],
+                'ou' => 'test3']
+        );
         $ldap->add($ou);
         $ldap->add($ou_1);
         $ldap->add($ou_1_l1);
@@ -237,59 +255,62 @@ class LdapTest extends TestBase
         // We need a test entry.
         $local_entry = Horde_Ldap_Entry::createFresh(
             'ou=Horde_Ldap_Test_modify,' . self::$ldapcfg['server']['basedn'],
-            array('objectClass'     => array('top', 'organizationalUnit'),
-                  'ou'              => 'Horde_Ldap_Test_modify',
-                  'street'          => 'Beniroad',
-                  'telephoneNumber' => array('1234', '5678'),
-                  'postalcode'      => '12345',
-                  'postalAddress'   => 'someAddress',
-                  'st'              => array('State 1', 'State 2')));
+            ['objectClass'     => ['top', 'organizationalUnit'],
+                'ou'              => 'Horde_Ldap_Test_modify',
+                'street'          => 'Beniroad',
+                'telephoneNumber' => ['1234', '5678'],
+                'postalcode'      => '12345',
+                'postalAddress'   => 'someAddress',
+                'st'              => ['State 1', 'State 2']]
+        );
         $ldap->add($local_entry);
         $this->assertTrue($ldap->exists($local_entry->dn()));
 
         // Test invalid actions.
         try {
-            $ldap->modify($local_entry, array('foo' => 'bar'));
+            $ldap->modify($local_entry, ['foo' => 'bar']);
             $this->fail('Expected exception when passing invalid actions to modify().');
         } catch (Horde_Ldap_Exception $e) {
         }
 
         // Prepare some changes.
-        $changes = array(
-            'add' => array(
-                'businessCategory' => array('foocat', 'barcat'),
-                'description' => 'testval'
-            ),
-            'delete' => array('postalAddress'),
-            'replace' => array('telephoneNumber' => array('345', '567')),
-            'changes' => array(
-                'replace' => array('street' => 'Highway to Hell'),
-                'add' => array('l' => 'someLocality'),
-                'delete' => array(
+        $changes = [
+            'add' => [
+                'businessCategory' => ['foocat', 'barcat'],
+                'description' => 'testval',
+            ],
+            'delete' => ['postalAddress'],
+            'replace' => ['telephoneNumber' => ['345', '567']],
+            'changes' => [
+                'replace' => ['street' => 'Highway to Hell'],
+                'add' => ['l' => 'someLocality'],
+                'delete' => [
                     'postalcode',
-                    'st' => array('State 1'))));
+                    'st' => ['State 1']]]];
 
         // Perform those changes.
         $ldap->modify($local_entry, $changes);
 
         // Verify correct attribute changes.
-        $actual_entry = $ldap->getEntry($local_entry->dn(),
-                                        array('objectClass', 'ou',
-                                              'postalAddress', 'street',
-                                              'telephoneNumber', 'postalcode',
-                                              'st', 'l', 'businessCategory',
-                                              'description'));
+        $actual_entry = $ldap->getEntry(
+            $local_entry->dn(),
+            ['objectClass', 'ou',
+                'postalAddress', 'street',
+                'telephoneNumber', 'postalcode',
+                'st', 'l', 'businessCategory',
+                'description']
+        );
         $this->assertInstanceOf('Horde_Ldap_Entry', $actual_entry);
-        $expected_attributes = array(
-            'objectClass'      => array('top', 'organizationalUnit'),
+        $expected_attributes = [
+            'objectClass'      => ['top', 'organizationalUnit'],
             'ou'               => 'Horde_Ldap_Test_modify',
             'street'           => 'Highway to Hell',
             'l'                => 'someLocality',
-            'telephoneNumber'  => array('345', '567'),
-            'businessCategory' => array('foocat', 'barcat'),
+            'telephoneNumber'  => ['345', '567'],
+            'businessCategory' => ['foocat', 'barcat'],
             'description'      => 'testval',
-            'st'               => 'State 2'
-        );
+            'st'               => 'State 2',
+        ];
 
         $local_attributes  = $local_entry->getValues();
         $actual_attributes = $actual_entry->getValues();
@@ -321,16 +342,19 @@ class LdapTest extends TestBase
         $base = self::$ldapcfg['server']['basedn'];
         $ou1 = Horde_Ldap_Entry::createFresh(
             'ou=Horde_Ldap_Test_search1,' . $base,
-            array('objectClass' => array('top','organizationalUnit'),
-                  'ou' => 'Horde_Ldap_Test_search1'));
+            ['objectClass' => ['top','organizationalUnit'],
+                'ou' => 'Horde_Ldap_Test_search1']
+        );
         $ou1_1 = Horde_Ldap_Entry::createFresh(
             'ou=Horde_Ldap_Test_search1_1,' . $ou1->dn(),
-            array('objectClass' => array('top','organizationalUnit'),
-                  'ou' => 'Horde_Ldap_Test_search1_1'));
+            ['objectClass' => ['top','organizationalUnit'],
+                'ou' => 'Horde_Ldap_Test_search1_1']
+        );
         $ou2 = Horde_Ldap_Entry::createFresh(
             'ou=Horde_Ldap_Test_search2,' . $base,
-            array('objectClass' => array('top','organizationalUnit'),
-                  'ou' => 'Horde_Ldap_Test_search2'));
+            ['objectClass' => ['top','organizationalUnit'],
+                'ou' => 'Horde_Ldap_Test_search2']
+        );
         $ldap->add($ou1);
         $this->assertTrue($ldap->exists($ou1->dn()));
         $ldap->add($ou1_1);
@@ -340,38 +364,53 @@ class LdapTest extends TestBase
 
 
         // Search for test filter, should at least return our two test entries.
-        $res = $ldap->search(null, '(ou=Horde_Ldap*)',
-                             array('attributes' => '1.1'));
+        $res = $ldap->search(
+            null,
+            '(ou=Horde_Ldap*)',
+            ['attributes' => '1.1']
+        );
         $this->assertInstanceOf('Horde_Ldap_Search', $res);
         $this->assertThat($res->count(), $this->greaterThanOrEqual(2));
 
         // Same, but with Horde_Ldap_Filter object.
         $filtero = Horde_Ldap_Filter::create('ou', 'begins', 'Horde_Ldap');
         $this->assertInstanceOf('Horde_Ldap_Filter', $filtero);
-        $res = $ldap->search(null, $filtero,
-                             array('attributes' => '1.1'));
+        $res = $ldap->search(
+            null,
+            $filtero,
+            ['attributes' => '1.1']
+        );
         $this->assertInstanceOf('Horde_Ldap_Search', $res);
         $this->assertThat($res->count(), $this->greaterThanOrEqual(2));
 
         // Search using default filter for base-onelevel scope, should at least
         // return our two test entries.
-        $res = $ldap->search(null, null,
-                             array('scope' => 'one', 'attributes' => '1.1'));
+        $res = $ldap->search(
+            null,
+            null,
+            ['scope' => 'one', 'attributes' => '1.1']
+        );
         $this->assertInstanceOf('Horde_Ldap_Search', $res);
         $this->assertThat($res->count(), $this->greaterThanOrEqual(2));
 
         // Base-search using custom base (string), should only return the test
         // entry $ou1 and not the entry below it.
-        $res = $ldap->search($ou1->dn(), null,
-                             array('scope' => 'base', 'attributes' => '1.1'));
+        $res = $ldap->search(
+            $ou1->dn(),
+            null,
+            ['scope' => 'base', 'attributes' => '1.1']
+        );
         $this->assertInstanceOf('Horde_Ldap_Search', $res);
         $this->assertEquals(1, $res->count());
 
         // Search using custom base, this time using an entry object.  This
         // tests if passing an entry object as base works, should only return
         // the test entry $ou1.
-        $res = $ldap->search($ou1, '(ou=*)',
-                             array('scope' => 'base', 'attributes' => '1.1'));
+        $res = $ldap->search(
+            $ou1,
+            '(ou=*)',
+            ['scope' => 'base', 'attributes' => '1.1']
+        );
         $this->assertInstanceOf('Horde_Ldap_Search', $res);
         $this->assertEquals(1, $res->count());
 
@@ -379,8 +418,9 @@ class LdapTest extends TestBase
         // should of course return more than one entry, but not more than
         // sizelimit
         $res = $ldap->search(
-            null, null,
-            array('scope' => 'one', 'sizelimit' => 1, 'attributes' => '1.1')
+            null,
+            null,
+            ['scope' => 'one', 'sizelimit' => 1, 'attributes' => '1.1']
         );
         $this->assertInstanceOf('Horde_Ldap_Search', $res);
         $this->assertEquals(1, $res->count());
@@ -389,21 +429,32 @@ class LdapTest extends TestBase
 
         // Bad filter.
         try {
-            $res = $ldap->search(null, 'somebadfilter',
-                                 array('attributes' => '1.1'));
+            $res = $ldap->search(
+                null,
+                'somebadfilter',
+                ['attributes' => '1.1']
+            );
             $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        } catch (Horde_Ldap_Exception $e) {
+        }
 
         // Bad base.
         try {
-            $res = $ldap->search('badbase', null,
-                                 array('attributes' => '1.1'));
+            $res = $ldap->search(
+                'badbase',
+                null,
+                ['attributes' => '1.1']
+            );
             $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        } catch (Horde_Ldap_Exception $e) {
+        }
 
         // Nullresult.
-        $res = $ldap->search(null, '(cn=nevermatching_filter)',
-                             array('scope' => 'base', 'attributes' => '1.1'));
+        $res = $ldap->search(
+            null,
+            '(cn=nevermatching_filter)',
+            ['scope' => 'base', 'attributes' => '1.1']
+        );
         $this->assertInstanceOf('Horde_Ldap_Search', $res);
         $this->assertEquals(0, $res->count());
     }
@@ -424,7 +475,7 @@ class LdapTest extends TestBase
         // because we didn't add the test entry yet.
         $ou1 = Horde_Ldap_Entry::createFresh(
             $dn,
-            array('objectClass' => array('top', 'organizationalUnit'))
+            ['objectClass' => ['top', 'organizationalUnit']]
         );
 
         $this->assertFalse($ldap->exists($dn));
@@ -438,13 +489,14 @@ class LdapTest extends TestBase
         try {
             $ldap->exists(1.234);
             $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        } catch (Horde_Ldap_Exception $e) {
+        }
 
         // Testing multivalued RDNs.
         $dn = 'ou=Horde_Ldap_Test_exists_2+l=somewhere,' . self::$ldapcfg['server']['basedn'];
         $ou2 = Horde_Ldap_Entry::createFresh(
             $dn,
-            array('objectClass' => array('top', 'organizationalUnit'))
+            ['objectClass' => ['top', 'organizationalUnit']]
         );
         $this->assertFalse($ldap->exists($dn));
         $ldap->add($ou2);
@@ -460,8 +512,9 @@ class LdapTest extends TestBase
         $dn = 'ou=Horde_Ldap_Test_getEntry,' . self::$ldapcfg['server']['basedn'];
         $entry = Horde_Ldap_Entry::createFresh(
             $dn,
-            array('objectClass' => array('top', 'organizationalUnit'),
-                  'ou' => 'Horde_Ldap_Test_getEntry'));
+            ['objectClass' => ['top', 'organizationalUnit'],
+                'ou' => 'Horde_Ldap_Test_getEntry']
+        );
         $ldap->add($entry);
 
         // Existing DN.
@@ -471,7 +524,8 @@ class LdapTest extends TestBase
         try {
             $ldap->getEntry('cn=notexistent,' . self::$ldapcfg['server']['basedn']);
             $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Exception_NotFound $e) {}
+        } catch (Horde_Exception_NotFound $e) {
+        }
     }
 
     /**
@@ -487,25 +541,30 @@ class LdapTest extends TestBase
 
         $ou = Horde_Ldap_Entry::createFresh(
             $testdn,
-            array('objectClass' => array('top', 'organizationalUnit'),
-                  'ou' => 'Horde_Ldap_Test_move'));
+            ['objectClass' => ['top', 'organizationalUnit'],
+                'ou' => 'Horde_Ldap_Test_move']
+        );
         $ou_1 = Horde_Ldap_Entry::createFresh(
             'ou=source,' . $testdn,
-            array('objectClass' => array('top', 'organizationalUnit'),
-                  'ou' => 'source'));
+            ['objectClass' => ['top', 'organizationalUnit'],
+                'ou' => 'source']
+        );
         $ou_1_l1 = Horde_Ldap_Entry::createFresh(
             'l=moveitem,ou=source,' . $testdn,
-            array('objectClass' => array('top','locality'),
-                  'l' => 'moveitem',
-                  'description' => 'movetest'));
+            ['objectClass' => ['top','locality'],
+                'l' => 'moveitem',
+                'description' => 'movetest']
+        );
         $ou_2 = Horde_Ldap_Entry::createFresh(
             'ou=target,' . $testdn,
-            array('objectClass' => array('top', 'organizationalUnit'),
-                  'ou' => 'target'));
+            ['objectClass' => ['top', 'organizationalUnit'],
+                'ou' => 'target']
+        );
         $ou_3 = Horde_Ldap_Entry::createFresh(
             'ou=target_otherdir,' . $testdn,
-            array('objectClass' => array('top','organizationalUnit'),
-                  'ou' => 'target_otherdir'));
+            ['objectClass' => ['top','organizationalUnit'],
+                'ou' => 'target_otherdir']
+        );
         $ldap->add($ou);
         $ldap->add($ou_1);
         $ldap->add($ou_1_l1);
@@ -555,25 +614,29 @@ class LdapTest extends TestBase
         try {
             $ldap->move($ou_2, $ou_3->dn(), $ldap2);
             $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        } catch (Horde_Ldap_Exception $e) {
+        }
 
         // Try cross directory move without providing an valid entry but a DN.
         try {
-            $ldap->move($ou_1_l1->dn(), 'l=movedcrossdir2,'.$ou_2->dn(), $ldap2);
+            $ldap->move($ou_1_l1->dn(), 'l=movedcrossdir2,' . $ou_2->dn(), $ldap2);
             $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        } catch (Horde_Ldap_Exception $e) {
+        }
 
         // Try passing an invalid entry object.
         try {
-            $ldap->move($ldap, 'l=move_item,'.$ou_2->dn());
+            $ldap->move($ldap, 'l=move_item,' . $ou_2->dn());
             $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        } catch (Horde_Ldap_Exception $e) {
+        }
 
         // Try passing an invalid LDAP object.
         try {
-            $ldap->move($ou_1_l1, 'l=move_item,'.$ou_2->dn(), $ou_1);
+            $ldap->move($ou_1_l1, 'l=move_item,' . $ou_2->dn(), $ou_1);
             $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        } catch (Horde_Ldap_Exception $e) {
+        }
     }
 
     /**
@@ -587,12 +650,14 @@ class LdapTest extends TestBase
         $base = self::$ldapcfg['server']['basedn'];
         $ou1 = Horde_Ldap_Entry::createFresh(
             'ou=Horde_Ldap_Test_pool,' . $base,
-            array('objectClass' => array('top','organizationalUnit'),
-                  'ou' => 'Horde_Ldap_Test_copy'));
+            ['objectClass' => ['top','organizationalUnit'],
+                'ou' => 'Horde_Ldap_Test_copy']
+        );
         $ou2 = Horde_Ldap_Entry::createFresh(
             'ou=Horde_Ldap_Test_tgt,' . $base,
-            array('objectClass' => array('top','organizationalUnit'),
-                  'ou' => 'Horde_Ldap_Test_copy'));
+            ['objectClass' => ['top','organizationalUnit'],
+                'ou' => 'Horde_Ldap_Test_copy']
+        );
         $ldap->add($ou1);
         $this->assertTrue($ldap->exists($ou1->dn()));
         $ldap->add($ou2);
@@ -600,8 +665,9 @@ class LdapTest extends TestBase
 
         $entry = Horde_Ldap_Entry::createFresh(
             'l=cptest,' . $ou1->dn(),
-            array('objectClass' => array('top','locality'),
-                  'l' => 'cptest'));
+            ['objectClass' => ['top','locality'],
+                'l' => 'cptest']
+        );
         $ldap->add($entry);
         $ldap->exists($entry->dn());
 
@@ -615,13 +681,15 @@ class LdapTest extends TestBase
         try {
             $entrycp_f = $ldap->copy($entry, 'l=test_copied,' . $ou2->dn());
             $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        } catch (Horde_Ldap_Exception $e) {
+        }
 
         // Use only DNs to copy (fails).
         try {
             $entrycp = $ldap->copy($entry->dn(), 'l=test_copied2,' . $ou2->dn());
             $this->fail('Horde_Ldap_Exception expected.');
-        } catch (Horde_Ldap_Exception $e) {}
+        } catch (Horde_Ldap_Exception $e) {
+        }
     }
 
     /**
@@ -656,37 +724,37 @@ class LdapTest extends TestBase
         $this->assertEquals(
             'cn=John Smith,dc=example,dc=com',
             Horde_Ldap::quoteDN(
-                array(
-                    array('cn', 'John Smith'),
-                    array('dc', 'example'),
-                    array('dc', 'com')
-                )
+                [
+                    ['cn', 'John Smith'],
+                    ['dc', 'example'],
+                    ['dc', 'com'],
+                ]
             )
         );
         $this->assertEquals(
             'cn=John+sn=Smith+o=Acme Inc.,dc=example,dc=com',
             Horde_Ldap::quoteDN(
-                array(
-                    array(
-                        array('cn', 'John'),
-                        array('sn', 'Smith'),
-                        array('o', 'Acme Inc.'),
-                    ),
-                    array('dc', 'example'),
-                    array('dc', 'com')
-                )
+                [
+                    [
+                        ['cn', 'John'],
+                        ['sn', 'Smith'],
+                        ['o', 'Acme Inc.'],
+                    ],
+                    ['dc', 'example'],
+                    ['dc', 'com'],
+                ]
             )
         );
         $this->assertEquals(
             'cn=John+sn=Smith+o=Acme Inc.',
             Horde_Ldap::quoteDN(
-                array(
-                    array(
-                        array('cn', 'John'),
-                        array('sn', 'Smith'),
-                        array('o', 'Acme Inc.'),
-                    ),
-                )
+                [
+                    [
+                        ['cn', 'John'],
+                        ['sn', 'Smith'],
+                        ['o', 'Acme Inc.'],
+                    ],
+                ]
             )
         );
     }

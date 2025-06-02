@@ -1,6 +1,8 @@
 <?php
-namespace Horde\Ldap;
 
+namespace Horde\Ldap\Test\Unit;
+use Horde_Ldap;
+use Exception;
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -8,6 +10,7 @@ namespace Horde\Ldap;
  * @subpackage UnitTests
  * @author     Jan Schneider <jan@horde.org>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.html LGPL-3.0
+ * @coversNothing
  */
 class SearchTest extends TestBase
 {
@@ -41,14 +44,16 @@ class SearchTest extends TestBase
         $base = self::$ldapcfg['server']['basedn'];
         $ou1 = Horde_Ldap_Entry::createFresh(
             'ou=Horde_Ldap_Test_search1,' . $base,
-            array(
-                'objectClass' => array('top', 'organizationalUnit'),
-                'ou' => 'Horde_Ldap_Test_search1'));
+            [
+                'objectClass' => ['top', 'organizationalUnit'],
+                'ou' => 'Horde_Ldap_Test_search1']
+        );
         $ou2 = Horde_Ldap_Entry::createFresh(
             'ou=Horde_Ldap_Test_search2,' . $base,
-            array(
-                'objectClass' => array('top', 'organizationalUnit'),
-                'ou' => 'Horde_Ldap_Test_search2'));
+            [
+                'objectClass' => ['top', 'organizationalUnit'],
+                'ou' => 'Horde_Ldap_Test_search2']
+        );
 
         $ldap->add($ou1);
         $this->assertTrue($ldap->exists($ou1->dn()));

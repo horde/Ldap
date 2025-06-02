@@ -3,5 +3,5 @@ parameters:
   errorFormat: github
   treatPhpDocTypesAsCertain: false
   paths:
-    - src
+    - lib
     - test
