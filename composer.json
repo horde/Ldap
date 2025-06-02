@@ -16,7 +16,7 @@
             "role": "lead"
         }
     ],
-    "time": "2025-05-09",
+    "time": "2025-06-02",
     "repositories": [],
     "require": {
         "php": "^7.4 || ^8",
@@ -35,17 +35,20 @@
     "autoload": {
         "psr-0": {
             "Horde_Ldap": "lib/"
-        },
-        "psr-4": {
-            "Horde\\Ldap\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Horde\\Ldap\\Test\\": "test/"
+            "Horde\\Ldap\\Test\\": "test/",
+            "Horde\\Ldap\\Test\\Fixtures\\": "test/fixtures/"
         }
     },
     "config": {
         "allow-plugins": {}
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-FRAMEWORK_6_0": "3.x-dev"
+        }
     }
 }
