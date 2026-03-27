@@ -20,8 +20,8 @@
     "repositories": [],
     "require": {
         "php": "^8.1",
-        "horde/exception": "^3",
-        "horde/util": "^3",
+        "horde/exception": "^3 || dev-FRAMEWORK_6_0",
+        "horde/util": "^3 || dev-FRAMEWORK_6_0",
         "ext-ldap": "*"
     },
     "require-dev": {
@@ -29,6 +29,7 @@
         "friendsofphp/php-cs-fixer": "^3",
         "phpstan/phpstan": "^2"
     },
+    "suggest": {},
     "autoload": {
         "psr-0": {
             "Horde_Ldap": "lib/"
@@ -36,9 +37,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Horde\\Ldap\\Test\\Unit\\": "test/Unit/",
-            "Horde\\Ldap\\Test\\Live\\": "test/Live/",
-            "Horde\\Ldap\\Test\\Fixtures\\": "test/Fixtures/"
+            "Horde\\Ldap\\Test\\": "test/"
         }
     },
     "config": {

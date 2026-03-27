@@ -1,4 +1,16 @@
 ---
+3.0.0-beta1:
+  api: 3.0.0-beta1
+  state:
+    release: beta
+    api: beta
+  date: 2026-03-27
+  license:
+    identifier: LGPL-3.0-only
+    uri: https://spdx.org/licenses/LGPL-3.0-only.html
+  notes: |-
+    test: Upgrade test suite for phpunit11-13
+    fix: Bug writing multi-value entries loses values.
 3.0.0-alpha9:
   api: 3.0.0-alpha1
   state:

@@ -20,10 +20,10 @@ authors:
     active: true
     role: lead
 version:
-  release: 3.0.0-alpha9
+  release: 3.0.0-beta1
   api: 3.0.0alpha1
 state:
-  release: alpha
+  release: beta
   api: alpha
 license:
   identifier: LGPL-3.0-only
@@ -41,3 +41,4 @@ dependencies:
       phpunit/phpunit: ^12
       friendsofphp/php-cs-fixer: ^3
       phpstan/phpstan: ^2
+vendor: horde
