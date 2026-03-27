@@ -14,13 +14,16 @@
          colors="true">
     <testsuites>
         <testsuite name="unit">
-            <directory>test/unit</directory>
+            <directory>test/Unit</directory>
+        </testsuite>
+        <testsuite name="live">
+            <directory>test/Live</directory>
         </testsuite>
     </testsuites>
 
     <source ignoreIndirectDeprecations="true" restrictNotices="true" restrictWarnings="true">
         <include>
-            <directory>src</directory>
+            <directory>lib</directory>
         </include>
     </source>
 </phpunit>
