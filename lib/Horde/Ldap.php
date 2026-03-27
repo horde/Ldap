@@ -1633,7 +1633,7 @@ class Horde_Ldap
      */
     public static function quoteDN($parts)
     {
-        return implode(',', array_map('self::_quoteRDNs', $parts));
+        return implode(',', array_map(self::_quoteRDNs(...), $parts));
     }
 
     /**
@@ -1651,7 +1651,7 @@ class Horde_Ldap
         if (is_array($attribute[0])) {
             return implode(
                 '+',
-                array_map('self::_quoteRDN', $attribute)
+                array_map(self::_quoteRDN(...), $attribute)
             );
         } else {
             return self::_quoteRDN($attribute);

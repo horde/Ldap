@@ -361,7 +361,7 @@ class Horde_Ldap_Entry
     {
         $attrs = [];
         foreach (array_keys($this->_attributes) as $attr) {
-            $attrs[$attr] = $this->getValue($attr);
+            $attrs[$attr] = $this->getValue($attr, 'all');
         }
         return $attrs;
     }

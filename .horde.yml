@@ -30,15 +30,12 @@ license:
   uri: http://opensource.org/licenses/lgpl-3.0.html
 dependencies:
   required:
-    php: ^7.4 || ^8
+    php: ^8.1
     composer:
       horde/exception: ^3
       horde/util: ^3
     ext:
       ldap: '*'
-  optional:
-    composer:
-      horde/test: ^3
   dev:
     composer:
       phpunit/phpunit: ^12
