@@ -127,7 +127,7 @@ class Horde_Ldap_RootDse implements Serializable
      */
     public function supportedSASLMechanism($mechlist)
     {
-        return $this->checkAttr($mechlist, 'supportedSASLMechanisms');
+        return $this->_checkAttr($mechlist, 'supportedSASLMechanisms');
     }
 
     /**

@@ -284,7 +284,8 @@ class Horde_Ldap_Entry
         /* Fetch attributes from the server. */
         if (is_null($attributes) &&
             ($this->_entry instanceof LDAPResultEntry || is_resource($this->_entry)) &&
-            ($this->_link instanceof LDAPConnection || is_resource($this->_link))) {
+            ($this->_link instanceof LDAPConnection || is_resource($this->_link)) &&
+            !is_null($this->_entry) && !is_null($this->_link)) {
             /* Fetch schema. */
             if ($this->_ldap instanceof Horde_Ldap) {
                 try {
@@ -296,9 +297,8 @@ class Horde_Ldap_Entry
 
             /* Fetch attributes. */
             $attributes = [];
-            for ($attr = @ldap_first_attribute($this->_link, $this->_entry);
-                $attr;
-                $attr = @ldap_next_attribute($this->_link, $this->_entry)) {
+            $attr = @ldap_first_attribute($this->_link, $this->_entry);
+            while ($attr !== false && $attr !== null) {
                 /* Standard function to fetch value. */
                 $func = 'ldap_get_values';
 
@@ -310,6 +310,8 @@ class Horde_Ldap_Entry
 
                 /* Fetch attribute value (needs error checking?) . */
                 $attributes[$attr] = $func($this->_link, $this->_entry, $attr);
+
+                $attr = @ldap_next_attribute($this->_link, $this->_entry);
             }
         }
 

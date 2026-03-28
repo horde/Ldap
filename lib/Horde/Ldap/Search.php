@@ -153,6 +153,16 @@ class Horde_Ldap_Search implements Iterator
      */
     public function shiftEntry()
     {
+        // Validate search result and connection before attempting LDAP operations
+        if (!$this->_search instanceof \LDAP\Result &&
+            !is_resource($this->_search)) {
+            return false;
+        }
+        if (!$this->_link instanceof \LDAP\Connection &&
+            !is_resource($this->_link)) {
+            return false;
+        }
+
         if (is_null($this->_entry)) {
             if (!$this->_entry = @ldap_first_entry($this->_link, $this->_search)) {
                 return false;
@@ -386,7 +396,8 @@ class Horde_Ldap_Search implements Iterator
     {
         // This catches the situation where OL returned errno 32 = no such
         // object!
-        if (!$this->_search) {
+        if (!$this->_search instanceof \LDAP\Result &&
+            !is_resource($this->_search)) {
             return 0;
         }
         return @ldap_count_entries($this->_link, $this->_search);
