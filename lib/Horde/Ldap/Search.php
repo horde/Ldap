@@ -121,7 +121,9 @@ class Horde_Ldap_Search implements Iterator
      */
     public function __destruct()
     {
-        @ldap_free_result($this->_search);
+        if ($this->_search instanceof \LDAP\Result) {
+            @ldap_free_result($this->_search);
+        }
     }
 
     /**
