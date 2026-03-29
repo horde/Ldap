@@ -306,6 +306,21 @@ class DnValidationTest extends TestCase
 
     /**
      * Test empty DN.
+     *
+     * Note: explodeDN('') returns [''] (array with single empty string) rather
+     * than [] (empty array). While arguably unintuitive, this behavior is
+     * intentional and cannot be changed without breaking existing code.
+     *
+     * Specifically, Entry::update() (lib/Horde/Ldap/Entry.php:673-674) does:
+     *   $parent = explodeDN($this->_newdn, [...]);
+     *   $child = array_shift($parent);
+     *
+     * If explodeDN('') returned [], array_shift would return NULL, causing
+     * a TypeError when passed to ldap_rename() in PHP 8+.
+     *
+     * The real issue is lack of validation - Entry.php should reject empty DN
+     * before attempting rename. However, changing explodeDN behavior would
+     * break existing deployments.
      */
     public function testEmptyDN(): void
     {

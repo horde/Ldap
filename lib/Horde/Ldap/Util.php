@@ -67,6 +67,12 @@ class Horde_Ldap_Util
      * - onlyvalues: If true, then only attributes values are returned ('foo'
      *               instead of 'cn=foo')
      *
+     * Note: Empty DN ('') returns array with single empty string (['']) rather
+     * than empty array ([]). This is intentional to maintain compatibility with
+     * code that uses array_shift() on the result. While the empty DN is valid
+     * for querying the Root DSE, it cannot be used for add/delete/modify/rename
+     * operations - those should validate the DN before calling explodeDN().
+     *
      * @todo implement BER
      * @todo replace preg_replace() callbacks.
      *

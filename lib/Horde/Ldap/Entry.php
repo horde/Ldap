@@ -635,10 +635,20 @@ class Horde_Ldap_Entry
      *
      * @todo Entry rename with a DN containing special characters needs testing!
      *
-     * @throws Horde_Ldap_Exception
+     * @throws Horde_Ldap_Exception If the entry DN is invalid or if the update fails.
      */
     public function update()
     {
+        /* Validate rename DN early, before connection checks. */
+        if (!is_null($this->_newdn)) {
+            if (empty($this->_newdn)) {
+                throw new Horde_Ldap_Exception('Cannot rename entry to empty DN. The root DSE cannot be created by clients.');
+            }
+            if ($this->_newdn === $this->_dn) {
+                throw new Horde_Ldap_Exception('New DN must differ from current DN for rename operation.');
+            }
+        }
+
         /* Ensure we have a valid LDAP object. */
         $ldap = $this->getLDAP();
 

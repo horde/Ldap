@@ -552,10 +552,15 @@ class Horde_Ldap
      *
      * @param Horde_Ldap_Entry $entry An LDAP entry.
      *
-     * @throws Horde_Ldap_Exception
+     * @throws Horde_Ldap_Exception If the entry DN is empty or invalid.
      */
     public function add(Horde_Ldap_Entry $entry)
     {
+        $dn = $entry->dn();
+        if (empty($dn)) {
+            throw new Horde_Ldap_Exception('Cannot add entry with empty DN. The root DSE cannot be created by clients.');
+        }
+
         /* Continue attempting the add operation in a loop until we get a
          * success, a definitive failure, or the world ends. */
         while (true) {
@@ -601,21 +606,26 @@ class Horde_Ldap
      *
      * @param string|Horde_Ldap_Entry $dn        DN string or Horde_Ldap_Entry.
      * @param boolean                 $recursive Should we delete all children
-     *                                           recursivelx as well?
-     * @throws Horde_Ldap_Exception
+     *                                           recursively as well?
+     *
+     * @throws Horde_Ldap_Exception If the DN is empty or if the entry cannot be deleted.
      */
     public function delete($dn, $recursive = false)
     {
-        /* Connect and bind. */
-        if (!$this->_link) {
-            $this->bind();
-        }
-
         if ($dn instanceof Horde_Ldap_Entry) {
             $dn = $dn->dn();
         }
         if (!is_string($dn)) {
             throw new Horde_Ldap_Exception('Parameter is not a string nor an entry object!');
+        }
+
+        if (empty($dn)) {
+            throw new Horde_Ldap_Exception('Cannot delete entry with empty DN. The root DSE cannot be deleted.');
+        }
+
+        /* Connect and bind. */
+        if (!$this->_link) {
+            $this->bind();
         }
 
         /* Recursive delete searches for children and calls delete for them. */
@@ -705,10 +715,16 @@ class Horde_Ldap
      * @param string|Horde_Ldap_Entry $entry DN string or Horde_Ldap_Entry.
      * @param array                   $parms Array of changes
      *
-     * @throws Horde_Ldap_Exception
+     * @throws Horde_Ldap_Exception If the entry DN is invalid or if the modification fails.
      */
     public function modify($entry, $parms = [])
     {
+        if (is_string($entry)) {
+            if (empty($entry)) {
+                throw new Horde_Ldap_Exception('Cannot modify entry with empty DN. The root DSE is read-only.');
+            }
+        }
+
         /* Connect and bind. */
         if (!$this->_link) {
             $this->bind();
