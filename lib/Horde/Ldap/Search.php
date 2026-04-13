@@ -264,11 +264,19 @@ class Horde_Ldap_Search implements Iterator
         }
 
         // Build columns for array_multisort(). Each requested attribute is one
-        // row.
+        // row.  Not every entry necessarily has every requested attribute, so
+        // we provide an empty-string fallback to avoid undefined array key
+        // warnings in PHP 8.0+ while keeping the reference binding that
+        // array_multisort() requires.
         $columns = [];
         foreach ($attrs as $attr_name) {
             foreach ($to_sort as $key => $row) {
-                $columns[$attr_name][$key] = & $to_sort[$key][$attr_name][0];
+                if (isset($to_sort[$key][$attr_name][0])) {
+                    $columns[$attr_name][$key] = & $to_sort[$key][$attr_name][0];
+                } else {
+                    $to_sort[$key][$attr_name] = [''];
+                    $columns[$attr_name][$key] = & $to_sort[$key][$attr_name][0];
+                }
             }
         }
 
