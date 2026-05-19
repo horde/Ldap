@@ -145,6 +145,19 @@
     Original version string was 3.0.0alpha1
     [mjr] PHP 7.4 compatibility fixes (Remi Collet <remi@famillecollet.com>, PR #1).
     |+
+3.0.0-RC1:
+  api: 3.0.0-RC1
+  state:
+    release: RC
+    api: RC
+  date: 2026-05-19
+  license:
+    identifier: LGPL-3.0-only
+    uri: https://spdx.org/licenses/LGPL-3.0-only.html
+  notes: |-
+    fix(search): provide empty-string fallback for missing attributes in sortedAsArray()
+    feat: Catch empty root DSN for commands which don't support it.
+    test: Add more coverage to previously under-tested code
 2.4.1:
   api: 1.4.0
   state:
