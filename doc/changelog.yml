@@ -1,150 +1,14 @@
 ---
-3.0.0-beta3:
-  api: 3.0.0-beta3
-  state:
-    release: beta
-    api: beta
-  date: 2026-03-28
-  license:
-    identifier: LGPL-3.0-only
-    uri: https://spdx.org/licenses/LGPL-3.0-only.html
-  notes: |-
-    fix: Address bugs found by new unit tests
-    test: #4 Cover Entry, Search and RootDSE with better tests
-    fix: Properly handle null and false search results in PHP 8.x
-3.0.0-beta2:
-  api: 3.0.0-beta2
-  state:
-    release: beta
-    api: beta
-  date: 2026-03-28
-  license:
-    identifier: LGPL-3.0-only
-    uri: https://spdx.org/licenses/LGPL-3.0-only.html
-  notes: |-
-    fix: Use extension_loaded check as loadExtension is a removed PHP5 feature
-3.0.0-beta1:
-  api: 3.0.0-beta1
-  state:
-    release: beta
-    api: beta
-  date: 2026-03-27
-  license:
-    identifier: LGPL-3.0-only
-    uri: https://spdx.org/licenses/LGPL-3.0-only.html
-  notes: |-
-    test: Upgrade test suite for phpunit11-13
-    fix: Bug writing multi-value entries loses values.
-3.0.0-alpha9:
-  api: 3.0.0-alpha1
-  state:
-    release: alpha
-    api: alpha
-  date: 2025-06-02
-  license:
-    identifier: LGPL-3.0-only
-    uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    ci: Update test suite to phpunit 12 and remove dependency on horde_test. However, LDIF tests fail
-    fix: Do not escape wildcard in objectclass from admin config
-3.0.0-alpha8:
-  api: 3.0.0-alpha1
-  state:
-    release: true
-    api: true
-  date: 2025-05-09
-  license:
-    identifier: LGPL-3.0-only
-    uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    docs: Remove obsolete Horde_Ldap_Error from return type documentation
-    fix: Convert to modern __serialize() / __unserialize() formats but keep old implementation
-    fix: Implicitly nullable parameter on Entry::_loadAttributes
-    fix: LDAPSearch client side sortedAsArray ignored order parameter
-    fix: getValue() in Entry and RootDse wants a string for options parameter, not an array. Default to "single" rather than "null" and fix phpdoc
-3.0.0-alpha7:
-  api: 3.0.0-alpha1
-  state:
-    release: true
-    api: true
-  date: 2025-05-07
-  license:
-    identifier: LGPL-3.0-only
-    uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    fix: Multiple iterator signature issues solved.
-3.0.0-alpha6:
-  api: 3.0.0-alpha1
-  state:
-    release: true
-    api: true
-  date: 2025-05-07
-  license:
-    identifier: LGPL-3.0-only
-    uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    feat: Support PHP 8.1 LDAP extension.
-3.0.0-alpha5:
-  api: 3.0.0alpha1
-  state:
-    release: alpha
-    api: alpha
-  date: 2022-11-14
-  license:
-    identifier: LGPL-3.0
-    uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |-
-    Original version string was 3.0.0alpha5
-    |+
-3.0.0-alpha4:
-  api: 3.0.0alpha1
-  state:
-    release: alpha
-    api: alpha
-  date: 2022-11-14
-  license:
-    identifier: LGPL-3.0
-    uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |-
-    Original version string was 3.0.0alpha4
-    |+
-3.0.0-alpha3:
-  api: 3.0.0alpha1
-  state:
-    release: alpha
-    api: alpha
-  date: 2021-03-13
-  license:
-    identifier: LGPL-3.0
-    uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |-
-    Original version string was 3.0.0alpha3
-    |+
-3.0.0-alpha2:
-  api: 3.0.0alpha1
-  state:
-    release: alpha
-    api: alpha
-  date: 2021-02-24
-  license:
-    identifier: LGPL-3.0
-    uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |-
-    Original version string was 3.0.0alpha2
-    |+
-3.0.0-alpha1:
-  api: 3.0.0alpha1
+3.0.0:
+  api: 3.0.0
   state:
     release: stable
     api: stable
-  date: 2021-02-24
+  date: 2026-06-26
   license:
-    identifier: LGPL-3.0
-    uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    Original version string was 3.0.0alpha1
-    [mjr] PHP 7.4 compatibility fixes (Remi Collet <remi@famillecollet.com>, PR #1).
-    |+
+    identifier: LGPL-3.0-only
+    uri: https://spdx.org/licenses/LGPL-3.0-only.html
+  notes: 'chore: Update workflow dependency'
 3.0.0-RC1:
   api: 3.0.0-RC1
   state:
@@ -154,10 +18,127 @@
   license:
     identifier: LGPL-3.0-only
     uri: https://spdx.org/licenses/LGPL-3.0-only.html
-  notes: |-
-    fix(search): provide empty-string fallback for missing attributes in sortedAsArray()
-    feat: Catch empty root DSN for commands which don't support it.
-    test: Add more coverage to previously under-tested code
+  notes: "fix(search): provide empty-string fallback for missing attributes in sortedAsArray()\nfeat: Catch empty root DSN for commands which don't support it.\ntest: Add more coverage to previously under-tested code"
+3.0.0-beta3:
+  api: 3.0.0-beta3
+  state:
+    release: beta
+    api: beta
+  date: 2026-03-28
+  license:
+    identifier: LGPL-3.0-only
+    uri: https://spdx.org/licenses/LGPL-3.0-only.html
+  notes: "fix: Address bugs found by new unit tests\ntest: #4 Cover Entry, Search and RootDSE with better tests\nfix: Properly handle null and false search results in PHP 8.x"
+3.0.0-beta2:
+  api: 3.0.0-beta2
+  state:
+    release: beta
+    api: beta
+  date: 2026-03-28
+  license:
+    identifier: LGPL-3.0-only
+    uri: https://spdx.org/licenses/LGPL-3.0-only.html
+  notes: 'fix: Use extension_loaded check as loadExtension is a removed PHP5 feature'
+3.0.0-beta1:
+  api: 3.0.0-beta1
+  state:
+    release: beta
+    api: beta
+  date: 2026-03-27
+  license:
+    identifier: LGPL-3.0-only
+    uri: https://spdx.org/licenses/LGPL-3.0-only.html
+  notes: "test: Upgrade test suite for phpunit11-13\nfix: Bug writing multi-value entries loses values."
+3.0.0-alpha9:
+  api: 3.0.0-alpha1
+  state:
+    release: alpha
+    api: alpha
+  date: 2025-06-02
+  license:
+    identifier: LGPL-3.0-only
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: "ci: Update test suite to phpunit 12 and remove dependency on horde_test. However, LDIF tests fail\nfix: Do not escape wildcard in objectclass from admin config\n"
+3.0.0-alpha8:
+  api: 3.0.0-alpha1
+  state:
+    release: true
+    api: true
+  date: 2025-05-09
+  license:
+    identifier: LGPL-3.0-only
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: "docs: Remove obsolete Horde_Ldap_Error from return type documentation\nfix: Convert to modern __serialize() / __unserialize() formats but keep old implementation\nfix: Implicitly nullable parameter on Entry::_loadAttributes\nfix: LDAPSearch client side sortedAsArray ignored order parameter\nfix: getValue() in Entry and RootDse wants a string for options parameter, not an array. Default to \"single\" rather than \"null\" and fix phpdoc\n"
+3.0.0-alpha7:
+  api: 3.0.0-alpha1
+  state:
+    release: true
+    api: true
+  date: 2025-05-07
+  license:
+    identifier: LGPL-3.0-only
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: "fix: Multiple iterator signature issues solved.\n"
+3.0.0-alpha6:
+  api: 3.0.0-alpha1
+  state:
+    release: true
+    api: true
+  date: 2025-05-07
+  license:
+    identifier: LGPL-3.0-only
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: "feat: Support PHP 8.1 LDAP extension.\n"
+3.0.0-alpha5:
+  api: 3.0.0alpha1
+  state:
+    release: alpha
+    api: alpha
+  date: 2022-11-14
+  license:
+    identifier: LGPL-3.0
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: "Original version string was 3.0.0alpha5\n|+"
+3.0.0-alpha4:
+  api: 3.0.0alpha1
+  state:
+    release: alpha
+    api: alpha
+  date: 2022-11-14
+  license:
+    identifier: LGPL-3.0
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: "Original version string was 3.0.0alpha4\n|+"
+3.0.0-alpha3:
+  api: 3.0.0alpha1
+  state:
+    release: alpha
+    api: alpha
+  date: 2021-03-13
+  license:
+    identifier: LGPL-3.0
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: "Original version string was 3.0.0alpha3\n|+"
+3.0.0-alpha2:
+  api: 3.0.0alpha1
+  state:
+    release: alpha
+    api: alpha
+  date: 2021-02-24
+  license:
+    identifier: LGPL-3.0
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: "Original version string was 3.0.0alpha2\n|+"
+3.0.0-alpha1:
+  api: 3.0.0alpha1
+  state:
+    release: stable
+    api: stable
+  date: 2021-02-24
+  license:
+    identifier: LGPL-3.0
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: "Original version string was 3.0.0alpha1\n[mjr] PHP 7.4 compatibility fixes (Remi Collet <remi@famillecollet.com>, PR #1).\n|+\n"
 2.4.1:
   api: 1.4.0
   state:
@@ -167,9 +148,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |+
-    [jan] Avoid unnecessary binds.
-    
+  notes: "[jan] Avoid unnecessary binds.\n\n"
 2.4.0:
   api: 1.4.0
   state:
@@ -179,9 +158,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    [jan] Optionally cache rootDSE requests too.
-    [jan] Fix checking for existing attributes in Horde_Ldap_RootDse.
+  notes: "[jan] Optionally cache rootDSE requests too.\n[jan] Fix checking for existing attributes in Horde_Ldap_RootDse.\n"
 2.3.2:
   api: 1.3.0
   state:
@@ -191,8 +168,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    [jan] Mark PHP 7 as supported.
+  notes: "[jan] Mark PHP 7 as supported.\n"
 2.3.1:
   api: 1.3.0
   state:
@@ -202,8 +178,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    [jan] Fix connection if using ldaps:// scheme (Bug #13858).
+  notes: "[jan] Fix connection if using ldaps:// scheme (Bug #13858).\n"
 2.3.0:
   api: 1.3.0
   state:
@@ -213,11 +188,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    [jan] Fix error when using custom separators in Horde_Ldap_Utils::canonicalDN().
-    [jan] Fix casefolding option not being passed to multivalued RDNs.
-    [jan] Fix exists() with multivalued RDNs.
-    [jan] Add 'timeout' parameter.
+  notes: "[jan] Fix error when using custom separators in Horde_Ldap_Utils::canonicalDN().\n[jan] Fix casefolding option not being passed to multivalued RDNs.\n[jan] Fix exists() with multivalued RDNs.\n[jan] Add 'timeout' parameter.\n"
 2.2.0:
   api: 1.2.0
   state:
@@ -227,9 +198,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    [jan] Fix compatibility with PHP 5.3 (Bug #11888).
-    [jan] Allow to specify base DN for searching user DNs.
+  notes: "[jan] Fix compatibility with PHP 5.3 (Bug #11888).\n[jan] Allow to specify base DN for searching user DNs.\n"
 2.1.0:
   api: 1.1.1
   state:
@@ -239,8 +208,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    [jan] Support multi-value RDNs in Horde_Ldap::quoteDN() (Request #11888).
+  notes: "[jan] Support multi-value RDNs in Horde_Ldap::quoteDN() (Request #11888).\n"
 2.0.6:
   api: 1.1.0
   state:
@@ -250,8 +218,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    [jan] SECURITY: Stricter parameter check in bind() to detect empty passwords.
+  notes: "[jan] SECURITY: Stricter parameter check in bind() to detect empty passwords.\n"
 2.0.5:
   api: 1.1.0
   state:
@@ -261,8 +228,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    [jan] Fix creating filters with the less (<) operator (Bug #13154).
+  notes: "[jan] Fix creating filters with the less (<) operator (Bug #13154).\n"
 2.0.4:
   api: 1.1.0
   state:
@@ -272,8 +238,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    [jan] Fix approximate search operator (Leandro Damascena <leandro.damascena@gmail.com>, Bug #9094).
+  notes: "[jan] Fix approximate search operator (Leandro Damascena <leandro.damascena@gmail.com>, Bug #9094).\n"
 2.0.3:
   api: 1.1.0
   state:
@@ -283,9 +248,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    [jan] Fix modifying entries with modify().
-    [jan] Try starting TLS without querying the rootDSE (Bug #12157).
+  notes: "[jan] Fix modifying entries with modify().\n[jan] Try starting TLS without querying the rootDSE (Bug #12157).\n"
 2.0.2:
   api: 1.1.0
   state:
@@ -295,8 +258,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    [jan] Replace preg_replace() /e modifier.
+  notes: "[jan] Replace preg_replace() /e modifier.\n"
 2.0.1:
   api: 1.1.0
   state:
@@ -306,32 +268,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    [mms] Use new Horde_Test layout.
-2.0.0-beta1:
-  api: 1.1.0
-  state:
-    release: beta
-    api: stable
-  date: 2012-07-19
-  license:
-    identifier: LGPL-3.0
-    uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    Original version string was 2.0.0beta1
-    First beta release for Horde 5.
-2.0.0-alpha1:
-  api: 1.1.0
-  state:
-    release: alpha
-    api: stable
-  date: 2012-07-05
-  license:
-    identifier: LGPL-3.0
-    uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    Original version string was 2.0.0alpha1
-    First alpha release for Horde 5.
+  notes: "[mms] Use new Horde_Test layout.\n"
 2.0.0:
   api: 1.1.0
   state:
@@ -341,8 +278,27 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    First stable release for Horde 5.
+  notes: "First stable release for Horde 5.\n"
+2.0.0-beta1:
+  api: 1.1.0
+  state:
+    release: beta
+    api: stable
+  date: 2012-07-19
+  license:
+    identifier: LGPL-3.0
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: "Original version string was 2.0.0beta1\nFirst beta release for Horde 5.\n"
+2.0.0-alpha1:
+  api: 1.1.0
+  state:
+    release: alpha
+    api: stable
+  date: 2012-07-05
+  license:
+    identifier: LGPL-3.0
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: "Original version string was 2.0.0alpha1\nFirst alpha release for Horde 5.\n"
 1.1.5:
   api: 1.1.0
   state:
@@ -352,8 +308,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    [jan] Throw exception if LDAP extension is missing.
+  notes: "[jan] Throw exception if LDAP extension is missing.\n"
 1.1.4:
   api: 1.1.0
   state:
@@ -363,8 +318,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    [jan] Add missing test autoloader.
+  notes: "[jan] Add missing test autoloader.\n"
 1.1.3:
   api: 1.1.0
   state:
@@ -374,8 +328,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://www.gnu.org/licenses/lgpl-3.0.html
-  notes: |
-    [jan] Speed up Horde_Ldap_Search#shiftEntry() on large result sets.
+  notes: "[jan] Speed up Horde_Ldap_Search#shiftEntry() on large result sets.\n"
 1.1.2:
   api: 1.1.0
   state:
@@ -385,8 +338,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://www.gnu.org/licenses/lgpl-3.0.html
-  notes: |
-    [jan] Always use negative lookbehind assertions to work around bug in PCRE 6.6 (Steve Teti, Bug #10294).
+  notes: "[jan] Always use negative lookbehind assertions to work around bug in PCRE 6.6 (Steve Teti, Bug #10294).\n"
 1.1.1:
   api: 1.1.0
   state:
@@ -396,8 +348,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://www.gnu.org/licenses/lgpl-3.0.html
-  notes: |
-    [jan] Fix detecting superiour objectclass' must/may attributes (Bug #9826).
+  notes: "[jan] Fix detecting superiour objectclass' must/may attributes (Bug #9826).\n"
 1.1.0:
   api: 1.1.0
   state:
@@ -407,61 +358,7 @@
   license:
     identifier: LGPL-3.0
     uri: http://www.gnu.org/licenses/lgpl-3.0.html
-  notes: |
-    [jan] Add parameter to Horde_Ldap_Schema#must() and #may() to return attributes from superior objectclasses too (Bug #9826).
-    [jan] Don't throw exceptions from Horde_Ldap_Schema#must() and #may() (Bug #9826).
-1.0.0-beta1:
-  api: 1.0.0
-  state:
-    release: beta
-    api: beta
-  date: 2011-03-16
-  license:
-    identifier: LGPL-3.0
-    uri: http://www.gnu.org/licenses/lgpl-3.0.html
-  notes: |
-    Original version string was 1.0.0beta1
-    First beta release for Horde 4.
-1.0.0-alpha1:
-  api: 1.0.0
-  state:
-    release: alpha
-    api: alpha
-  date: 2011-03-08
-  license:
-    identifier: LGPLv3
-    uri: http://opensource.org/licenses/lgpl-3.0.html
-  notes: |
-    Original version string was 1.0.0alpha1
-    First alpha release for Horde 4.
-    Forked from PEAR-Net_LDAP2-2.0.7.
-    Converted to PHP5 strict standards.
-    Converted to use exceptions.
-    Included functions from the previous Horde_LDAP for backwards compatibility.
-1.0.0-RC2:
-  api: 1.0.0
-  state:
-    release: beta
-    api: beta
-  date: 2011-03-29
-  license:
-    identifier: LGPL-3.0
-    uri: http://www.gnu.org/licenses/lgpl-3.0.html
-  notes: |
-    Original version string was 1.0.0RC2
-    Second release candidate for Horde 4.
-1.0.0-RC1:
-  api: 1.0.0
-  state:
-    release: beta
-    api: beta
-  date: 2011-03-22
-  license:
-    identifier: LGPL-3.0
-    uri: http://www.gnu.org/licenses/lgpl-3.0.html
-  notes: |
-    Original version string was 1.0.0RC1
-    First release candidate for Horde 4.
+  notes: "[jan] Add parameter to Horde_Ldap_Schema#must() and #may() to return attributes from superior objectclasses too (Bug #9826).\n[jan] Don't throw exceptions from Horde_Ldap_Schema#must() and #may() (Bug #9826).\n"
 1.0.0:
   api: 1.0.0
   state:
@@ -471,5 +368,44 @@
   license:
     identifier: LGPL-3.0
     uri: http://www.gnu.org/licenses/lgpl-3.0.html
-  notes: |
-    First stable release for Horde 4.
+  notes: "First stable release for Horde 4.\n"
+1.0.0-RC2:
+  api: 1.0.0
+  state:
+    release: beta
+    api: beta
+  date: 2011-03-29
+  license:
+    identifier: LGPL-3.0
+    uri: http://www.gnu.org/licenses/lgpl-3.0.html
+  notes: "Original version string was 1.0.0RC2\nSecond release candidate for Horde 4.\n"
+1.0.0-RC1:
+  api: 1.0.0
+  state:
+    release: beta
+    api: beta
+  date: 2011-03-22
+  license:
+    identifier: LGPL-3.0
+    uri: http://www.gnu.org/licenses/lgpl-3.0.html
+  notes: "Original version string was 1.0.0RC1\nFirst release candidate for Horde 4.\n"
+1.0.0-beta1:
+  api: 1.0.0
+  state:
+    release: beta
+    api: beta
+  date: 2011-03-16
+  license:
+    identifier: LGPL-3.0
+    uri: http://www.gnu.org/licenses/lgpl-3.0.html
+  notes: "Original version string was 1.0.0beta1\nFirst beta release for Horde 4.\n"
+1.0.0-alpha1:
+  api: 1.0.0
+  state:
+    release: alpha
+    api: alpha
+  date: 2011-03-08
+  license:
+    identifier: LGPLv3
+    uri: http://opensource.org/licenses/lgpl-3.0.html
+  notes: "Original version string was 1.0.0alpha1\nFirst alpha release for Horde 4.\nForked from PEAR-Net_LDAP2-2.0.7.\nConverted to PHP5 strict standards.\nConverted to use exceptions.\nIncluded functions from the previous Horde_LDAP for backwards compatibility.\n"

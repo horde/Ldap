@@ -7,23 +7,21 @@ list: dev
 type: library
 homepage: https://www.horde.org/libraries/Horde_Ldap
 authors:
-  -
-    name: Ben Klang
+  - name: Ben Klang
     user: bklang
     email: ben@alkaloid.net
     active: true
     role: lead
-  -
-    name: Jan Schneider
+  - name: Jan Schneider
     user: jan
     email: jan@horde.org
     active: true
     role: lead
 version:
-  release: 3.0.0-RC1
+  release: 3.0.0
   api: 3.0.0alpha1
 state:
-  release: RC
+  release: stable
   api: alpha
 license:
   identifier: LGPL-3.0-only
